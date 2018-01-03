@@ -1,2 +1,21 @@
 == Competitive Programming
 
+:y: &#10003;
+
+=== problems
+
+[cols="^.^, ^.^, ^.^, ^.^, ^.^", options="header"]
+|====
+
+| problem | status | tags | description | solution
+
+| cf906c  | {y}
+| dp, tree, connectivity
+| Find a minimum connected subgraph and together with all its neighbors cover
+all the nodes in the orignial graph.
+| State compression dp, `connected[state]=true` iff `state` is a mask for
+connected subgraph. Then `connected[state \| (1<<v)]=true`, `v` is a neighbor
+of mask `state`.
+
+|====
+
