@@ -11,11 +11,13 @@
 
 | cf906c  | {y}
 | dp, tree, connectivity
-| Find a minimum connected subgraph and together with all its neighbors cover
-all the nodes in the orignial graph.
-| State compression dp, `connected[state]=true` iff `state` is a mask for
-connected subgraph. Then `connected[state \| (1<<v)]=true`, `v` is a neighbor
-of mask `state`.
+| 主人认识一些朋友，朋友也可能认识一些朋友，以此类推，现在想让所有人都相互认识
+，每一次可以选一个人将他认识的朋友相互介绍认识，问最少进行几次介绍。
+| 注意到如果是树的话要介绍的次数是总顶点数减去叶子顶点数。如果是个图，选出来进行介绍
+的顶点要连通，其次加上选出来顶点的邻居顶点要包含所有顶点。我们可以用状态压缩 DP 维护
+， `connected[state]=true` 。那么有 `connected[state \| (1<<v)]=true`, `v` 是
+`state` 表示节点的一个没被包含的邻居。最后答案就是最小连通顶点数的 `state` 且满足
+`state` 中所有顶点加上其的邻居包含了全部的顶点。
 
 |====
 
