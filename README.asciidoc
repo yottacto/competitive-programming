@@ -20,5 +20,10 @@
 `state` 表示节点的一个没被包含的邻居。最后答案就是最小连通顶点数的 `state` 且满足
 `state` 中所有顶点加上其的邻居包含了全部的顶点。 asciimath:[a^{\varphi(x)}], latexmath:[a^{\varphi(x)}]
 
+| cf906d | {y}
+| math, number theory, euler theorem
+|
+| if latexmath:[n \geq \varphi(p)], then latexmath:[a^n \equiv a^{n \bmod \varphi(p) + \varphi(p)} \pmod{p}]
+
 |====
 
