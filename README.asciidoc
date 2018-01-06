@@ -25,5 +25,10 @@
 |
 | if latexmath:[n \geq \varphi(p)], then latexmath:[a^n \equiv a^{n \bmod \varphi(p) + \varphi(p)} \pmod{p}]
 
+| cf906e |
+| string
+|
+|
+
 |====
 
