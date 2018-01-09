@@ -46,7 +46,7 @@
 | poj3259 | {y}
 | shortest-path, negative circle
 |
-|
+| spfa, 一个点出现超过 `n` 次即有负环。
 
 |====
 
