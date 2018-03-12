@@ -1,4 +1,5 @@
 #include <iostream>
+#include <map>
 #include <algorithm>
 #include <fstream>
 #include <iterator>
@@ -37,8 +38,19 @@ int main()
         }
     }
 
+    std::map<std::string, char> m{
+        {"┌", char(218)},
+        {"┐", char(191)},
+        {"└", char(192)},
+        {"┘", char(217)},
+        {"│", char(179)},
+        {"─", char(196)},
+        {".", char('.')},
+    };
+
     for (auto i = 0; i < 20; i++) {
         std::copy(map[i], map[i + 1], std::ostream_iterator<std::string>{fout});
+        // for (auto j = 0; j < 50; j++) fout << m[map[i][j]];
         fout << "\n";
     }
 }
