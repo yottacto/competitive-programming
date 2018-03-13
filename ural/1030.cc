@@ -81,7 +81,7 @@ int main()
     std::cout << "The distance to the iceberg: "
         << std::fixed << std::setprecision(2)
         << dis << " miles.\n";
-    if (dis < 100)
+    if (int(dis * 100 + 0.5) < 10000)
         std::cout << "DANGER!\n";
 }
 
