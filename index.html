@@ -453,6 +453,43 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </thead>
 <tbody>
 <tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">poj1947</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">&#10003;</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">tree dp, pack</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">求使一棵树有一个大小为 p 的独立的子树至少需要删除多少边。</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">树形 dp，对每个顶点的子树做背包。按 dfs 序不断把之前的子树所有状态先处理完实现比较简单。</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">ural1040</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">&#10003;</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">gcd, dfs, bazinga</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">给定一个简单图，要用 <code>1-m</code> 给每条边无重复编号，使得最后每个点相邻边的标号的 gcd 值为 <code>1</code> 。</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">主要到一个点相邻的边只要有两条互质那么整体 gcd 肯定为 <code>1</code> ，而且 <code>1-m</code> 相邻两数是互质的，所以只需要做一遍 dfs 就好。</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_codeforces">codeforces</h3>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-center valign-middle">problem</th>
+<th class="tableblock halign-center valign-middle">status</th>
+<th class="tableblock halign-center valign-middle">tags</th>
+<th class="tableblock halign-center valign-middle">description</th>
+<th class="tableblock halign-center valign-middle">solution</th>
+</tr>
+</thead>
+<tbody>
+<tr>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">cf906c</p></td>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">&#10003;</p></td>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">dp, tree, connectivity</p></td>
@@ -488,27 +525,6 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 要注意多项式系数的约束条件。
 还有一种更好的方式， \(P_{n+1} = x P_n + P_{n-1} \mod 2\)。</p></td>
 </tr>
-<tr>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">poj1947</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">&#10003;</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">tree dp, pack</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">求使一棵树有一个大小为 p 的独立的子树至少需要删除多少边。</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">树形 dp，对每个顶点的子树做背包。按 dfs 序不断把之前的子树所有状态先处理完实现比较简单。</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">poj3259</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">&#10003;</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">shortest-path, negative circle</p></td>
-<td class="tableblock halign-center valign-middle"></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">spfa, 一个点出现超过 <code>n</code> 次即有负环。</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">ural1040</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">&#10003;</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">gcd, dfs, bazinga</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">给定一个简单图，要用 <code>1-m</code> 给每条边无重复编号，使得最后每个点相邻边的标号的 gcd 值为 <code>1</code> 。</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">主要到一个点相邻的边只要有两条互质那么整体 gcd 肯定为 <code>1</code> ，而且 <code>1-m</code> 相邻两数是互质的，所以只需要做一遍 dfs 就好。</p></td>
-</tr>
 </tbody>
 </table>
 </div>
@@ -517,7 +533,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-03-20 15:40:43 UTC
+Last updated 2018-03-20 15:55:51 UTC
 </div>
 </div>
 <script type="text/x-mathjax-config">
