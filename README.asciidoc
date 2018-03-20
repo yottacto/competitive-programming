@@ -10,6 +10,25 @@
 
 | problem | status | tags | description | solution
 
+| poj1947 | {y}
+| tree dp, pack
+| 求使一棵树有一个大小为 p 的独立的子树至少需要删除多少边。
+| 树形 dp，对每个顶点的子树做背包。按 dfs 序不断把之前的子树所有状态先处理完实现比较简单。
+
+| ural1040 | {y}
+| gcd, dfs, bazinga
+| 给定一个简单图，要用 `1-m` 给每条边无重复编号，使得最后每个点相邻边的标号的 gcd 值为 `1` 。
+| 主要到一个点相邻的边只要有两条互质那么整体 gcd 肯定为 `1` ，而且 `1-m` 相邻两数是互质的，所以只需要做一遍 dfs 就好。
+
+|====
+
+=== codeforces
+
+[cols="^.^, ^.^, ^.^, ^.^, ^.^", options="header"]
+|====
+
+| problem | status | tags | description | solution
+
 | cf906c  | {y}
 | dp, tree, connectivity
 | 主人认识一些朋友，朋友也可能认识一些朋友，以此类推，现在想让所有人都相互认识
@@ -38,20 +57,6 @@
 要注意多项式系数的约束条件。
 还有一种更好的方式， latexmath:[P_{n+1} = x P_n + P_{n-1} \mod 2]。
 
-| poj1947 | {y}
-| tree dp, pack
-| 求使一棵树有一个大小为 p 的独立的子树至少需要删除多少边。
-| 树形 dp，对每个顶点的子树做背包。按 dfs 序不断把之前的子树所有状态先处理完实现比较简单。
-
-| poj3259 | {y}
-| shortest-path, negative circle
-|
-| spfa, 一个点出现超过 `n` 次即有负环。
-
-| ural1040 | {y}
-| gcd, dfs, bazinga
-| 给定一个简单图，要用 `1-m` 给每条边无重复编号，使得最后每个点相邻边的标号的 gcd 值为 `1` 。
-| 主要到一个点相邻的边只要有两条互质那么整体 gcd 肯定为 `1` ，而且 `1-m` 相邻两数是互质的，所以只需要做一遍 dfs 就好。
 
 |====
 
