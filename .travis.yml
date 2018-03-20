@@ -1,0 +1,17 @@
+language: generic
+
+services:
+    - docker
+
+script:
+    - docker run -it -v $(pwd):/build base/devel make -C /build
+
+deploy:
+    provider: pages
+    skip-cleanup: true
+    github-token: $GITHUB_TOKEN
+    keep-history: true
+    local-dir: build
+    on:
+        branch: master
+
