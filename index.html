@@ -443,11 +443,11 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="sectionbody">
 <table class="tableblock frame-all grid-all spread">
 <colgroup>
-<col style="width: 11.1111%;">
-<col style="width: 11.1111%;">
-<col style="width: 11.1111%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
+<col style="width: 9.0909%;">
+<col style="width: 9.0909%;">
+<col style="width: 9.0909%;">
+<col style="width: 36.3636%;">
+<col style="width: 36.3637%;">
 </colgroup>
 <thead>
 <tr>
@@ -460,18 +460,49 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">poj1947</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">&#10003;</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">tree dp, pack</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">求使一棵树有一个大小为 p 的独立的子树至少需要删除多少边。</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">树形 dp，对每个顶点的子树做背包。按 dfs 序不断把之前的子树所有状态先处理完实现比较简单。</p></td>
-</tr>
-<tr>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">ural1040</p></td>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">&#10003;</p></td>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">gcd, dfs, bazinga</p></td>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">给定一个简单图，要用 <code>1-m</code> 给每条边无重复编号，使得最后每个点相邻边的标号的 gcd 值为 <code>1</code> 。</p></td>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">主要到一个点相邻的边只要有两条互质那么整体 gcd 肯定为 <code>1</code> ，而且 <code>1-m</code> 相邻两数是互质的，所以只需要做一遍 dfs 就好。</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">ural1006</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">&#10003;</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">brute-force</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">给定 <code>N</code> 个矩形边框重叠后的俯视图（只有重叠部分的字符会被覆盖），让还原一组可能的矩形以及顺序。</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">每次枚举左上角和边长，看看有没有对应的矩形，然后把这个矩形删除后用一个万能字符替代，只要一个矩形不是全都是万能字符就好。这题比较坑的在于输入输出，用 <code>char</code> ，按字节理解，如果要可视化的化单独写个程序。</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">ural1030</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">&#10003;</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">math, formulas</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">给定地球表面两点的经度和纬度，求两点在表面上的最短距离。</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">Great-circle distance。这个最大圆由两点和球心确定。
+设 \(\phi_1, \lambda_1\) 和 \(\phi_2, \lambda_2\) 分别是两点的纬度和经度， \(\Delta \sigma\) 是他们的中心角，则：
+\(\Delta\sigma=\arccos\bigl(\sin\phi_1\cdot\sin\phi_2+\cos\phi_1\cdot\cos\phi_2\cdot\cos(\Delta\lambda)\bigr).\)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">ural1042</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">&#10003;</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">math, gaussian elimination</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">高斯消元，题目一个隐含条件确保唯一解。</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">只涉及到 <code>0, 1</code>, 可以用 <code>std::bitset&lt;&gt;</code> 。</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">ural1099</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">&#10003;</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">graph, 环套树</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">一般图的最大匹配</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">Blossom algorithm, 参考 <a href="http://www.csie.ntnu.edu.tw/~u91029/Matching.html">这个</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">ural1035</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">&#10003;</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">graph</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">欧拉路径（环）</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">我们处理每个方格格点，计算正面（背面）线个数，然后将多出来的正面（背面）线个数累加到对应连通分量的对应正面（背面）个数，假如说某个连通分量
+正面多出来的线个数和是 <code>a</code>, 背面是 <code>b</code>, 那么这个连通分量需要 \(\min (a, b) + \frac{\mid a-b \mid}{2}\) 针。连通分量用并查集维护。</p></td>
 </tr>
 </tbody>
 </table>
@@ -482,11 +513,11 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="sectionbody">
 <table class="tableblock frame-all grid-all spread">
 <colgroup>
-<col style="width: 11.1111%;">
-<col style="width: 11.1111%;">
-<col style="width: 11.1111%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
+<col style="width: 9.0909%;">
+<col style="width: 9.0909%;">
+<col style="width: 9.0909%;">
+<col style="width: 36.3636%;">
+<col style="width: 36.3637%;">
 </colgroup>
 <thead>
 <tr>
@@ -573,7 +604,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-03-25 03:13:11 UTC
+Last updated 2018-03-25 05:16:20 UTC
 </div>
 </div>
 <script type="text/x-mathjax-config">
