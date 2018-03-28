@@ -43,6 +43,10 @@ latexmath:[\Delta\sigma=\arccos\bigl(\sin\phi_1\cdot\sin\phi_2+\cos\phi_1\cdot\c
 | 我们处理每个方格格点，计算正面（背面）线个数，然后将多出来的正面（背面）线个数累加到对应连通分量的对应正面（背面）个数，假如说某个连通分量
 正面多出来的线个数和是 `a`, 背面是 `b`, 那么这个连通分量需要 latexmath:[\min (a, b) + \frac{\mid a-b \mid}{2}] 针。连通分量用并查集维护。
 
+| ural1065 | {y}
+| dp, computational geometry
+| TODO
+| TODO
 |====
 
 
