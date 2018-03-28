@@ -3,6 +3,8 @@
 :y: &#10003;
 :stem:
 
+// TODO please reference to the GitHub Pages.
+
 == Ural
 
 [cols="^.^1, ^.^1, ^.^1, ^.^4, ^.^4", options="header"]
@@ -49,8 +51,13 @@ latexmath:[\Delta\sigma=\arccos\bigl(\sin\phi_1\cdot\sin\phi_2+\cos\phi_1\cdot\c
 
 | ural1065 | {y}
 | dp, computational geometry
-| TODO
-| TODO
+| 给定一个 n(<=50) 个点的凸多边形，顶点是哨塔，按照给定的顺序沿多边形巡逻。现在
+想减少巡逻距离，可以选择不经过若干哨塔。但是给定 m(<=1000) 个纪念碑，要求纪念碑
+都在巡逻路线内部，求最短的巡逻路线。
+| 为了处理环形关系我们可以将 n 个点复制一遍。然后可以预处理出 i 到 j 这一段左边
+是不是有纪念碑，然后就可以枚举起点来做 dp，其实也可以 floyd，最后要记得枚举三个
+点 i, j, k 来算最短距离，防止算到 i 到 j 然后 j 到 i 这种共线的情况。i, j, k 三
+个点也不能是共线的。
 |====
 
 
