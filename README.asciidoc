@@ -65,6 +65,11 @@ latexmath:[\Delta\sigma=\arccos\bigl(\sin\phi_1\cdot\sin\phi_2+\cos\phi_1\cdot\c
 现在问一个找 a*a 的子正方形，且重叠到上面子正方形的最大权重最小。空白区域默认为 1。
 | 离散化 x, y，然后枚举所有可能坐标，二分权重。
 
+| ural1043 | {y}
+| geometry
+| 给定圆弧两段点，以及圆弧上一点（都是整点），问用平行坐标轴且顶点坐标的矩形完全覆盖这个圆弧最小面积。
+| 点在圆弧上用角度判断就好，都转换到 [0, 2pi)。
+
 |====
 
 == Codeforces
