@@ -58,8 +58,14 @@ latexmath:[\Delta\sigma=\arccos\bigl(\sin\phi_1\cdot\sin\phi_2+\cos\phi_1\cdot\c
 是不是有纪念碑，然后就可以枚举起点来做 dp，其实也可以 floyd，最后要记得枚举三个
 点 i, j, k 来算最短距离，防止算到 i 到 j 然后 j 到 i 这种共线的情况。i, j, k 三
 个点也不能是共线的。
-|====
 
+| ural1097 | {y}
+| discretization
+| 给定一个 l*l 的正方形，里面有 m(<=100) 个不重叠子正方形，每个正方形都有个权重，
+现在问一个找 a*a 的子正方形，且重叠到上面子正方形的最大权重最小。空白区域默认为 1。
+| 离散化 x, y，然后枚举所有可能坐标，二分权重。
+
+|====
 
 == Codeforces
 
