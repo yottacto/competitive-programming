@@ -532,8 +532,18 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <td class="tableblock halign-center valign-middle"><p class="tableblock">ural1043</p></td>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">&#10003;</p></td>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">geometry</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">给定圆弧两段点，以及圆弧上一点（都是整点），问用平行坐标轴且顶点坐标的矩形完全覆盖这个圆弧最小面积。</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">给定圆弧两段点，以及圆弧上一点（都是整点），问用平行坐标轴且顶点坐标的矩形完
+全覆盖这个圆弧最小面积。</p></td>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">点在圆弧上用角度判断就好，都转换到 [0, 2pi)。</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">ural1062</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">&#10003;</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">geometry, half-plane intersection</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">给定铁人三项每个人每项的速度, 问是否存在一个三种路线的长度使得第 i 个人总时间
+比所有人都小。</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">假设第一项距离为 x，第二项为 y，那么可以假设第三项为 1-x-y，我们可以得道 n-1
+个半平面，然后求交就行。注意还有 x&gt;=0, y&gt;=0, x+y&#8656;1。</p></td>
 </tr>
 </tbody>
 </table>
@@ -636,7 +646,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-03-29 10:56:12 UTC
+Last updated 2018-04-06 07:00:20 UTC
 </div>
 </div>
 <script type="text/x-mathjax-config">
