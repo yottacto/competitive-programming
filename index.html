@@ -512,8 +512,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <td class="tableblock halign-center valign-middle"><p class="tableblock">ural1065</p></td>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">&#10003;</p></td>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">dp, computational geometry</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">给定一个 n(&#8656;50) 个点的凸多边形，顶点是哨塔，按照给定的顺序沿多边形巡逻。现在
-想减少巡逻距离，可以选择不经过若干哨塔。但是给定 m(&#8656;1000) 个纪念碑，要求纪念碑
+<td class="tableblock halign-center valign-middle"><p class="tableblock">给定一个 n(&le; 50) 个点的凸多边形，顶点是哨塔，按照给定的顺序沿多边形巡逻。现在
+想减少巡逻距离，可以选择不经过若干哨塔。但是给定 m( &le; 1000) 个纪念碑，要求纪念碑
 都在巡逻路线内部，求最短的巡逻路线。</p></td>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">为了处理环形关系我们可以将 n 个点复制一遍。然后可以预处理出 i 到 j 这一段左边
 是不是有纪念碑，然后就可以枚举起点来做 dp，其实也可以 floyd，最后要记得枚举三个
@@ -524,7 +524,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <td class="tableblock halign-center valign-middle"><p class="tableblock">ural1097</p></td>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">&#10003;</p></td>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">discretization</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">给定一个 l*l 的正方形，里面有 m(&#8656;100) 个不重叠子正方形，每个正方形都有个权重，
+<td class="tableblock halign-center valign-middle"><p class="tableblock">给定一个 l*l 的正方形，里面有 m( &le; 100) 个不重叠子正方形，每个正方形都有个权重，
 现在问一个找 a*a 的子正方形，且重叠到上面子正方形的最大权重最小。空白区域默认为 1。</p></td>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">离散化 x, y，然后枚举所有可能坐标，二分权重。</p></td>
 </tr>
@@ -543,7 +543,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <td class="tableblock halign-center valign-middle"><p class="tableblock">给定铁人三项每个人每项的速度, 问是否存在一个三种路线的长度使得第 i 个人总时间
 比所有人都小。</p></td>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">假设第一项距离为 x，第二项为 y，那么可以假设第三项为 1-x-y，我们可以得道 n-1
-个半平面，然后求交就行。注意还有 x&gt;=0, y&gt;=0, x+y&#8656;1。</p></td>
+个半平面，然后求交就行。注意还有 x &ge; 0, y &ge; 0, x+y &le; 1。</p></td>
 </tr>
 </tbody>
 </table>
@@ -646,7 +646,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-04-06 15:11:15 UTC
+Last updated 2018-04-06 15:27:57 UTC
 </div>
 </div>
 <script type="text/x-mathjax-config">
