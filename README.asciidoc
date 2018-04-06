@@ -94,7 +94,7 @@ latexmath:[\Delta\sigma=\arccos\bigl(\sin\phi_1\cdot\sin\phi_2+\cos\phi_1\cdot\c
 的顶点要连通，其次加上选出来顶点的邻居顶点要包含所有顶点。我们可以用状态压缩 DP 维护
 ， `connected[state]=true` 。那么有 `connected[state \| (1<<v)]=true`, `v` 是
 `state` 表示节点的一个没被包含的邻居。最后答案就是最小连通顶点数的 `state` 且满足
-`state` 中所有顶点加上其的邻居包含了全部的顶点。 latexmath:[a^{\varphi(x)}], latexmath:[a^{\varphi(x)}]
+`state` 中所有顶点加上其的邻居包含了全部的顶点。
 
 | cf906d | {y}
 | math, number theory, euler theorem
