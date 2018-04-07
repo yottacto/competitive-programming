@@ -79,6 +79,13 @@ latexmath:[\Delta\sigma=\arccos\bigl(\sin\phi_1\cdot\sin\phi_2+\cos\phi_1\cdot\c
 个半平面，然后求交就行。注意还有 x &ge; 0, y &ge; 0, x+y &le; 1。还有要注意的是
 得到的直线可能无解，或者全平面，要特殊处理。
 
+| ural1046 | {y}
+| geometry, complex, rotate, equation
+| 假设 n 个点的凸多边形，每条边向外有个等腰三角形，顶点为 Mi, 现在已知 Mi 的坐标
+和角度 ai，求出一组凸多边形顶点坐标。保证有解。
+| 我们假设凸多边形第一个顶点坐标为 p0，那么可以在复平面上通过向量旋转得到 p1，
+这样绕一圈可以得到一个 p0 关于 p0 的方程。解出 p0 再推出所有点就行。
+
 |====
 
 == Codeforces
