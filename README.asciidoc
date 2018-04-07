@@ -43,7 +43,7 @@ latexmath:[\Delta\sigma=\arccos\bigl(\sin\phi_1\cdot\sin\phi_2+\cos\phi_1\cdot\c
 | Blossom algorithm, 参考 http://www.csie.ntnu.edu.tw/~u91029/Matching.html[这个]
 
 | ural1035 | {y}
-| graph
+| graph, euler paths
 | 欧拉路径（环）
 | 我们处理每个方格格点，计算正面（背面）线个数，然后将多出来的正面（背面）线个
 数累加到对应连通分量的对应正面（背面）个数，假如说某个连通分量正面多出来的线个
