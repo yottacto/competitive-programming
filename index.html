@@ -555,6 +555,16 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <td class="tableblock halign-center valign-middle"><p class="tableblock">我们假设凸多边形第一个顶点坐标为 p0，那么可以在复平面上通过向量旋转得到 p1，
 这样绕一圈可以得到一个 p0 关于 p0 的方程。解出 p0 再推出所有点就行。</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">ural1041</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">&#10003;</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">matroid, greedy, gaussian-elimination</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">给定 m(&le; 2000) 个 n(&le; &#8656; 50) 维向量，每个向量有个价格，求找 n 个线性无关向量的最小价值，
+输出字典序最小的一组解。无解输出 0。</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">贪心做，排序后不断取，如果加入当前向量还能线性无关，就加入，顺便把下面的向量当前维度消掉。做当前向量时要把
+非零列交换过来。这题用 double 会跪，需要用模素数的整数运算才能过。支持这套贪心的理论其实就是 matroid。
+做这题发现还有人写过这个，刘雨辰《对拟阵的初步研究》。</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -656,7 +666,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-04-07 09:14:00 UTC
+Last updated 2018-04-07 09:20:06 UTC
 </div>
 </div>
 <script type="text/x-mathjax-config">
