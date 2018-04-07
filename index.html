@@ -543,7 +543,17 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <td class="tableblock halign-center valign-middle"><p class="tableblock">给定铁人三项每个人每项的速度, 问是否存在一个三种路线的长度使得第 i 个人总时间
 比所有人都小。</p></td>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">假设第一项距离为 x，第二项为 y，那么可以假设第三项为 1-x-y，我们可以得道 n-1
-个半平面，然后求交就行。注意还有 x &ge; 0, y &ge; 0, x+y &le; 1。</p></td>
+个半平面，然后求交就行。注意还有 x &ge; 0, y &ge; 0, x+y &le; 1。还有要注意的是
+得到的直线可能无解，或者全平面，要特殊处理。</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">ural1046</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">&#10003;</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">geometry, complex, rotate, equation</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">假设 n 个点的凸多边形，每条边向外有个等腰三角形，顶点为 Mi, 现在已知 Mi 的坐标
+和角度 ai，求出一组凸多边形顶点坐标。保证有解。</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">我们假设凸多边形第一个顶点坐标为 p0，那么可以在复平面上通过向量旋转得到 p1，
+这样绕一圈可以得到一个 p0 关于 p0 的方程。解出 p0 再推出所有点就行。</p></td>
 </tr>
 </tbody>
 </table>
@@ -646,7 +656,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-04-06 15:27:57 UTC
+Last updated 2018-04-07 09:14:00 UTC
 </div>
 </div>
 <script type="text/x-mathjax-config">
