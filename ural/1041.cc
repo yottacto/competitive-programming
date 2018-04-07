@@ -5,19 +5,14 @@
 #include <algorithm>
 #include <vector>
 
-long double constexpr eps = 1e-20;
-
-template <class T>
-T abs(T x) { return x < 0 ? -x : x; }
-
-auto equal(long double lhs, long double rhs) { return abs(lhs - rhs) <= eps; }
-auto less(long double lhs, long double rhs) { return lhs + eps < rhs; }
+using value_type = long long;
+auto constexpr mo = 991'744'687ll;
 
 struct item
 {
     int value;
     int id;
-    std::vector<long double> v;
+    std::vector<value_type> v;
 };
 
 int n, m;
@@ -29,25 +24,16 @@ void swap_col(int c0, int c1)
         std::swap(mat[i].v[c0], mat[i].v[c1]);
 }
 
-void print()
-{
-    for (auto const& row : mat) {
-        std::cerr << row.id << ", " << row.value << " : ";
-        for (auto i : row.v)
-            std::cerr << std::fixed << std::setprecision(0) << i << " ";
-        std::cerr << "\n";
-    }
-    std::cerr << "==================\n";
-}
-
 int main()
 {
     std::cin >> m >> n;
     mat.resize(m);
     for (auto& row : mat) {
         row.v.resize(n);
-        for (auto i = 0; i < n; i++)
-            std::cin >> row.v[i];
+        for (auto& i : row.v) {
+            std::cin >> i;
+            i = (i + mo) % mo;
+        }
     }
     for (auto i = 0; i < m; i++) {
         std::cin >> mat[i].value;
@@ -61,40 +47,32 @@ int main()
     auto sum = 0;
     std::vector<int> ans;
     for (auto i = 0; (int)ans.size() < n && i < m; i++) {
-        // which dimenison
+        // which dimenison currently deal with
         int d = ans.size();
         auto p = d;
-        while (p < n && equal(mat[i].v[p], 0))
+        while (p < n && mat[i].v[p] == 0)
             p++;
         if (p == n)
             continue;
 
-        // std::cout << "i = " << i << " p = " << p << " before swap\n";
-        // print();
-
         swap_col(p, d);
-
-        // std::cout << "i = " << i << " after swap\n";
-        // print();
 
         sum += mat[i].value;
         ans.emplace_back(mat[i].id);
 
         for (auto j = i + 1; j < m; j++) {
-            if (equal(mat[j].v[d], 0))
+            if (mat[j].v[d] == 0)
                 continue;
 
-            auto scale = mat[j].v[d] / mat[i].v[d];
-            for (auto k = 0; k < n; k++)
-                mat[j].v[k] -= scale * mat[i].v[k];
+            auto si = mat[i].v[d];
+            auto sj = mat[j].v[d];
+            for (auto k = d; k < n; k++) {
+                mat[j].v[k] = (mat[j].v[k] * si) % mo;
+                mat[j].v[k] -= (mat[i].v[k] * sj) % mo;
+                mat[j].v[k] = (mat[j].v[k] + mo) % mo;
+            }
         }
-
-        // std::cout << "i = " << i << " end\n";
-        // print();
-
     }
-
-    // std::cerr << "ans.size() = " << ans.size() << "\n";
 
     if ((int)ans.size() != n)
         std::cout << "0\n";
