@@ -1,0 +1,15 @@
+#!/usr/bin/fish
+set i 0
+
+function diff1
+    echo -ne "\r$i"
+    ./random > bfdiff.in
+    ./std < bfdiff.in > bfdiff.out1
+    ./bug < bfdiff.in > bfdiff.out2
+    diff bfdiff.out{1,2}
+end
+
+while diff1
+    set i (expr $i + 1)
+end
+
