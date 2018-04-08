@@ -1,131 +1,141 @@
 // ml:run = $bin < input
 #include <iostream>
+#include <iterator>
+#include <unordered_set>
 #include <vector>
 #include <utility>
 #include <numeric>
 
 auto constexpr n = 6;
-bool vis[7];
-int father[7];
-int d[7];
-auto first_node = n;
+auto constexpr size = n + 1;
 
-auto get_father(int u) -> int
+std::vector<int> degree(size);
+std::vector<int> father(size);
+bool vis[size];
+
+struct edge { int u; int v; };
+
+// edges connect two component
+std::vector<edge> edges;
+std::vector<edge> ans;
+auto best = 100;
+
+template <class Vec>
+auto get_father(int x, Vec& father) -> int
 {
-    return u == father[u] ? u : father[u] = get_father(father[u]);
+    return x == father[x]
+        ? x
+        : father[x] = get_father(father[x], father);
 }
 
-void set_union(int u, int v)
+template <class Vec>
+void set_union(int u, int v, Vec& father, Vec& degree)
 {
-    d[u]++;
-    d[v]++;
-    auto tu = get_father(u);
-    auto tv = get_father(v);
+    degree[u]++;
+    degree[v]++;
+    auto tu = get_father(u, father);
+    auto tv = get_father(v, father);
     if (tu != tv)
         father[tu] = tv;
 }
 
-auto connected()
-{
-    for (auto i = first_node + 1; i <= n; i++)
-        if (vis[i] && get_father(i) != get_father(first_node))
-            return false;
-    return true;
-}
-
-auto has_odd(int u)
-{
-    for (auto i = 1; i <= n; i++)
-        if (vis[i] && get_father(i) == u && (d[i] & 1))
-            return true;
-    return false;
-}
-
-auto get_odd_min(int u)
-{
-    for (auto i = 1; i <= n; i++)
-        if (vis[i] && get_father(i) == u && (d[i] & 1))
-            return i;
-    return n;
-}
-
-auto get_min(int u)
-{
-    for (auto i = 1; i <= n; i++)
-        if (vis[i] && get_father(i) == u)
-            return i;
-    return n;
-}
-
-auto count_odd_pair(int u)
+template <class Vec>
+auto odd_pair(Vec const& father, Vec const& degree)
 {
     auto count = 0;
     for (auto i = 1; i <= n; i++)
-        if (vis[i] && get_father(i) == u && (d[i] & 1))
+        if (vis[i] && (degree[i] & 1))
             count++;
     return count / 2;
 }
 
+template <class Vec>
+void add_odd_pair(Vec& father, Vec& degree, int& cost,
+    std::vector<edge>& chose)
+{
+    auto count = 0;
+    auto u = 1;
+    for (; u <= n; u++)
+        if (vis[u] && (degree[u] & 1))
+            break;
+    auto v = u + 1;
+    for (; v <= n; v++)
+        if (vis[v] && (degree[v] & 1))
+            break;
+    set_union(u, v, father, degree);
+    cost += u + v;
+    chose.emplace_back(edge{u, v});
+}
+
+// count for connected components
+void dfs(std::size_t id, int count, int cost,
+    std::vector<int> father,
+    std::vector<int> degree,
+    std::vector<edge>& chose)
+{
+    if (count == 1) {
+        auto tsize = chose.size();
+        while (odd_pair(father, degree) > 1)
+            add_odd_pair(father, degree, cost, chose);
+        if (cost < best) {
+            best = cost;
+            ans = chose;
+        }
+        chose.resize(tsize);
+        return;
+    }
+
+    for (auto i = id; i < edges.size(); i++) {
+        auto u = edges[i].u;
+        auto v = edges[i].v;
+        if (get_father(u, father) == get_father(v, father))
+            continue;
+        if (cost + u + v >= best)
+            continue;
+        chose.emplace_back(edges[i]);
+        {
+            auto tf = father;
+            auto td = degree;
+            set_union(u, v, tf, td);
+            dfs(i + 1, count - 1, cost + u + v, std::move(tf), std::move(td), chose);
+            // dfs(i + 1, count - 1, cost + u + v, tf, td, chose);
+        }
+        chose.pop_back();
+    }
+}
+
 int main()
 {
-    std::iota(father, father + n + 1, 0);
+    std::iota(std::begin(father), std::end(father), 0);
     int tot;
     std::cin >> tot;
     while (tot--) {
         int u, v;
         std::cin >> u >> v;
         vis[u] = vis[v] = true;
-        set_union(u, v);
-        first_node = std::min(first_node, std::min(u, v));
+        set_union(u, v, father, degree);
     }
 
-    auto count = 0;
-    std::vector<std::pair<int, int>> ans;
-    while (!connected()) {
-        auto first = get_father(first_node);
-        auto second = 0;
-        for (auto i = first_node + 1; i <= n; i++)
-            if (get_father(i) != first) {
-                second = get_father(i);
-                break;
-            }
-
-        auto odd0 = has_odd(first);
-        auto odd1 = has_odd(second);
-        if (odd0 && odd1) {
-            auto u = get_odd_min(first);
-            auto v = get_odd_min(second);
-            set_union(u, v);
-            ans.emplace_back(u, v);
-            count += u + v;
-        } else {
-            auto u = get_min(first);
-            auto v = get_min(second);
-            set_union(u, v);
-            ans.emplace_back(u, v);
-            count += u + v;
+    for (auto i = 1; i <= n; i++) {
+        if (!vis[i]) continue;
+        for (auto j = i + 1; j <= n; j++) {
+            if (!vis[j] || get_father(i, father) == get_father(j, father))
+                continue;
+            edges.emplace_back(edge{i, j});
         }
     }
 
-    int first;
-    while (count_odd_pair(first = get_father(first_node)) > 1) {
-        auto u = first_node;
-        for (; u <= n; u++)
-            if (vis[u] && (d[u] & 1))
-                break;
-        auto v = u + 1;
-        for (; v <= n; v++)
-            if (vis[v] && (d[v] & 1))
-                break;
+    std::unordered_set<int> count;
+    for (auto i = 1; i <= n; i++)
+        if (vis[i])
+            count.insert(get_father(i, father));
 
-        set_union(u, v);
-        ans.emplace_back(u, v);
-        count += u + v;
-    }
+    std::vector<edge> chose;
+    dfs(0, count.size(), 0, father, degree, chose);
 
-    std::cout << count << "\n";
+    std::cout << best << "\n";
     std::cout << ans.size() << "\n";
-    for (auto const& p : ans)
-        std::cout << p.first << " " << p.second << "\n";
+    for (auto const& e: ans)
+        std::cout << e.u << " " << e.v << "\n";
 }
 
