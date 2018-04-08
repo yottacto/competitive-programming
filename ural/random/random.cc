@@ -7,18 +7,14 @@ int main()
     std::random_device rd;
     std::mt19937 gen{rd()};
 
-    int m = 3;
-    int n = 3;
-    std::cout << m << " " << n << "\n";
+    auto n = 10;
+    std::cout << n << "\n";
+    auto m = 2 * n + 1;
+    std::uniform_int_distribution<> dis(0, 1);
     for (auto i = 0; i < m; i++) {
-        std::uniform_int_distribution<> dis(-2, 2);
-        for (auto j = 0; j < n; j++)
-            std::cout << dis(gen) << " ";
+        for (auto j = 0; j < m; j++)
+            std::cout << (dis(gen) ? '+' : '-');
         std::cout << "\n";
     }
-
-    std::uniform_int_distribution<> dis(1, 100);
-    for (auto i = 0; i < m; i++)
-        std::cout << dis(gen) << "\n";
 }
 

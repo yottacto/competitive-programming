@@ -1,92 +1,74 @@
+// ml:run = $bin < bfdiff.in
 // ml:run = cp $bin std
 #include <iostream>
-#include <cstdio>
-#include <cstring>
-#include <utility>
+#include <fstream>
+#include <sstream>
+#include <string>
 #include <vector>
-#include <algorithm>
-using namespace std;
 
-typedef long long LL;
+auto constexpr maxn = 50;
+int map[maxn][maxn];
+int row[maxn];
+int col[maxn];
+int sum;
+int n, m;
 
-const LL MOD = 971027;
-const int MAXN = 55;
-
-struct sv {int id, cost;}v[2020];
-bool operator<(const sv &v1, const sv &v2)
+void print()
 {
-    if (v1.cost==v2.cost) return v1.id<v2.id;
-    return v1.cost < v2.cost;
-}
-
-int M, N;
-LL a[2020][MAXN];
-int first[2020];
-int ref[55];
-int cost;
-vector<int> ans;
-
-LL gcd(LL p, LL q)
-{
-    LL r;
-    while (q)
-    {
-        r = p%q;
-        p = q;
-        q = r;
+    for (auto i = 1; i <= m; i++) {
+        for (auto j = 1; j <= m; j++)
+            std::cerr << (map[i][j] == 1 ? '+' : '-');
+        std::cerr << "\n";
     }
-    return p;
-}
-
-int gauss(int i)
-{
-    int j, k;
-    for (j = 0; j < N; ++j)
-    {
-        if (a[i][j]==0) continue;
-        if (ref[j]==-1) return j;
-        LL t = gcd(abs(a[i][j]), abs(a[ref[j]][j]));
-        LL p = a[ref[j]][j]/t, q = a[i][j]/t;
-        for (k = j; k < N; ++k)
-            a[i][k] = (a[i][k]*p-a[ref[j]][k]*q)%MOD;
-    }
-    return -1;
+    std::cerr << "======================\n";
 }
 
 int main()
 {
-    int i, j, k;
-    scanf("%d%d", &M, &N);
-    for (i = 0; i < M; ++i)
-        for (j = 0; j < N; ++j)
-            scanf("%lld", &a[i][j]);
-    for (i = 0; i < M; ++i)
-    {
-        scanf("%d", &v[i].cost);
-        v[i].id = i;
-    }
-    sort(v, v+M);
-    memset(ref, 255, sizeof(ref));
-    for (i = 0; i < M; ++i)
-    {
-        j = gauss(v[i].id);
-        if (j != -1)
-        {
-            ref[j] = v[i].id;
-            cost += v[i].cost;
-            ans.push_back(v[i].id+1);
+    std::cin >> n;
+    m = 2 * n + 1;
+    for (auto i = 1; i <= m; i++)
+        for (auto j = 1; j <= m; j++) {
+            char ch;
+            std::cin >> ch;
+            if (ch == '+') {
+                map[i][j] = 1;
+                row[i]++;
+                col[j]++;
+                sum++;
+            } else
+                map[i][j] = -1;
         }
-        if (ans.size()==N) break;
-    }
-    if (ans.size()<N)
-        puts("0");
+
+    std::ifstream fin{"bfdiff.out1"};
+    std::string s;
+    std::getline(fin, s);
+
+    do {
+        std::vector<int> v;
+        std::getline(fin, s);
+        std::stringstream buf{s};
+        int x;
+        while (buf >> x)
+            v.emplace_back(x);
+        if (v.empty())
+            break;
+
+        for (auto i = 0u; i < v.size(); i++)
+            map[i + 1][v[i]] = -map[i + 1][v[i]];
+
+        // print();
+
+    } while (true);
+
+    auto sum = 0;
+    for (auto i = 1; i <= m; i++)
+        for (auto j = 1; j <= m; j++)
+            sum += (map[i][j] == 1);
+
+    if (sum <= 2 * n)
+        std::cout << "YES\n\n";
     else
-    {
-        printf("%d\n", cost);
-        sort(ans.begin(), ans.end());
-        for (i = 0; i < N; ++i)
-            printf("%d\n", ans[i]);
-    }
-    return 0;
+        std::cout << "NO\n";
 }
 
