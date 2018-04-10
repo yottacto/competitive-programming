@@ -103,6 +103,12 @@ latexmath:[\Delta\sigma=\arccos\bigl(\sin\phi_1\cdot\sin\phi_2+\cos\phi_1\cdot\c
 个欧拉路。不过虽然抽象出来很简单，但是加边情况很多，似乎也没什么好办法。最后暴
 力连接连通分量，然后贪心连奇数度的边。
 
+| ural1058 |
+| geometry
+| 给定 n (&le; 50) 的凸多边形，问将其均分成两个面积相等的两半的最短线段长度是多少。
+
+| 需要证明均分面积的最短线段和其切到的两边夹角相等。
+
 |====
 
 == Codeforces
