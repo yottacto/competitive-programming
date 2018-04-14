@@ -3,17 +3,13 @@
 #include <iterator>
 #include <algorithm>
 #include <vector>
-#include <map>
+#include <set>
+#include <unordered_map>
 
 using ll = long long;
 
-struct data
-{
-    int x;
-    ll v;
-    // 0 means not a cableway
-    int t;
-};
+// t=0 means not a cableway
+struct data { int x; ll v; int t; };
 
 std::vector<data> da;
 std::vector<int> disc;
@@ -21,7 +17,8 @@ std::vector<int> seg;
 std::vector<ll> dist;
 int n;
 
-std::map<int, int> map;
+std::unordered_map<int, int> pos;
+std::set<int> set;
 
 auto constexpr delta = 1000001;
 
@@ -70,24 +67,25 @@ int main()
 
         using std::begin;
         using std::end;
-        auto l = disc[std::lower_bound(begin(disc), end(disc), da[i - 1].x) - begin(disc)];
-        auto r = disc[std::lower_bound(begin(disc), end(disc), da[i    ].x) - begin(disc)];
+        auto l = da[i - 1].x;
+        auto r = da[i].x;
         if (l > r)
             std::swap(l, r);
 
-        auto it = map.lower_bound(l);
+        auto it = set.lower_bound(l);
         std::vector<int> to_erase;
-        for (; it != std::end(map) && it->first <= r; ++it) {
-            auto j = it->second;
-            to_erase.emplace_back(it->first);
+        for (; it != std::end(set) && *it <= r; ++it) {
+            auto j = pos[*it];
+            to_erase.emplace_back(*it);
             dist[i] = std::min(dist[i], dist[j] + da[j].t + abs(x - da[j].x) * v);
         }
 
         for (auto i : to_erase)
-            map.erase(i);
+            set.erase(i);
 
         if (da[i - 1].t) {
-            map[da[i - 1].x] = i - 1;
+            set.insert(da[i - 1].x);
+            pos[da[i - 1].x] = i - 1;
         }
     }
 
