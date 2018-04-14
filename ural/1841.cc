@@ -20,20 +20,16 @@ int n;
 std::unordered_map<int, int> pos;
 std::set<int> set;
 
-auto constexpr delta = 1000001;
-
 template <class T>
 T abs(T x) { return x < 0 ? -x : x; }
 
-void trans(int& x) { x += delta; }
-
 int main()
 {
+    std::ios::sync_with_stdio(false);
     std::cin >> n;
     seg.resize(n + 1);
     for (auto i = 0; i <= n; i++) {
         std::cin >> seg[i];
-        trans(seg[i]);
         disc.emplace_back(seg[i]);
     }
     for (auto i = 0; i < n; i++) {
@@ -43,7 +39,6 @@ int main()
         while (m--) {
             int x, t;
             std::cin >> x >> t;
-            trans(x);
             da.emplace_back(data{x, v, t});
             disc.emplace_back(x);
         }
