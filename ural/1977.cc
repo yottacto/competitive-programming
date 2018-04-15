@@ -1,6 +1,4 @@
 // ml:run = $bin < input
-// ml:opt = 0
-// ml:ccf += -g
 #include <iostream>
 #include <iomanip>
 #include <iterator>
@@ -12,7 +10,7 @@ using ll = long long;
 
 struct query
 {
-    ll t;
+    int t;
     int x, y;
     bool save;
 };
@@ -22,8 +20,6 @@ std::vector<int> disc;
 int n, p;
 int tot;
 
-auto constexpr maxn = 2000000;
-
 struct node
 {
     double a0;
@@ -32,11 +28,11 @@ struct node
     bool clear;
 };
 
-node tree[maxn];
+std::vector<node> tree;
 
-auto sum_ap(double a0, double d, ll n)
+auto sum_ap(double a0, double d, double n)
 {
-    return (2 * a0 + (n - 1) * d) * n / 2;
+    return (2 * a0 + (n - 1) * d) * n / 2.;
 }
 
 void push_up(int id)
@@ -44,8 +40,13 @@ void push_up(int id)
     tree[id].sum = tree[id * 2].sum + tree[id * 2 + 1].sum;
 }
 
-void push_down_clear(int id)
+void push_down_clear(int id, int l, int r)
 {
+    if (l == r) {
+        tree[id].a0 = tree[id].d = tree[id].sum = 0;
+        tree[id].clear = false;
+        return;
+    }
     tree[id * 2].clear = tree[id * 2 + 1].clear = true;
     tree[id].a0         = tree[id].d         = tree[id].sum         = 0;
     tree[id * 2].a0     = tree[id * 2].d     = tree[id * 2].sum     = 0;
@@ -63,20 +64,20 @@ void push_down(int id, int l, int r)
         tree[id].clear = false;
         return;
     }
-    if (tree[id * 2].clear)
-        push_down_clear(id * 2);
-    if (tree[id * 2 + 1].clear)
-        push_down_clear(id * 2 + 1);
-
     auto mid = (l + r) / 2;
+    if (tree[id * 2].clear)
+        push_down_clear(id * 2, l, mid);
+    if (tree[id * 2 + 1].clear)
+        push_down_clear(id * 2 + 1, mid + 1, r);
+
     auto& a0 = tree[id].a0;
     auto& d = tree[id].d;
     tree[id * 2].a0 += a0;
     tree[id * 2].d += d;
-    tree[id * 2].sum += sum_ap(a0, d, disc[mid + 1] - disc[l]);
-    tree[id * 2 + 1].a0 += a0 + (disc[mid + 1] - disc[l]) * d;
+    tree[id * 2].sum += sum_ap(a0, d, (double)disc[mid + 1] - disc[l]);
+    tree[id * 2 + 1].a0 += a0 + ((double)disc[mid + 1] - disc[l]) * d;
     tree[id * 2 + 1].d += d;
-    tree[id * 2 + 1].sum += sum_ap(a0 + (disc[mid + 1] - disc[l]) * d, d, disc[r + 1] - disc[mid + 1]);
+    tree[id * 2 + 1].sum += sum_ap(a0 + ((double)disc[mid + 1] - disc[l]) * d, d, (double)disc[r + 1] - disc[mid + 1]);
     a0 = d = 0;
 }
 
@@ -85,9 +86,13 @@ void update(int id, int l, int r, int tl, int tr, double a0, double d)
     if (l != r)
         push_down(id, l, r);
     if (tl <= l && r <= tr) {
+        if (tree[id].clear) {
+            tree[id].a0 = tree[id].d = tree[id].sum = 0;
+            tree[id].clear = false;
+        }
         tree[id].a0 += a0;
         tree[id].d += d;
-        tree[id].sum += sum_ap(a0, d, disc[r + 1] - disc[l]);
+        tree[id].sum += sum_ap(a0, d, (double)disc[r + 1] - disc[l]);
         return;
     }
     // push_down(id, l, r);
@@ -98,7 +103,7 @@ void update(int id, int l, int r, int tl, int tr, double a0, double d)
         if (tl > mid)
             update(id * 2 + 1, mid + 1, r, tl, tr, a0, d);
         else
-            update(id * 2 + 1, mid + 1, r, mid+1, tr, a0 + (disc[mid + 1] - disc[tl]) * d, d);
+            update(id * 2 + 1, mid + 1, r, mid+1, tr, a0 + ((double)disc[mid + 1] - disc[tl]) * d, d);
     }
     push_up(id);
 }
@@ -118,8 +123,6 @@ auto sum(int id, int l, int r, int tl, int tr)
     if (tr > mid)
         ret += sum(id * 2 + 1, mid + 1, r, tl, tr);
 
-    // TODO can remove?
-    // push_up(id);
     return ret;
 }
 
@@ -180,13 +183,11 @@ int main()
     std::sort(std::begin(disc), std::end(disc));
     auto last = std::unique(std::begin(disc), std::end(disc));
     disc.erase(last, std::end(disc));
+    disc.shrink_to_fit();
     tot = disc.size() - 2;
+    tree.resize(tot * 4 + 10);
 
-    // for (auto i : disc)
-    //     std::cerr << i << " ";
-    // std::cerr << "\n";
-
-    auto last_time = 0ll;
+    auto last_time = 0.;
     auto saved = 0.;
     for (auto const& q : queries) {
         auto t = q.t;
@@ -194,17 +195,15 @@ int main()
         if (q.save) {
             auto l = bin_search(q.x);
             auto r = bin_search(q.y);
-            saved = sum(1, 1, tot, l, r);
+            saved += sum(1, 1, tot, l, r);
             std::cout << std::fixed << std::setprecision(10)
                 << saved << "\n";
             clear(1, 1, tot, l, r);
         } else {
             auto i = q.x;
             auto d = q.y;
-            auto x = saved / (d * d);
+            auto x = saved / ((double)d * d);
             saved = 0;
-
-            // std::cerr << "enforece " << i << " " << d << " " << x << "\n";
 
             {
                 auto l = bin_search(i - d + 1);
