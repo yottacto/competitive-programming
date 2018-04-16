@@ -583,6 +583,20 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <td class="tableblock halign-center valign-middle"><p class="tableblock">给定 n (&le; 50) 的凸多边形，问将其均分成两个面积相等的两半的最短线段长度是多少。</p></td>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">需要证明均分面积的最短线段和其切到的两边夹角相等。</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">ural1841</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">&#10003;</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">data structures</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">给定 n(&le; 10\^5) 个首尾相接的线段的 x 坐标，表示一个山从下到上的形状。
+每个线段上可能有若干索道，可以直线上升到于下一个线段相交的位置。告诉你每个
+线段上移动一个单位 x 距离所需要的时间以及每个索道所需要的时间，并且你只能
+按 y 递增的方向移动，问到山顶的最短时间。（索道总数不超过 10\^5）。</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">我们可以按顺序处理每个区间，看这个区间 x 坐标范围内有多少索道上升过来，
+这个可以用 set 的 lower_bound 维护出不小于左边界 l 的位置。也可以用树状数组，
+二分出这个位置。
+其实我们就是想求 n 个数，每个数右边比如第一个比他大的数，这个其实可以通过单调队列算出来。
+不过这种从前往后推的想法好像比较难写。</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -684,7 +698,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-04-13 10:03:52 UTC
+Last updated 2018-04-16 02:35:17 UTC
 </div>
 </div>
 <script type="text/x-mathjax-config">
