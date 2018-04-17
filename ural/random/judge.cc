@@ -1,41 +1,79 @@
 // ml:run = cp $bin judge
 #include <iostream>
+#include <sstream>
+#include <string>
+#include <functional>
+#include <map>
 #include <fstream>
 #include <vector>
 
-std::vector<double> a;
-std::vector<double> b;
+auto less = std::less<int>{};
+auto greater = std::greater<int>{};
 
-auto constexpr eps = 1e-6;
+std::vector<int> da;
+std::vector<int> a;
+std::vector<int> b;
 
-template <class T>
-T abs(T x)
-{
-    return x < 0 ? -x : x;
-}
+std::map<int, int> pos;
+
+bool vis[200000];
 
 auto judge()
 {
-    if (a.size() != b.size())
-        return false;
-    for (auto i = 0u; i < a.size(); i++)
-        if (abs(a[i] - b[i]) / a[i] > eps)
+    std::ifstream fin{"bfdiff.out1"};
+    std::string s;
+    std::getline(fin, s);
+    if (s == "Fail")
+        return true;
+    std::stringstream buf{s};
+    int na, nb;
+    buf >> na >> nb;
+    a.resize(na);
+    for (auto& i : a)
+        fin >> i;
+
+    b.resize(nb);
+    for (auto& i : b)
+        fin >> i;
+
+    vis[a[0]] = true;
+    for (auto i = 1; i < na; i++) {
+        if (vis[a[i]]) return false;
+        if ((a[0] < a[1]) != (a[i - 1] < a[i]))
             return false;
+        if (pos[a[i - 1]] > pos[a[i]])
+            return false;
+        vis[a[i]] = true;
+    }
+
+    if (vis[b[0]])
+        return false;
+    vis[b[0]] = true;
+    for (auto i = 1; i < nb; i++) {
+        if (vis[b[i]]) return false;
+        if ((b[0] < b[1]) != (b[i - 1] < b[i]))
+            return false;
+        if (pos[b[i - 1]] > pos[b[i]])
+            return false;
+        vis[b[i]] = true;
+    }
+
     return true;
 }
 
 int main()
 {
     {
-        std::ifstream fin{"bfdiff.out1"};
-        for (double d; fin >> d; )
-            a.emplace_back(d);
+        std::ifstream fin{"bfdiff.in"};
+        int n;
+        fin >> n;
+        da.resize(n);
+        for (auto i = 0; i < n; i++) {
+            fin >> da[i];
+            pos[da[i]] = i;
+        }
     }
-    {
-        std::ifstream fin{"bfdiff.out2"};
-        for (double d; fin >> d; )
-            b.emplace_back(d);
-    }
+
     if (judge())
         std::cout << "YES\n\n";
     else

@@ -1,4 +1,4 @@
-// ml:run = cp $bin bug
+// ml:run = $bin < input
 // ml:opt = 0
 // ml:ccf += -g
 #include <iostream>
