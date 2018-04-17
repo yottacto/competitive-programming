@@ -1,8 +1,7 @@
 // ml:run = $bin < input
-// ml:opt = 0
-// ml:ccf += -g
 #include <iostream>
 #include <iterator>
+#include <utility>
 #include <algorithm>
 #include <functional>
 #include <vector>
@@ -16,8 +15,6 @@ auto greater = std::greater<int>{};
 template <class Compare>
 auto same_order(Compare comp)
 {
-    // std::cerr << "same\n";
-
     std::vector<int> ra{inf};
     std::vector<int> rb{inf};
     if (comp(0, ra[0]))
@@ -55,105 +52,81 @@ auto same_order(Compare comp)
     return true;
 }
 
-template <class Vec, class Compare>
-auto longest(Vec& id, Compare comp)
-{
-    std::vector<int> from(n + 1);
-    std::vector<int> pos(n + 1);
-
-    auto init = inf;
-    if (!comp(0, inf))
-        init = 0;
-    std::vector<int> v(n + 1, init);
-    v[0] = init ? 0 : inf;
-
-    auto len = 0;
-    auto last = 0;
-    for (auto i = 0; i < n; i++) {
-        auto p = std::lower_bound(std::begin(v), std::end(v), a[i], comp) - std::begin(v);
-        v[p] = a[i];
-        pos[p] = i + 1;
-        from[i + 1] = pos[p - 1];
-        len = std::max(len, (int)p);
-        if (p == len)
-            last = i + 1;
-    }
-    id.resize(len);
-    for (auto i = 0; last; i++) {
-        id[len - i - 1] = last - 1;
-        last = from[last];
-    }
-    return len;
-}
-
-template <class Vec, class Compare>
-auto check(Vec const& v, Compare comp)
-{
-    auto p = 0u;
-    auto last = inf;
-    if (comp(0, last))
-        last = 0;
-    for (auto i = 0; i < n; i++) {
-        if (p < v.size() && v[p] == i) {
-            p++;
-            continue;
-        }
-        if (!comp(last, a[i]))
-            return false;
-        last = a[i];
-    }
-    return true;
-}
-
-template <class Vec>
-void fill_remain(Vec& to_fill, Vec const& occupied)
-{
-    to_fill.clear();
-    auto p = 0u;
-    for (auto i = 0; i < n; i++) {
-        if (p < occupied.size() && occupied[p] == i) {
-            p++;
-            continue;
-        }
-        to_fill.emplace_back(i);
-    }
-}
+// 0 means current i in inc seq
+// 1 means current i in dec seq
+int dp[100001][2];
+std::pair<int, int> from[100001][2];
 
 auto diff_order()
 {
-    // std::cerr << "diff\n";
+    dp[0][0] = inf;
+    dp[0][1] = 0;
+    from[0][0] = {-1, 0};
+    from[0][1] = {-1, 0};
+    for (auto i = 1; i < n; i++) {
+        dp[i][0] = dp[i][1] = -1;
+        if (a[i] > a[i - 1] && dp[i - 1][0] != -1) {
+            dp[i][0] = dp[i - 1][0];
+            from[i][0] = {i - 1, 0};
+        }
+        if (dp[i - 1][1] != -1 && a[i] > dp[i - 1][1]) {
+            if (dp[i][0] == -1 || dp[i][0] < a[i - 1]) {
+                dp[i][0] = a[i - 1];
+                from[i][0] = {i - 1, 1};
+            }
+        }
 
-    std::vector<int> id0;
-    std::vector<int> id1;
-    if (longest(id0, less) > longest(id1, greater)) {
-        if (!check(id0, greater))
-            return false;
-        fill_remain(id1, id0);
-    } else {
-        if (!check(id1, less))
-            return false;
-        fill_remain(id0, id1);
+        if (a[i] < a[i - 1] && dp[i - 1][1] != -1) {
+            dp[i][1] = dp[i - 1][1];
+            from[i][1] = {i - 1, 1};
+        }
+        if (dp[i - 1][0] != -1 && a[i] < dp[i - 1][0]) {
+            if (dp[i][1] == -1 || dp[i][1] > a[i - 1]) {
+                dp[i][1] = a[i - 1];
+                from[i][1] = {i - 1, 0};
+            }
+        }
     }
 
-    if (id0.size() > id1.size())
-        std::swap(id0, id1);
-    if (id0.empty()) {
-        id0.emplace_back(id1.back());
-        id1.pop_back();
+    if (dp[n - 1][0] == -1 && dp[n - 1][1] == -1)
+        return false;
+
+    auto last = std::make_pair(n - 1, 0);
+    if (dp[n - 1][1] != -1)
+        last = {n - 1, 1};
+
+    std::vector<int> ra;
+    std::vector<int> rb;
+
+    for (; last.first != -1; last = from[last.first][last.second])
+        if (last.second)
+            ra.emplace_back(a[last.first]);
+        else
+            rb.emplace_back(a[last.first]);
+
+    std::reverse(std::begin(ra), std::end(ra));
+    std::reverse(std::begin(rb), std::end(rb));
+
+    if (ra.size() > rb.size())
+        std::swap(ra, rb);
+    if (ra.size() == 1) {
+        ra.emplace_back(rb.back());
+        rb.pop_back();
     }
 
-    std::cout << id0.size() << " " << id1.size() << "\n";
-    for (auto i : id0)
-        std::cout << a[i] << " ";
+    std::cout << ra.size() << " " << rb.size() << "\n";
+    for (auto i = 0u; i < ra.size(); i++)
+        std::cout << ra[i] << " ";
     std::cout << "\n";
-    for (auto i : id1)
-        std::cout << a[i] << " ";
+    for (auto i = 0u; i < rb.size(); i++)
+        std::cout << rb[i] << " ";
     std::cout << "\n";
     return true;
 }
 
 int main()
 {
+    std::ios::sync_with_stdio(false);
     std::cin >> n;
     a.resize(n);
     for (auto& i : a)
