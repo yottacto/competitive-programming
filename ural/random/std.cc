@@ -1,74 +1,83 @@
-// ml:run = $bin < bfdiff.in
 // ml:run = cp $bin std
+// ml:opt = 0
+// ml:ccf += -g
 #include <iostream>
-#include <fstream>
-#include <sstream>
+#include <iomanip>
+#include <iterator>
+#include <algorithm>
 #include <string>
 #include <vector>
 
-auto constexpr maxn = 50;
-int map[maxn][maxn];
-int row[maxn];
-int col[maxn];
-int sum;
-int n, m;
+using ll = long long;
 
-void print()
+struct query
 {
-    for (auto i = 1; i <= m; i++) {
-        for (auto j = 1; j <= m; j++)
-            std::cerr << (map[i][j] == 1 ? '+' : '-');
-        std::cerr << "\n";
+    ll t;
+    int x, y;
+    bool save;
+};
+
+std::vector<query> queries;
+std::vector<int> disc;
+int n, p;
+int tot;
+
+auto constexpr maxn = 1000000;
+double a[maxn];
+
+void update(int l, int r, double a0, double d)
+{
+    for (auto i = l; i <= r; i++) {
+        a[i] += a0;
+        a0 += d;
     }
-    std::cerr << "======================\n";
+}
+
+auto sum(int l, int r) -> double
+{
+    auto ret = 0.;
+    for (auto i = l; i <= r; i++)
+        ret += a[i];
+    return ret;
+}
+
+void clear(int l, int r)
+{
+    for (auto i = l; i <= r; i++)
+        a[i] = 0;
 }
 
 int main()
 {
-    std::cin >> n;
-    m = 2 * n + 1;
-    for (auto i = 1; i <= m; i++)
-        for (auto j = 1; j <= m; j++) {
-            char ch;
-            std::cin >> ch;
-            if (ch == '+') {
-                map[i][j] = 1;
-                row[i]++;
-                col[j]++;
-                sum++;
-            } else
-                map[i][j] = -1;
+    std::ios::sync_with_stdio(false);
+    std::cin >> n >> p;
+    int q;
+    std::cin >> q;
+    queries.resize(q);
+
+    auto last_time = 0ll;
+    auto saved = 0.;
+    for (auto& i : queries) {
+        std::string s;
+        std::cin >> i.t >> s >> i.x >> i.y;
+        i.save = (s == "save");
+
+        update(1, n, (i.t - last_time) * p, 0);
+
+        if (s == "save") {
+            saved += sum(i.x, i.y);
+            std::cout << std::fixed << std::setprecision(10)
+                << saved << "\n";
+            clear(i.x, i.y);
+        } else {
+            auto pi = i.x;
+            auto d = i.y;
+            auto x = saved / (d * d);
+            saved = 0;
+            update(pi - d + 1, pi - 1,     x,     +x);
+            update(pi,         pi + d - 1, x * d, -x);
         }
-
-    std::ifstream fin{"bfdiff.out1"};
-    std::string s;
-    std::getline(fin, s);
-
-    do {
-        std::vector<int> v;
-        std::getline(fin, s);
-        std::stringstream buf{s};
-        int x;
-        while (buf >> x)
-            v.emplace_back(x);
-        if (v.empty())
-            break;
-
-        for (auto i = 0u; i < v.size(); i++)
-            map[i + 1][v[i]] = -map[i + 1][v[i]];
-
-        // print();
-
-    } while (true);
-
-    auto sum = 0;
-    for (auto i = 1; i <= m; i++)
-        for (auto j = 1; j <= m; j++)
-            sum += (map[i][j] == 1);
-
-    if (sum <= 2 * n)
-        std::cout << "YES\n\n";
-    else
-        std::cout << "NO\n";
+        last_time = i.t;
+    }
 }
 

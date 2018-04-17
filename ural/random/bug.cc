@@ -1,250 +1,229 @@
 // ml:run = cp $bin bug
+// ml:opt = 0
+// ml:ccf += -g
 #include <iostream>
+#include <iomanip>
+#include <iterator>
+#include <algorithm>
+#include <string>
 #include <vector>
 
-auto constexpr maxn = 50;
-int map[maxn][maxn];
-int row[maxn];
-int col[maxn];
-int sum;
-int n, m;
+using ll = long long;
 
-std::vector<std::vector<int>> ans;
-
-void print()
+struct query
 {
-    std::cerr << "sum = " << sum << "\n";
-    for (auto i = 1; i <= m; i++) {
-        for (auto j = 1; j <= m; j++)
-            std::cerr << (map[i][j] == 1 ? '+' : '-');
-        std::cerr << "\n";
+    ll t;
+    ll x, y;
+    bool save;
+};
+
+std::vector<query> queries;
+std::vector<ll> disc;
+int n, p;
+int tot;
+
+auto constexpr maxn = 40000000;
+
+struct node
+{
+    double a0;
+    double d;
+    double sum;
+    bool clear;
+};
+
+node tree[maxn];
+
+auto sum_ap(double a0, double d, ll n)
+{
+    return (2 * a0 + (n - 1) * d) * n / 2.;
+}
+
+void push_up(int id)
+{
+    tree[id].sum = tree[id * 2].sum + tree[id * 2 + 1].sum;
+}
+
+void push_down_clear(int id)
+{
+    tree[id * 2].clear = tree[id * 2 + 1].clear = true;
+    tree[id].a0         = tree[id].d         = tree[id].sum         = 0;
+    tree[id * 2].a0     = tree[id * 2].d     = tree[id * 2].sum     = 0;
+    tree[id * 2 + 1].a0 = tree[id * 2 + 1].d = tree[id * 2 + 1].sum = 0;
+    tree[id].clear = false;
+}
+
+void push_down(int id, int l, int r)
+{
+    if (tree[id].clear) {
+        tree[id * 2].clear = tree[id * 2 + 1].clear = true;
+        tree[id].a0         = tree[id].d         = tree[id].sum         = 0;
+        tree[id * 2].a0     = tree[id * 2].d     = tree[id * 2].sum     = 0;
+        tree[id * 2 + 1].a0 = tree[id * 2 + 1].d = tree[id * 2 + 1].sum = 0;
+        tree[id].clear = false;
+        return;
     }
-    std::cerr << "======================\n";
+    if (tree[id * 2].clear)
+        push_down_clear(id * 2);
+    if (tree[id * 2 + 1].clear)
+        push_down_clear(id * 2 + 1);
+
+    auto mid = (l + r) / 2;
+    auto& a0 = tree[id].a0;
+    auto& d = tree[id].d;
+    tree[id * 2].a0 += a0;
+    tree[id * 2].d += d;
+    tree[id * 2].sum += sum_ap(a0, d, disc[mid + 1] - disc[l]);
+    tree[id * 2 + 1].a0 += a0 + (disc[mid + 1] - disc[l]) * d;
+    tree[id * 2 + 1].d += d;
+    tree[id * 2 + 1].sum += sum_ap(a0 + (disc[mid + 1] - disc[l]) * d, d, disc[r + 1] - disc[mid + 1]);
+    a0 = d = 0;
 }
 
-
-template <int N>
-int find(int (&a)[N])
+void update(int id, int l, int r, int tl, int tr, double a0, double d)
 {
-    for (auto i = 1; i <= m; i++)
-        if (a[i] >= 2)
-            return i;
-    return -1;
-}
-
-void get_two_plus_in_row(int p, int& p1, int& p2)
-{
-    p1 = p2 = -1;
-    auto i = 1;
-    for (; i <= m; i++)
-        if (map[p][i] == 1) {
-            p1 = i++;
-            break;
+    if (l != r)
+        push_down(id, l, r);
+    if (tl <= l && r <= tr) {
+        if (tree[id].clear) {
+            tree[id].a0 = tree[id].d = tree[id].sum = 0;
+            tree[id].clear = false;
         }
-    for (; i <= m; i++)
-        if (map[p][i] == 1) {
-            p2 = i;
-            break;
-        }
-}
-
-void get_two_plus_in_col(int p, int& p1, int& p2)
-{
-    p1 = p2 = -1;
-    auto i = 1;
-    for (; i <= m; i++)
-        if (map[i][p] == 1) {
-            p1 = i++;
-            break;
-        }
-    for (; i <= m; i++)
-        if (map[i][p] == 1) {
-            p2 = i;
-            break;
-        }
-}
-
-void opt_on_rect(int r1, int r2, int c1, int c2)
-{
-    // std::cerr << "= " << r1 << " " << r2 << " " << c1 << " " << c2 << "\n";
-
-    std::vector<int> a(m + 1);
-    a[r1] = c1;
-    a[r2] = c2;
-
-    auto now = 1;
-    for (auto i = 1; i <= m; i++) {
-        if (a[i]) continue;
-        while (now == c1 || now == c2)
-            now++;
-        a[i] = now++;
+        tree[id].a0 += a0;
+        tree[id].d += d;
+        tree[id].sum += sum_ap(a0, d, disc[r + 1] - disc[l]);
+        return;
     }
-
-    ans.emplace_back(std::move(a));
-}
-
-void plus_rect(int r1, int r2, int c1, int c2)
-{
-    // std::cerr << ":: " << r1 << " " << r2 << " " << c1 << " " << c2 << "\n";
-
-    row[r1] -= map[r1][c1] + map[r1][c2];
-    row[r2] -= map[r2][c1] + map[r2][c2];
-    col[c1] -= map[r1][c1] + map[r2][c1];
-    col[c2] -= map[r1][c2] + map[r2][c2];
-    sum -= map[r1][c1] + map[r1][c2] + map[r2][c1] + map[r2][c2];
-    map[r1][c1] = -map[r1][c1];
-    map[r1][c2] = -map[r1][c2];
-    map[r2][c1] = -map[r2][c1];
-    map[r2][c2] = -map[r2][c2];
-
-    opt_on_rect(r1, r2, c1, c2);
-    opt_on_rect(r1, r2, c2, c1);
-}
-
-void adjust_row()
-{
-    for (auto i = 1; i <= m; i++) {
-        while (row[i] > 2) {
-            auto empty = 1;
-            for (; empty <= m; empty++)
-                if (!row[empty])
-                    break;
-            int c1, c2;
-            get_two_plus_in_row(i, c1, c2);
-            plus_rect(i, empty, c1, c2);
-        }
-    }
-}
-
-void adjust_col()
-{
-    for (auto i = 1; i <= m; i++) {
-        while (col[i] > 2) {
-            auto empty = 1;
-            for (; empty <= m; empty++)
-                if (!col[empty])
-                    break;
-            int r1, r2;
-            get_two_plus_in_col(i, r1, r2);
-            plus_rect(r1, r2, i, empty);
-        }
-    }
-}
-
-// row i1 i2
-// col j1 j2
-void transform()
-{
-    auto prow = find(row);
-    auto pcol = find(col);
-    int c1, c2;
-    get_two_plus_in_row(prow, c1, c2);
-    int r1, r2;
-    get_two_plus_in_col(pcol, r1, r2);
-
-    if (r1 == prow) {
-        if (c1 == pcol)
-            plus_rect(r1, r2, c2, pcol);
+    // push_down(id, l, r);
+    auto mid = (l + r) / 2;
+    if (tl <= mid)
+        update(id * 2, l, mid, tl, tr, a0, d);
+    if (tr > mid) {
+        if (tl > mid)
+            update(id * 2 + 1, mid + 1, r, tl, tr, a0, d);
         else
-            plus_rect(r1, r2, c1, pcol);
-        return;
-    } else if (r2 == prow) {
-        if (c1 == pcol)
-            plus_rect(r1, r2, c2, pcol);
-        else
-            plus_rect(r1, r2, c1, pcol);
-        return;
-    } else if (c1 == pcol) {
-        plus_rect(r1, prow, c2, pcol);
-        return;
-    } else if (c2 == pcol) {
-        plus_rect(r1, prow, c1, pcol);
-        return;
+            update(id * 2 + 1, mid + 1, r, mid+1, tr, a0 + (disc[mid + 1] - disc[tl]) * d, d);
     }
-
-    plus_rect(r1, r2, c1, pcol);
-    plus_rect(prow, r1, c1, c2);
+    push_up(id);
 }
 
-void transform_last()
+auto sum(int id, int l, int r, int tl, int tr)
 {
-    std::vector<char> vis_row(m + 1);
-    std::vector<char> vis_col(m + 1);
-    std::vector<int> a(m + 1);
-
-    for (auto i = 1; i <= m; i++) {
-        int c1, c2;
-        get_two_plus_in_row(i, c1, c2);
-        if (c1 == -1)
-            continue;
-        if (vis_col[c1]) {
-            if (c2 == -1 || vis_col[c2])
-                continue;
-            vis_col[c2] = vis_row[i] = true;
-            a[i] = c2;
-        } else {
-            vis_col[c1] = vis_row[i] = true;
-            a[i] = c1;
-        }
+    if (tl <= l && r <= tr) {
+        if (tree[id].clear)
+            return 0.;
+        return tree[id].sum;
     }
+    push_down(id, l, r);
+    auto mid = (l + r) / 2;
+    auto ret = 0.;
+    if (tl <= mid)
+        ret += sum(id * 2, l, mid, tl, tr);
+    if (tr > mid)
+        ret += sum(id * 2 + 1, mid + 1, r, tl, tr);
 
-    std::vector<int> unvis;
-    for (auto i = 1; i <= m; i++)
-        if (!vis_col[i])
-            unvis.emplace_back(i);
-
-    for (auto i = 1; i <= m; i++) {
-        if (vis_row[i])
-            continue;
-        a[i] = unvis.back();
-        unvis.pop_back();
-    }
-    ans.emplace_back(std::move(a));
+    // TODO can remove?
+    // push_up(id);
+    return ret;
 }
 
-auto transform_able()
+void clear(int id, int l, int r, int tl, int tr)
 {
-    auto prow = find(row);
-    auto pcol = find(col);
-    return prow != -1 && pcol != -1;
+    if (tl <= l && r <= tr) {
+        tree[id].clear = true;
+        tree[id].a0 = tree[id].d = tree[id].sum = 0;
+        return;
+    }
+    push_down(id, l, r);
+    auto mid = (l + r) / 2;
+    if (tl <= mid)
+        clear(id * 2, l, mid, tl, tr);
+    if (tr > mid)
+        clear(id * 2 + 1, mid + 1, r, tl, tr);
+    push_up(id);
+}
+
+auto bin_search(ll x)
+{
+    using std::begin;
+    using std::end;
+    return std::lower_bound(begin(disc), end(disc), x) - begin(disc);
 }
 
 int main()
 {
-    std::cin >> n;
-    m = 2 * n + 1;
-    for (auto i = 1; i <= m; i++)
-        for (auto j = 1; j <= m; j++) {
-            char ch;
-            std::cin >> ch;
-            if (ch == '+') {
-                map[i][j] = 1;
-                row[i]++;
-                col[j]++;
-                sum++;
-            } else
-                map[i][j] = -1;
+    std::ios::sync_with_stdio(false);
+    std::cin >> n >> p;
+    int q;
+    std::cin >> q;
+    queries.resize(q);
+    disc.reserve(500100);
+    disc.emplace_back(0);
+    disc.emplace_back(1);
+    disc.emplace_back(n);
+    disc.emplace_back(n + 1);
+    for (auto& i : queries) {
+        std::string s;
+        std::cin >> i.t >> s >> i.x >> i.y;
+        i.save = (s == "save");
+
+        if (s == "save") {
+            disc.emplace_back(i.x);
+            disc.emplace_back(i.y);
+            disc.emplace_back(i.y + 1);
+        } else {
+            auto pi = i.x;
+            auto d = i.y;
+            disc.emplace_back(pi - d + 1);
+            disc.emplace_back(pi - 1);
+            disc.emplace_back(pi);
+            disc.emplace_back(pi + d - 1);
+            disc.emplace_back(pi + d);
         }
-
-    while (sum > m || (sum == m && transform_able())) {
-        // print();
-        transform();
-        // print();
     }
 
-    if (sum == m) {
-        adjust_row();
-        // print();
-        adjust_col();
-        // print();
-        transform_last();
-    }
+    std::sort(std::begin(disc), std::end(disc));
+    auto last = std::unique(std::begin(disc), std::end(disc));
+    disc.erase(last, std::end(disc));
+    tot = disc.size() - 2;
 
-    std::cout << "There is solution:\n";
-    for (auto const& vec : ans) {
-        for (auto i = 1u; i < vec.size(); i++)
-            std::cout << vec[i] << " ";
-        std::cout << "\n";
+    // for (auto i : disc)
+    //     std::cerr << i << " ";
+    // std::cerr << "\n";
+
+    auto last_time = 0ll;
+    auto saved = 0.;
+    for (auto const& q : queries) {
+        auto t = q.t;
+        update(1, 1, tot, 1, tot, (t - last_time) * p, 0);
+        if (q.save) {
+            auto l = bin_search(q.x);
+            auto r = bin_search(q.y);
+            saved += sum(1, 1, tot, l, r);
+            std::cout << std::fixed << std::setprecision(10)
+                << saved << "\n";
+            clear(1, 1, tot, l, r);
+        } else {
+            auto i = q.x;
+            auto d = q.y;
+            auto x = saved / (d * d);
+            saved = 0;
+
+            // std::cerr << "enforece " << i << " " << d << " " << x << "\n";
+
+            {
+                auto l = bin_search(i - d + 1);
+                auto r = bin_search(i - 1);
+                if (l <= r)
+                    update(1, 1, tot, l, r, x, +x);
+            }
+            {
+                auto l = bin_search(i);
+                auto r = bin_search(i + d - 1);
+                update(1, 1, tot, l, r, x * d, -x);
+            }
+        }
+        last_time = t;
     }
 }
 
