@@ -544,7 +544,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 比所有人都小。</p></td>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">假设第一项距离为 x，第二项为 y，那么可以假设第三项为 1-x-y，我们可以得道 n-1
 个半平面，然后求交就行。注意还有 x &ge; 0, y &ge; 0, x+y &le; 1。还有要注意的是
-得到的直线可能无解，或者全平面，要特殊处理。</p></td>
+得到的直线可能无解，或者全平面，要特殊处理。TODO 随机增量法。</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">ural1046</p></td>
@@ -563,7 +563,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 输出字典序最小的一组解。无解输出 0。</p></td>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">贪心做，排序后不断取，如果加入当前向量还能线性无关，就加入，顺便把下面的向量当前维度消掉。做当前向量时要把
 非零列交换过来。这题用 double 会跪，需要用模素数的整数运算才能过。支持这套贪心的理论其实就是 matroid。
-做这题发现还有人写过这个，刘雨辰《对拟阵的初步研究》。</p></td>
+做这题发现还有人写过这个，刘雨辰《对拟阵的初步研究》。TODO</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">ural1063</p></td>
@@ -587,7 +587,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <td class="tableblock halign-center valign-middle"><p class="tableblock">ural1841</p></td>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">&#10003;</p></td>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">data structures</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">给定 n(&le; 10\^5) 个首尾相接的线段的 x 坐标，表示一个山从下到上的形状。
+<td class="tableblock halign-center valign-middle"><p class="tableblock">给定 n(&le; 10^5) 个首尾相接的线段的 x 坐标，表示一个山从下到上的形状。
 每个线段上可能有若干索道，可以直线上升到于下一个线段相交的位置。告诉你每个
 线段上移动一个单位 x 距离所需要的时间以及每个索道所需要的时间，并且你只能
 按 y 递增的方向移动，问到山顶的最短时间。（索道总数不超过 10\^5）。</p></td>
@@ -596,6 +596,29 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 二分出这个位置。
 其实我们就是想求 n 个数，每个数右边比如第一个比他大的数，这个其实可以通过单调队列算出来。
 不过这种从前往后推的想法好像比较难写。</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">ural1977</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">&#10003;</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">data structures, segment tree</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">给定 n 个点(&le; 10^9) 个点，每个点每秒会增加 p 单位能量，你有个 repo 可以存储能量，
+现在有两种操作，可以在 t 时刻把 l 到 r 的能量都存储到 repo 里，或者在 t 时刻，把 repo
+里的能量全部用于增加 i-d+1 到 i+d-1 范围内的点，第 i 个点增加 d*x，与 i 距离为 1 的增加 (d-1)*x，
+一直到增加 x 为止，x 通过用尽全部能量可以解除来。操作个数不不超过 10^5，每次存储操作输出
+repo 的能量值。</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">我们可以用线段树维护一段区间的和以及一段区间增加的等差数列，维护 a0 和 delta, clear 以及 sum。
+然后还有要注意的是题目需要离散化，所以只能离线做了，我离散化的方式是一个节点
+维护的坐标区间 [l, r] 实际包括了 r 右边和 r+1 直接没被离散化到的点。然后为了简化处理，
+将所有 r 和 r+1 都插入到离散化的点中，这样每次整体区间的 [l, r] r 右边就没有多余的点了，
+但是这样比较浪费空间。还有种思路就是增加一个量，维护 extra，表示一次将 [l, r]
+划分成 [l, mid] 和 [mid+1, r] 的中间没被维护到的点。这题被卡了一下空间常熟。</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">urla1965</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">&#10003;</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">dynamic programming</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">给定 n(&le; 10^5) 的一个排列，问能否用两个不相交的单调序列覆盖。</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">TODO</p></td>
 </tr>
 </tbody>
 </table>
@@ -698,7 +721,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-04-16 02:35:17 UTC
+Last updated 2018-04-18 02:46:58 UTC
 </div>
 </div>
 <script type="text/x-mathjax-config">
