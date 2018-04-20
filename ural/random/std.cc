@@ -1,83 +1,80 @@
 // ml:run = cp $bin std
 // ml:opt = 0
 // ml:ccf += -g
-#include <iostream>
-#include <iomanip>
-#include <iterator>
-#include <algorithm>
-#include <string>
-#include <vector>
+#include<cstdio>
+#include<cstring>
+#include<iostream>
+#include<algorithm>
+using namespace std;
+const int maxn=15000+50;
 
-using ll = long long;
-
-struct query
+struct Node
 {
-    ll t;
-    int x, y;
-    bool save;
+    int x,y;
 };
 
-std::vector<query> queries;
-std::vector<int> disc;
-int n, p;
-int tot;
+int n;
+int c[maxn];
+Node a[maxn];
+int b[maxn],ans[maxn];
 
-auto constexpr maxn = 1000000;
-double a[maxn];
-
-void update(int l, int r, double a0, double d)
+int cmp(Node a,Node b)
 {
-    for (auto i = l; i <= r; i++) {
-        a[i] += a0;
-        a0 += d;
+    if(a.x==b.x) return a.y<b.y;
+    else return a.x<b.x;
+}
+
+inline int lowbit(int x)
+{
+    return x&(-x);
+}
+
+int sum(int x)
+{
+    int tot=0;
+    while(x>0)
+    {
+        tot+=c[x];
+        x-=lowbit(x);
     }
+    return tot;
 }
 
-auto sum(int l, int r) -> double
+void add(int x,int num)
 {
-    auto ret = 0.;
-    for (auto i = l; i <= r; i++)
-        ret += a[i];
-    return ret;
-}
-
-void clear(int l, int r)
-{
-    for (auto i = l; i <= r; i++)
-        a[i] = 0;
+    while(x<=n)
+    {
+        c[x]+=num;
+        x+=lowbit(x);
+    }
 }
 
 int main()
 {
-    std::ios::sync_with_stdio(false);
-    std::cin >> n >> p;
-    int q;
-    std::cin >> q;
-    queries.resize(q);
-
-    auto last_time = 0ll;
-    auto saved = 0.;
-    for (auto& i : queries) {
-        std::string s;
-        std::cin >> i.t >> s >> i.x >> i.y;
-        i.save = (s == "save");
-
-        update(1, n, (i.t - last_time) * p, 0);
-
-        if (s == "save") {
-            saved += sum(i.x, i.y);
-            std::cout << std::fixed << std::setprecision(10)
-                << saved << "\n";
-            clear(i.x, i.y);
-        } else {
-            auto pi = i.x;
-            auto d = i.y;
-            auto x = saved / (d * d);
-            saved = 0;
-            update(pi - d + 1, pi - 1,     x,     +x);
-            update(pi,         pi + d - 1, x * d, -x);
-        }
-        last_time = i.t;
+    scanf("%d",&n);
+    for(int i=0; i<n; i++)
+    {
+        scanf("%d%d",&a[i].x,&a[i].y);
+        b[i]=a[i].y;
     }
+
+    sort(b,b+n);
+    int cnt=unique(b,b+n)-b;
+
+    sort(a,a+n,cmp);
+
+    for(int i=0; i<n; i++)
+    {
+        int x=lower_bound(b,b+n,a[i].y)-b+1;
+        ans[sum(x)]++;
+        add(x,1);
+    }
+
+    for(int i=0; i<n; i++)
+    {
+        printf("%d\n",ans[i]);
+    }
+
+    return 0;
 }
 

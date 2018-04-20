@@ -3,141 +3,219 @@
 // ml:ccf += -g
 #include <iostream>
 #include <iterator>
-#include <utility>
 #include <algorithm>
-#include <functional>
 #include <vector>
 
-auto constexpr inf = 200001;
-std::vector<int> a;
+namespace avl
+{
+
+    struct node
+    {
+        operator bool() const;
+
+        auto is_right() const
+        {
+            return parent->child[1] == this;
+        }
+
+        void set_child(bool is_right, node* u)
+        {
+            child[is_right] = u;
+            u->parent = this;
+        }
+
+        node* parent;
+        node* child[2];
+        int key;
+        int height;
+        int balance_factor;
+        int size;
+    };
+
+    node tnull;
+    node* null = &tnull;
+
+    node::operator bool() const
+    {
+        return this != null;
+    }
+
+    auto constexpr maxn = 20000;
+
+    template <class T>
+    T abs(T x) { return x < 0 ? -x : x; }
+
+    struct tree
+    {
+        std::vector<node> data;
+        node* now;
+        node* root;
+
+        tree(int cap = maxn)
+        {
+            data.resize(cap);
+            now = data.data();
+            root = null;
+            root->parent = root->child[0] = root->child[1] = null;
+        }
+
+        auto alloc(int key)
+        {
+            now->key = key;
+            now->child[0] = now->child[1] = now->parent = null;
+            now->height = now->size = 1;
+            now->balance_factor = 0;
+            return now++;
+        }
+
+        void update(node* u)
+        {
+            auto hleft  = u->child[0]->height;
+            auto hright = u->child[1]->height;
+            u->height = std::max(hleft, hright) + 1;
+            u->balance_factor = hright - hleft;
+            u->size = u->child[0]->size + u->child[1]->size + 1;
+        }
+
+        auto rotate(node* u)
+        {
+            auto is_right = u->is_right();
+            auto p = u->parent;
+            p->parent->set_child(p->is_right(), u);
+            p->set_child(is_right, u->child[!is_right]);
+            u->set_child(!is_right, p);
+            if (p == root) root = u;
+            update(p);
+        }
+
+        void adjust(node* u)
+        {
+            for (auto p = u->parent; *p; p = u->parent) {
+                auto t1 = u->is_right() ? +1 : -1;
+                auto t2 = p->balance_factor;
+                if (t1 + t2 == 0) {
+                    update(p);
+                    break;
+                }
+                if (abs(t1 + t2) == 1) {
+                    update(p);
+                    u = p;
+                    continue;
+                }
+                auto t3 = u->balance_factor;
+                if (t1 + t3 == 0) {
+                    u = u->child[(t3 + 1)/2];
+                    rotate(u);
+                }
+                rotate(u);
+                update(u);
+            }
+            for (; *u; u = u->parent)
+                update(u);
+        }
+
+        auto insert(node* u, int key)
+        {
+            if (!*u)
+                return root = alloc(key);
+            for (; ; ) {
+                auto is_right = u->key < key;
+                if (!*u->child[is_right]) {
+                    auto new_node = alloc(key);
+                    u->set_child(is_right, new_node);
+                    return new_node;
+                }
+                u = u->child[is_right];
+            }
+        }
+
+        void insert(int key)
+        {
+            auto u = insert(root, key);
+            adjust(u);
+        }
+
+        auto le_count(int key)
+        {
+            auto ret = 0;
+            auto u = root;
+            while (*u) {
+                if (key < u->key)
+                    u = u->child[0];
+                else {
+                    ret += u->child[0]->size + 1;
+                    if (!*u->child[1])
+                        break;
+                    u = u->child[1];
+                }
+            }
+            return ret;
+        }
+
+        void print(node* u) const
+        {
+            if (!*u) { std::cout << " [ ] "; return; }
+
+            std::cout << " [";
+            if (*u->child[0])
+                print(u->child[0]);
+            if (*u)
+                std::cout << " " << u->key << ", " << u->size << " ";
+            if (*u->child[1])
+                print(u->child[1]);
+            std::cout << "] ";
+        }
+
+        void print() const
+        {
+            print(root);
+        }
+    };
+}
+
+struct point
+{
+    int x;
+    int y;
+    int id;
+};
+
+auto operator<(point const& lhs, point const& rhs)
+{
+    return lhs.x < rhs.x
+        || (lhs.x == rhs.x && lhs.y < rhs.y);
+}
+
 int n;
-auto less = std::less<int>{};
-auto greater = std::greater<int>{};
-
-template <class Compare>
-auto same_order(Compare comp)
-{
-    std::vector<int> ra{inf};
-    std::vector<int> rb{inf};
-    if (comp(0, ra[0]))
-        ra[0] = 0;
-    if (comp(0, rb[0]))
-        rb[0] = 0;
-
-    for (auto i : a) {
-        // ensure when comp = less, ra.back() > rb.back()
-        if (comp(ra.back(), rb.back()))
-            std::swap(ra, rb);
-
-        if (comp(ra.back(), i))
-            ra.emplace_back(i);
-        else if (comp(rb.back(), i))
-            rb.emplace_back(i);
-        else
-            return false;
-    }
-
-    if (ra.size() > rb.size())
-        std::swap(ra, rb);
-    if (ra.size() == 1) {
-        ra.emplace_back(rb.back());
-        rb.pop_back();
-    }
-
-    std::cout << ra.size() - 1 << " " << rb.size() - 1 << "\n";
-    for (auto i = 1u; i < ra.size(); i++)
-        std::cout << ra[i] << " ";
-    std::cout << "\n";
-    for (auto i = 1u; i < rb.size(); i++)
-        std::cout << rb[i] << " ";
-    std::cout << "\n";
-    return true;
-}
-
-// 0 means current i in inc seq
-// 1 means current i in dec seq
-int dp[100001][2];
-std::pair<int, int> from[100001][2];
-
-auto diff_order()
-{
-    dp[0][0] = inf;
-    dp[0][1] = 0;
-    from[0][0] = {-1, 0};
-    from[0][1] = {-1, 0};
-    for (auto i = 1; i < n; i++) {
-        dp[i][0] = dp[i][1] = -1;
-        if (a[i] > a[i - 1] && dp[i - 1][0] != -1) {
-            dp[i][0] = dp[i - 1][0];
-            from[i][0] = {i - 1, 0};
-        }
-        if (dp[i - 1][1] != -1 && a[i] > dp[i - 1][1]) {
-            if (dp[i][0] == -1 || dp[i][0] < a[i - 1]) {
-                dp[i][0] = a[i - 1];
-                from[i][0] = {i - 1, 1};
-            }
-        }
-
-        if (a[i] < a[i - 1] && dp[i - 1][1] != -1) {
-            dp[i][1] = dp[i - 1][1];
-            from[i][1] = {i - 1, 1};
-        }
-        if (dp[i - 1][0] != -1 && a[i] < dp[i - 1][0]) {
-            if (dp[i][1] == -1 || dp[i][1] > a[i - 1]) {
-                dp[i][1] = a[i - 1];
-                from[i][1] = {i - 1, 0};
-            }
-        }
-    }
-
-    if (dp[n - 1][0] == -1 && dp[n - 1][1] == -1)
-        return false;
-
-    auto last = std::make_pair(n - 1, 0);
-    if (dp[n - 1][1] != -1)
-        last = {n - 1, 1};
-
-    std::vector<int> ra;
-    std::vector<int> rb;
-
-    for (; last.first != -1; last = from[last.first][last.second])
-        if (last.second)
-            ra.emplace_back(a[last.first]);
-        else
-            rb.emplace_back(a[last.first]);
-
-    std::reverse(std::begin(ra), std::end(ra));
-    std::reverse(std::begin(rb), std::end(rb));
-
-    if (ra.size() > rb.size())
-        std::swap(ra, rb);
-    if (ra.size() == 1) {
-        ra.emplace_back(rb.back());
-        rb.pop_back();
-    }
-
-    std::cout << ra.size() << " " << rb.size() << "\n";
-    for (auto i = 0u; i < ra.size(); i++)
-        std::cout << ra[i] << " ";
-    std::cout << "\n";
-    for (auto i = 0u; i < rb.size(); i++)
-        std::cout << rb[i] << " ";
-    std::cout << "\n";
-    return true;
-}
 
 int main()
 {
+    std::ios::sync_with_stdio(false);
     std::cin >> n;
-    a.resize(n);
-    for (auto& i : a)
-        std::cin >> i;
-
-    if (same_order(less)
-        || same_order(greater)
-        || diff_order()) {
-        return 0;
+    std::vector<int> ans(n);
+    std::vector<point> points(n);
+    for (auto i = 0; i < n; i++) {
+        std::cin >> points[i].x >> points[i].y;
+        points[i].id = i;
     }
-    std::cout << "Fail\n";
+    std::sort(std::begin(points), std::end(points));
+
+    avl::tree avt;
+    for (auto const& p : points) {
+
+        // std::cerr << "->" << avt.le_count(p.y) << "\n";
+
+        ans[avt.le_count(p.y)]++;
+        avt.insert(p.y);
+
+        // avt.print();
+        // std::cerr << "\n";
+
+    }
+    for (auto i : ans)
+        std::cout << i << "\n";
+
+    // avt.print();
+    // std::cout << "\n";
 }
 

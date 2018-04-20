@@ -8,20 +8,15 @@ int main()
     std::random_device rd;
     std::mt19937 gen{rd()};
 
-    auto n = 9;
+    auto n = 900;
     std::cout << n << "\n";
 
-    std::vector<int> a(n);
-    std::iota(std::begin(a), std::end(a), 1);
-    std::uniform_int_distribution<> dis(1, n);
-    auto q = dis(gen);
-    for (auto t = 1; t <= q; t++) {
-        auto l = dis(gen);
-        auto r = dis(gen);
-        std::swap(a[l - 1], a[r - 1]);
+    auto m = 1000;
+    std::uniform_int_distribution<> dis(1, m);
+    for (auto x = 0; x < n; x++) {
+        auto y = dis(gen);
+        std::cout << x << " " << y << "\n";
     }
-    for (auto i : a)
-        std::cout << i << " ";
     std::cout << "\n";
 }
 
