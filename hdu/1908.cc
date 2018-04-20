@@ -38,8 +38,6 @@ namespace avl
     #define DEBUG 1
 
     int const maxn = 100000;
-    std::vector<node> data(maxn);
-    node* now;
 
     struct tree
     {
@@ -56,11 +54,9 @@ namespace avl
         void rotate(node* u);
         void adjust(node* u);
 
-        void adjust_insert(node* u);
         void insert(int key, int value);
         node* insert(node* u, int key, int value);
 
-        void adjust_remove(node* u);
         void remove(int key);
         node* remove(node* u, int key);
 
@@ -73,20 +69,13 @@ namespace avl
         void print(node* u) const;
         void print() const;
 
+        std::vector<node> data;
+        node* now;
         node* root;
     };
 
     node* tree::alloc(int key, int value)
     {
-
-        // node* u = new node;
-        // u->key = key;
-        // u->value = value;
-        // u->parent = u->child[0] = u->child[1] = null;
-        // u->height = 1;
-        // u->balance_factor = 0;
-        // return u;
-
         now->key = key;
         now->value = value;
         now->parent = now->child[0] = now->child[1] = null;
@@ -114,69 +103,6 @@ namespace avl
         if (root == p)
             root = u;
         update(p);
-    }
-
-    void tree::adjust_insert(node* u)
-    {
-        for (node* p = u->parent; *p; p = u->parent) {
-            int t1 = u->is_right() ? +1 : -1;
-            int t2 = p->balance_factor;
-            if (t1 + t2 == 0) {
-                update(p);
-                break;
-            }
-            if (t2 == 0) {
-                update(p);
-                u = p;
-                continue;
-            }
-            int t3 = u->balance_factor;
-            if (t1 + t3 == 0) {
-                u = u->child[(t3 + 1)/2];
-                rotate(u);
-            }
-            rotate(u);
-            update(u);
-        }
-        for (; *u; u = u->parent)
-            update(u);
-    }
-
-    void tree::adjust_remove(node* u)
-    {
-        node* tu = u;
-        for (node* p = u->parent; *p; p = u->parent) {
-            int t1 = u->is_right() ? +1 : -1;
-            int t2 = p->balance_factor;
-            if (t2 == 0) {
-                update(p);
-                break;
-            }
-            if (abs(t1 + t2) == 2) {
-                update(p);
-                u = p;
-                continue;
-            }
-            int  h = p->height;
-            u = p->child[!u->is_right()];
-            int t3 = u->balance_factor;
-            if (abs(t1 + t3) == 2) {
-                u = u->child[(t3 + 1)/2];
-                rotate(u);
-            }
-            rotate(u);
-            update(u);
-            if (u->height == h)
-                break;
-        }
-        if (!root->height)
-            root = null;
-        else if (!tu->height)
-            tu->parent->set_child(tu->is_right(), null);
-
-        if (u->height)
-            for (; *u; u = u->parent)
-                update(u);
     }
 
     void tree::adjust(node* u)
