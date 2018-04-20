@@ -54,6 +54,7 @@ namespace avl
         node* alloc(int key, int value);
         void update(node* u);
         void rotate(node* u);
+        void adjust(node* u);
 
         void adjust_insert(node* u);
         void insert(int key, int value);
@@ -141,26 +142,6 @@ namespace avl
             update(u);
     }
 
-    node* tree::insert(node* u, int key, int value)
-    {
-        if (!*root)
-            return root = alloc(key, value);
-        for (; ;) {
-            bool is_right = u->key < key;
-            if (!*u->child[is_right]) {
-                u->set_child(is_right, alloc(key, value));
-                return u->child[is_right];
-            }
-            u = u->child[is_right];
-        }
-    }
-
-    void tree::insert(int key, int value)
-    {
-        node* u = insert(root, key, value);
-        adjust_insert(u);
-    }
-
     void tree::adjust_remove(node* u)
     {
         node* tu = u;
@@ -198,6 +179,43 @@ namespace avl
                 update(u);
     }
 
+    void tree::adjust(node* u)
+    {
+        for (; *u; u = u->parent) {
+            update(u);
+            if (abs(u->balance_factor) <= 1) continue;
+            auto right = u->balance_factor > 1;
+            u = u->child[right];
+            if (u->balance_factor == (right ? -1 : 1)) {
+                u = u->child[!right];
+                rotate(u);
+            }
+            rotate(u);
+            update(u);
+        }
+    }
+
+    node* tree::insert(node* u, int key, int value)
+    {
+        if (!*root)
+            return root = alloc(key, value);
+        for (; ;) {
+            bool is_right = u->key < key;
+            if (!*u->child[is_right]) {
+                u->set_child(is_right, alloc(key, value));
+                return u->child[is_right];
+            }
+            u = u->child[is_right];
+        }
+    }
+
+    void tree::insert(int key, int value)
+    {
+        node* u = insert(root, key, value);
+        adjust(u->parent);
+        // adjust_insert(u);
+    }
+
     node* tree::remove(node* u, int key)
     {
         for (; u->key != key;)
@@ -210,8 +228,7 @@ namespace avl
             u->value = next->value;
             u = next;
         }
-        node* tu = u;
-        u->height = 0;
+        node* tu = null;
         if (*u->child[0]) tu = u->child[0];
         if (*u->child[1]) tu = u->child[1];
         if (root == u) root = tu;
@@ -222,7 +239,8 @@ namespace avl
     void tree::remove(int key)
     {
         node* u = remove(root, key);
-        adjust_remove(u);
+        // adjust_remove(u);
+        adjust(u->parent);
     }
 
     node* tree::find_max() const
@@ -297,20 +315,20 @@ namespace avl
 
 int main()
 {
-    std::ios::sync_with_stdio(false);
+    // std::ios::sync_with_stdio(false);
     avl::tree avt;
     std::vector<int> ans;
-    for (int i; std::cin >> i && i; ) {
+    for (int i; std::scanf("%d", &i) && i; ) {
         if (i == 1) {
             int id, p;
-            std::cin >> id >> p;
+            std::scanf("%d%d", &id, &p);
             avt.insert(p, id);
         } else if (i == 2)
             // ans.push_back(avt.pop_max());
-            std::cout << avt.pop_max() << "\n";
+            std::printf("%d\n", avt.pop_max());
         else
             // ans.push_back(avt.pop_min());
-            std::cout << avt.pop_min() << "\n";
+            std::printf("%d\n", avt.pop_min());
         // avt.print();
     }
     // for (auto i : ans)
