@@ -108,7 +108,9 @@ int main()
     std::ios::sync_with_stdio(false);
     std::cin >> n >> m;
 
-    // auto size = (sizeof(changes) + sizeof(queries) + sizeof(restores));
+    // auto size = (sizeof(change)*maxn
+    //     + sizeof(query)*maxn
+    //     + sizeof(restore)*maxchange);
     // std::cout << size/1024/1024 << "\n";
 
     // a.resize(n);
