@@ -1,6 +1,5 @@
-// ml:run = $bin < input
-// ml:opt = 0
-// ml:ccf += -g
+// ml:run = time -p $bin < input > output
+// ml:opt = 3
 #include <iostream>
 #include <algorithm>
 #include <string>
@@ -10,6 +9,7 @@
 using ll = long long;
 
 auto constexpr maxn = 100004;
+auto constexpr maxk = 55;
 
 int n, k;
 std::string s;
@@ -19,11 +19,36 @@ struct node
     // 0 means not covered
     char ch;
     ll count;
-    std::string left;
-    std::string right;
+    int lenl;
+    int lenr;
+    char left[maxk];
+    char right[maxk];
 };
 
 node tree[4 * maxn];
+
+void fill_same(char a[], int l, char ch)
+{
+    for (auto i = 0; i < l; i++)
+        a[i] = ch;
+}
+
+void append(char a[], int la, char b[], int lb)
+{
+    for (auto i = 0; i < lb; i++)
+        a[la + i] = b[i];
+}
+
+void shift_right(char a[], int len, int sl)
+{
+    for (auto i = len - 1; i >= 0; i--)
+        a[i + sl] = a[i];
+}
+
+void copy(char from[], char to[], int len)
+{
+    std::copy(to, to + len, from);
+}
 
 // TODO test
 auto all_same(ll len) -> ll
@@ -44,24 +69,28 @@ void push_down(int id, int l, int r)
     auto mid = (l + r) / 2;
     auto lenl = mid - l + 1;
     tl.count = all_same(lenl);
-    tl.left = tl.right = std::string(std::min(lenl, k - 1), t.ch);
+    auto tlen = std::min(lenl, k - 1);
+    tl.lenl = tl.lenr = tlen;
+    fill_same(tl.left, tlen, t.ch);
+    fill_same(tl.right, tlen, t.ch);
 
     auto lenr = r - mid;
     tr.count = all_same(lenr);
-    tr.left = tr.right = std::string(std::min(lenr, k - 1), t.ch);
+    tlen = std::min(lenr, k - 1);
+    fill_same(tr.left, tlen, t.ch);
+    fill_same(tr.right, tlen, t.ch);
 
     t.ch = 0;
 }
 
-auto calc(std::string const& a, int la, std::string const& b, int lb) -> ll
+char ts[120];
+
+auto calc(char a[], int lena, int la, char b[], int lenb, int lb) -> ll
 {
     if (la == 0 || lb == 0)
         return 0;
-    la = std::min(la, (int)a.size());
-    lb = std::min(lb, (int)b.size());
-    std::string sl(a, a.size() - la, la);
-    std::string sr(b, 0, lb);
-    auto ts = sl + sr;
+    copy(a + lena - la, ts, la);
+    copy(b, ts + la, lb);
     auto count = 0ll;
     for (auto i = 0; i < la + lb; i++) {
         auto j = 0;
@@ -91,24 +120,27 @@ void push_up(int id, int l, int r)
     auto& tl = tree[id * 2    ];
     auto& tr = tree[id * 2 + 1];
     t.count = tl.count + tr.count
-        + calc(tl.right, std::min(k-1, (int)tl.right.size()),
-                tr.left, std::min(k-1, (int)tr.left.size()));
+        + calc(tl.right, tl.lenr, std::min(tl.lenr, std::min(k-1, tl.lenr)),
+                tr.left, tr.lenl, std::min(tr.lenl, std::min(k-1, tr.lenl)));
 
     auto mid = (l + r) / 2;
     auto lenl = mid - l + 1;
-    t.left = tl.left;
-    if ((int)tl.left.size() == lenl) {
-        t.left += tr.left;
-        if ((int)t.left.size() > k - 1)
-            t.left.resize(k - 1);
+    copy(tl.left, t.left, tl.lenl);
+    t.lenl = tl.lenl;
+    if (tl.lenl == lenl) {
+        auto remain = std::min(k - 1 - t.lenr, tr.lenl);
+        append(t.left, t.lenl, tr.left, remain);
+        t.lenl += remain;
     }
 
     auto lenr = r - mid;
-    t.right = tr.right;
-    if ((int)tr.right.size() == lenr) {
-        auto len = std::min(k - 1 - t.right.size(), tl.right.size());
-        std::string tmp(tl.right, tl.right.size() - len, len);
-        t.right = tmp + t.right;
+    copy(tr.right, t.right, tr.lenr);
+    t.lenr = tr.lenr;
+    if (tr.lenr == lenr) {
+        auto len = std::min(k - 1 - tr.lenr, tl.lenr);
+        shift_right(t.right, t.lenr, len);
+        t.lenr += len;
+        copy(tl.right + tl.lenr - len, t.right, len);
     }
 }
 
@@ -118,7 +150,8 @@ void build_tree(int id, int l, int r)
     if (l == r) {
         t.count = 1;
         t.ch = 0;
-        t.left = t.right = s[l - 1];
+        t.lenl = t.lenr = 1;
+        t.left[0] = t.right[0] = s[l - 1];
         return;
     }
     auto mid = (l + r) / 2;
@@ -171,8 +204,8 @@ auto query(int id, int l, int r, int tl, int tr) -> ll
     if (tr > mid)
         count += query(id * 2 + 1, mid + 1, r, tl, tr);
     count += calc(
-        left.right, std::min(k - 1, std::max(0, mid - tl + 1)),
-        right.left, std::min(k - 1, std::max(0, tr - mid))
+        left.right, left.lenr, std::min(k - 1, std::max(0, mid - tl + 1)),
+        right.left, right.lenl, std::min(k - 1, std::max(0, tr - mid))
     );
 
     return count;
@@ -185,7 +218,10 @@ void cover(int id, int l, int r, int tl, int tr, char ch)
         t.ch = ch;
         auto len = r - l + 1;
         t.count = all_same(len);
-        t.left = t.right = std::string(std::min(len, k-1), ch);
+        auto tlen = std::min(len, k-1);
+        t.lenl = t.lenr = tlen;
+        fill_same(t.left, tlen, ch);
+        fill_same(t.right, tlen, ch);
         return;
     }
 
