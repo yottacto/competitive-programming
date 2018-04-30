@@ -1,80 +1,60 @@
 // ml:run = cp $bin std
 // ml:opt = 0
 // ml:ccf += -g
-#include<cstdio>
-#include<cstring>
-#include<iostream>
-#include<algorithm>
-using namespace std;
-const int maxn=15000+50;
+#include <iostream>
+#include <string>
 
-struct Node
+using ll = long long;
+
+int n, k;
+std::string s;
+
+auto check(int l, int r)
 {
-    int x,y;
-};
-
-int n;
-int c[maxn];
-Node a[maxn];
-int b[maxn],ans[maxn];
-
-int cmp(Node a,Node b)
-{
-    if(a.x==b.x) return a.y<b.y;
-    else return a.x<b.x;
+    auto len = r - l + 1;
+    for (auto i = 0; i < len; i++)
+        if (s[l + i] != s[r - i])
+            return false;
+    return true;
 }
 
-inline int lowbit(int x)
+auto query(ll l, ll r)
 {
-    return x&(-x);
+    auto count = 0ll;
+    for (auto i = l; i <= r; i++)
+        for (auto j = i; j <= r; j++) {
+            if (j - i + 1 > k)
+                continue;
+            count += check(i - 1, j - 1);
+        }
+    return count;
 }
 
-int sum(int x)
+void cover(int l, int r, char ch)
 {
-    int tot=0;
-    while(x>0)
-    {
-        tot+=c[x];
-        x-=lowbit(x);
-    }
-    return tot;
-}
-
-void add(int x,int num)
-{
-    while(x<=n)
-    {
-        c[x]+=num;
-        x+=lowbit(x);
-    }
+    for (auto i = l; i <= r; i++)
+        s[i - 1] = ch;
 }
 
 int main()
 {
-    scanf("%d",&n);
-    for(int i=0; i<n; i++)
-    {
-        scanf("%d%d",&a[i].x,&a[i].y);
-        b[i]=a[i].y;
+    std::ios::sync_with_stdio(false);
+
+    std::cin >> s >> k;
+    n = s.size();
+
+    int q;
+    std::cin >> q;
+    while (q--) {
+        int id, l, r;
+        std::cin >> id >> l >> r;
+        if (id == 2) {
+            std::cout << query(l, r) << "\n";
+        } else {
+            char ch;
+            std::cin >> ch;
+            cover(l, r, ch);
+        }
     }
-
-    sort(b,b+n);
-    int cnt=unique(b,b+n)-b;
-
-    sort(a,a+n,cmp);
-
-    for(int i=0; i<n; i++)
-    {
-        int x=lower_bound(b,b+n,a[i].y)-b+1;
-        ans[sum(x)]++;
-        add(x,1);
-    }
-
-    for(int i=0; i<n; i++)
-    {
-        printf("%d\n",ans[i]);
-    }
-
-    return 0;
 }
 

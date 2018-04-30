@@ -1,78 +1,101 @@
 // ml:run = cp $bin judge
 #include <iostream>
-#include <sstream>
-#include <string>
-#include <functional>
-#include <map>
+#include <algorithm>
+#include <iterator>
 #include <fstream>
 #include <vector>
 
-auto less = std::less<int>{};
-auto greater = std::greater<int>{};
+using ll = long long;
+struct data { int x; int y; ll value; };
 
-std::vector<int> da;
+auto constexpr inf = 1ll << 50;
+auto ans = -inf;
+
+auto& operator>>(std::istream& is, data& d)
+{
+    is >> d.x >> d.y >> d.value;
+    return is;
+}
+
+std::vector<data> da;
 std::vector<int> a;
-std::vector<int> b;
 
-std::map<int, int> pos;
-
-bool vis[200000];
+auto inrange(int x, int l, int r)
+{
+    return l <= x && x <= r;
+}
 
 auto judge()
 {
     std::ifstream fin{"bfdiff.out1"};
-    std::string s;
-    std::getline(fin, s);
-    if (s == "Fail")
-        return true;
-    std::stringstream buf{s};
-    int na, nb;
-    buf >> na >> nb;
-    a.resize(na);
-    for (auto& i : a)
-        fin >> i;
+    int lx, rx, ly, ry;
+    fin >> lx >> rx >> ly >> ry;
 
-    b.resize(nb);
-    for (auto& i : b)
-        fin >> i;
-
-    vis[a[0]] = true;
-    for (auto i = 1; i < na; i++) {
-        if (vis[a[i]]) return false;
-        if ((a[0] < a[1]) != (a[i - 1] < a[i]))
-            return false;
-        if (pos[a[i - 1]] > pos[a[i]])
-            return false;
-        vis[a[i]] = true;
+    auto count = 0;
+    auto sum = 0ll;
+    for (auto const& d : da) {
+        if (inrange(d.x, lx, rx) && inrange(d.y, ly, ry)) {
+            count++;
+            sum += d.value;
+        }
     }
-
-    if (vis[b[0]])
+    if (count <= 1)
         return false;
-    vis[b[0]] = true;
-    for (auto i = 1; i < nb; i++) {
-        if (vis[b[i]]) return false;
-        if ((b[0] < b[1]) != (b[i - 1] < b[i]))
-            return false;
-        if (pos[b[i - 1]] > pos[b[i]])
-            return false;
-        vis[b[i]] = true;
-    }
+    if (sum != ans)
+        return false;
 
     return true;
 }
 
-int main()
+template <class Vec>
+void sort_unique(Vec& v)
+{
+    std::sort(std::begin(v), std::end(v));
+    auto last = std::unique(std::begin(v), std::end(v));
+    v.erase(last, std::end(v));
+}
+
+int main(int argc, char** argv)
 {
     {
         std::ifstream fin{"bfdiff.in"};
         int n;
         fin >> n;
         da.resize(n);
+        std::vector<int> px;
+        std::vector<int> py;
         for (auto i = 0; i < n; i++) {
             fin >> da[i];
-            pos[da[i]] = i;
+            px.emplace_back(da[i].x);
+            py.emplace_back(da[i].y);
         }
+        sort_unique(px);
+        sort_unique(py);
+
+        for (auto px1 = 0u; px1 < px.size(); px1++)
+        for (auto py1 = 0u; py1 < py.size(); py1++)
+            for (auto px2 = px1; px2 < px.size(); px2++)
+            for (auto py2 = py1; py2 < py.size(); py2++) {
+                auto lx = px[px1];
+                auto ly = py[py1];
+                auto rx = px[px2];
+                auto ry = py[py2];
+
+                auto count = 0;
+                auto sum = 0ll;
+                for (auto const& d : da) {
+                    if (inrange(d.x, lx, rx) && inrange(d.y, ly, ry)) {
+                        count++;
+                        sum += d.value;
+                    }
+                }
+                if (count <= 1) continue;
+                ans = std::max(ans, sum);
+            }
     }
+
+    if (argc > 1)
+        std::cout << ans << "\n";
 
     if (judge())
         std::cout << "YES\n\n";
