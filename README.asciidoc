@@ -130,23 +130,35 @@ x 距离所需要的时间以及每个索道所需要的时间，并且你只能
 但是这样比较浪费空间。还有种思路就是增加一个量，维护 extra，表示一次将 [l, r]
 划分成 [l, mid] 和 [mid+1, r] 的中间没被维护到的点。这题被卡了一下空间常熟。
 
-| urla1965 | {y}
+| ural1965 | {y}
 | dynamic programming
 | 给定 n(&le; 10{caret}5) 的一个排列，问能否用两个不相交的单调序列覆盖。
 | TODO
 
-| urla2075 | {y}
+| ural2075 | {y}
 | data structures, self-balancing binary search tree, avl
 | TODO
 | TODO
 
-| urla2096 | {y}
+| ural2096 | {y}
 | data structures, offline
 | TODO
 | 如果要强制在线的需要可持久化。不过可以离线做，如果是个链状的结构很简单，一次扫描过去就行，
 但是是个树状的结构，那么我们也可以在 dfs 的过程中，当处理完一个节点恢复就行。
 这里最坑的是 ural 空间卡的比较紧。用了 std::vector 的 reserve 在 g++ 没什么用，
 结果用 clang 就过了 {ellipsis}
+
+| ural2042 | {y}
+| data structures, segment tree
+| 给定一个长度为 n(&le; 10{caret}5) 的字符串，给定一个数 k(&le; 50)，现在有两种操作，
+将一段区间的字符都改成 c，或者询问一段区间长度不超过 k 的回文串的数目。操作数目不超过 (&le; 10{caret}5)。
+| 一开始想了一种做法，维护每个区间两端连续不超过 50 的字符串，然后每次合并跑下 manacher，
+就能维护出每个区间回文串个数的信息。但是常数太大了。也可以维护每个点为左端点，长度不超过 k 的回文串个数。
+假如说有一段区间覆盖 [l, r]，为了简化讨论，假设区间足够长，那么 [l, r-k+1] 的上述值都成 k。
+然后还要单独处理 [l-1-k+1, l-1] 以及 [r-k+2, r] 这两段区间。为了降低常数，对这两段区间
+的字符串分别做个 manacher，不要一个一个单点修改，一段区间一段区间修改。
+事实上常数更低的正确做法是使用 non-recursive segment tree。
+参考这个链接 http://codeforces.com/blog/entry/18051[Efficient and easy segment trees] TODO。
 
 |====
 
