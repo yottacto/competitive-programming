@@ -6,7 +6,7 @@
 
 #define DEBUG 0
 
-using ll = long long;
+using ll = int;
 
 auto constexpr maxn = 100004;
 
@@ -24,11 +24,11 @@ struct node
 
 node tree[4 * maxn];
 
-auto all_same(ll len) -> ll
+auto all_same(int len)
 {
     if (len <= k)
-        return (1ll + len) * len / 2ll;
-    return (len - k) * k + (1ll + k) * k / 2ll;
+        return (1 + len) * len / 2;
+    return (len - k) * k + (1 + k) * k / 2;
 }
 
 void push_down(int id, int l, int r)
@@ -54,7 +54,7 @@ void push_down(int id, int l, int r)
 char tmp[400];
 std::vector<int> p(400);
 
-auto manacher(std::string const& s, int l) -> ll
+auto manacher(std::string const& s, int l)
 {
     tmp[0] = '$';
     tmp[1] = '#';
@@ -67,9 +67,7 @@ auto manacher(std::string const& s, int l) -> ll
 
     auto mx = 0;
     auto id = 0;
-    auto mlen = 0;
-    auto mcenter = 0;
-    auto count = 0ll;
+    auto count = 0;
     l = 2 * (l + 1);
     for (auto i = 1; i < n; i++) {
         p[i] = mx > i
@@ -80,10 +78,6 @@ auto manacher(std::string const& s, int l) -> ll
         if (mx < i + p[i]) {
             mx = i + p[i];
             id = i;
-        }
-        if (mlen < p[i]) {
-            mlen = p[i];
-            mcenter = i;
         }
         if (tmp[i] == '#') {
             if (i < l)
@@ -100,13 +94,13 @@ auto manacher(std::string const& s, int l) -> ll
     return count / 2;
 }
 
-auto calc(std::string const& a, int la, std::string const& b, int lb) -> ll
+auto calc(std::string const& a, int la, std::string const& b, int lb)
 {
     if (la == 0 || lb == 0)
         return 0;
     return manacher(a.substr(a.size() - la, la) + b.substr(0, lb), la); // - manacher(sl) - manacher(sr);
     // auto ts = sl + sr;
-    // auto count = 0ll;
+    // auto count = 0;
     // for (auto i = 0; i < la + lb; i++) {
     //     auto j = 0;
     //     for (; i - j >= 0 && i + j < la + lb && ts[i - j] == ts[i + j]; j++)
@@ -135,14 +129,14 @@ void push_up(int id, int l, int r)
     auto const& tl = tree[id * 2    ];
     auto const& tr = tree[id * 2 + 1];
     t.count = tl.count + tr.count
-        + calc(tl.right, std::min(k-1, (int)tl.right.size()),
-                tr.left, std::min(k-1, (int)tr.left.size()));
+        + calc(tl.right, std::min<int>(k-1, tl.right.size()),
+                tr.left, std::min<int>(k-1, tr.left.size()));
 
     auto mid = (l + r) / 2;
     auto lenl = mid - l + 1;
     t.left = tl.left;
     if ((int)tl.left.size() == lenl)
-        t.left += tr.left.substr(0, k - 1 - t.left.size());
+        t.left += tr.left.substr(0, std::min(tr.left.size(), k - 1 - t.left.size()));
 
     auto lenr = r - mid;
     t.right = tr.right;
@@ -194,7 +188,7 @@ void print(int id, int l, int r)
     #endif
 }
 
-auto query(int id, int l, int r, int tl, int tr) -> ll
+auto query(int id, int l, int r, int tl, int tr)
 {
     if (tl <= l && r <= tr)
         return tree[id].count;
@@ -203,7 +197,7 @@ auto query(int id, int l, int r, int tl, int tr) -> ll
         return all_same(tr - tl + 1);
 
     auto mid = (l + r) / 2;
-    auto count = 0ll;
+    auto count = 0;
     auto const& left = tree[id * 2];
     auto const& right = tree[id * 2 + 1];
 
