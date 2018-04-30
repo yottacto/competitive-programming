@@ -54,7 +54,7 @@ auto get_char(int id, int l, int r, int p)
 auto get_string(int id, int l, int r, int tl, int tr)
 {
     if (l == r)
-        return std::string{str[l]};
+        return std::string{str[id]};
     if (str[id])
         return std::string(tr - tl + 1, str[id]);
     auto mid = (l + r) / 2;
@@ -68,6 +68,7 @@ auto get_string(int id, int l, int r, int tl, int tr)
 
 auto get_string(int l, int r)
 {
+    if (l > r) return std::string{""};
     return get_string(1, 1, n, l, r);
 
     // std::string ret;
@@ -129,10 +130,10 @@ void cover(int id, int l, int r, int tl, int tr, int k)
     sum[id] = sum[id * 2] + sum[id * 2 + 1];
 }
 
-void update(int id, int l, int r, int p, int value)
+void update(int id, int l, int r, int tl, int tr)
 {
     if (l == r) {
-        sum[id] = value;
+        sum[id] = right_k[l];
         return;
     }
     auto mid = (l + r) / 2;
@@ -142,10 +143,10 @@ void update(int id, int l, int r, int p, int value)
         sum[id * 2] = k * (mid - l + 1);
         sum[id * 2 + 1] = k * (r - mid);
     }
-    if (p <= mid)
-        update(id * 2, l, mid, p, value);
-    else
-        update(id * 2 + 1, mid + 1, r, p, value);
+    if (tl <= mid)
+        update(id * 2, l, mid, tl, tr);
+    if (tr > mid)
+        update(id * 2 + 1, mid + 1, r, tl, tr);
     sum[id] = sum[id * 2] + sum[id * 2 + 1];
 }
 
@@ -187,8 +188,14 @@ auto query(int l, int r)
     if (l <= r - k + 1)
         sum = get_sum(1, 1, n, l, r - k + 1);
     auto tmp = get_string(std::max(l, r - k + 2), r);
-    for (auto i = 0u; i < tmp.size(); i++)
-        sum += manacher(tmp.substr(i));
+    manacher(tmp);
+    for (auto i = 0; i < (int)tmp.size(); i++) {
+        auto t = 0;
+        for (auto j = i * 2 + 2; j <= 2 * (int)tmp.size(); j++)
+            if (p[j] >= j - (2 * i + 1))
+                t++;
+        sum += t;
+    }
     return sum;
 }
 
@@ -201,20 +208,37 @@ void update(int l, int r, char ch)
     auto ll = std::max(1, l - k + 1);
     auto rr = std::min(n, l - 1 + k - 1);
     auto tmp = get_string(ll, rr);
+    manacher(tmp);
+    rr = -1;
     for (auto i = 0; i < (int)tmp.size() && ll + i < l; i++) {
-        auto len = std::min<int>(k, tmp.size() - i);
-        auto t = manacher(tmp.substr(i, len));
-        update(1, 1, n, ll + i, t);
+        auto t = 0;
+        for (auto j = i * 2 + 2; j - (2 * i + 1) <= k; j++) {
+            if (p[j] >= j - (2 * i + 1))
+                t++;
+        }
+        right_k[ll + i] = t;
+        rr = ll + i;
     }
+    if (ll <= rr)
+        update(1, 1, n, ll, rr);
+
     // update interval at the end of [l, r]
     ll = std::max(l, r - k + 2);
     rr = std::min(n, r + k - 1);
     tmp = get_string(ll, rr);
+    manacher(tmp);
+    rr = -1;
     for (auto i = 0; i < (int)tmp.size() && ll + i <= r; i++) {
-        auto len = std::min<int>(k, tmp.size() - i);
-        auto t = manacher(tmp.substr(i, len));
-        update(1, 1, n, ll + i, t);
+        auto t = 0;
+        for (auto j = i * 2 + 2; j - (2 * i + 1) <= k; j++) {
+            if (p[j] >= j - (2 * i + 2) + 1)
+                t++;
+        }
+        right_k[ll + i] = t;
+        rr = ll + i;
     }
+    if (ll <= rr)
+        update(1, 1, n, ll, rr);
 }
 
 void init()
