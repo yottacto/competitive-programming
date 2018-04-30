@@ -1,60 +1,159 @@
 // ml:run = time -p $bin < input > output
 #include <iostream>
-#include <vector>
 #include <algorithm>
+#include <vector>
 #include <string>
 
-#define DEBUG 0
-
-using ll = int;
-
 auto constexpr maxn = 100004;
+char str[4 * maxn];
+int sum[4 * maxn];
+int all[4 * maxn];
+int right_k[maxn];
 
-int n, k;
 std::string s;
+int n, k;
 
-struct node
+void build_string(int id, int l, int r)
 {
-    // 0 means not covered
-    char ch;
-    ll count;
-    std::string left;
-    std::string right;
-};
-
-node tree[4 * maxn];
-
-auto all_same(int len)
-{
-    if (len <= k)
-        return (1 + len) * len / 2;
-    return (len - k) * k + (1 + k) * k / 2;
+    if (l == r) {
+        str[id] = s[l - 1];
+        return;
+    }
+    auto mid = (l + r) / 2;
+    build_string(id * 2, l, mid);
+    build_string(id * 2 + 1, mid + 1, r);
 }
 
-void push_down(int id, int l, int r)
+void build(int id, int l, int r)
 {
-    auto& t = tree[id];
-    if (!t.ch) return;
-    auto& tl = tree[id * 2];
-    auto& tr = tree[id * 2 + 1];
-    tl.ch = tr.ch = t.ch;
-
+    if (l == r) {
+        sum[id] = right_k[l];
+        return;
+    }
     auto mid = (l + r) / 2;
-    auto lenl = mid - l + 1;
-    tl.count = all_same(lenl);
-    tl.left = tl.right = std::string(std::min(lenl, k - 1), t.ch);
+    build(id * 2, l, mid);
+    build(id * 2 + 1, mid + 1, r);
+    sum[id] = sum[id * 2] + sum[id * 2 + 1];
+}
 
-    auto lenr = r - mid;
-    tr.count = all_same(lenr);
-    tr.left = tr.right = std::string(std::min(lenr, k - 1), t.ch);
+auto get_char(int id, int l, int r, int p)
+{
+    if (l == r)
+        return str[id];
+    if (str[id]) {
+        str[id * 2] = str[id * 2 + 1] = str[id];
+        str[id] = 0;
+    }
+    auto mid = (l + r) / 2;
+    if (p <= mid)
+        return get_char(id * 2, l, mid, p);
+    else
+        return get_char(id * 2 + 1, mid + 1, r, p);
+}
 
-    t.ch = 0;
+auto get_string(int id, int l, int r, int tl, int tr)
+{
+    if (l == r)
+        return std::string{str[id]};
+    if (str[id])
+        return std::string(tr - tl + 1, str[id]);
+    auto mid = (l + r) / 2;
+    std::string ret;
+    if (tl <= mid)
+        ret += get_string(id * 2, l, mid, tl, std::min(tr, mid));
+    if (tr > mid)
+        ret += get_string(id * 2 + 1, mid + 1, r, std::max(tl, mid + 1), tr);
+    return ret;
+}
+
+auto get_string(int l, int r)
+{
+    if (l > r) return std::string{""};
+    return get_string(1, 1, n, l, r);
+
+    // std::string ret;
+    // for (auto i = l; i <= r; i++)
+    //     ret += get_char(1, 1, n, i);
+    // return ret;
+}
+
+void cover_string(int id, int l, int r, int tl, int tr, char ch)
+{
+    if (tl <= l && r <= tr) {
+        str[id] = ch;
+        return;
+    }
+    if (str[id]) {
+        str[id * 2] = str[id * 2 + 1] = str[id];
+        str[id] = 0;
+    }
+    auto mid = (l + r) / 2;
+    if (tl <= mid)
+        cover_string(id * 2, l, mid, tl, tr, ch);
+    if (tr > mid)
+        cover_string(id * 2 + 1, mid + 1, r, tl, tr, ch);
+}
+
+auto get_sum(int id, int l, int r, int tl, int tr)
+{
+    if (tl <= l && r <= tr)
+        return sum[id];
+    if (all[id])
+        return (tr - tl + 1) * all[id];
+    auto ret = 0;
+    auto mid = (l + r) / 2;
+    if (tl <= mid)
+        ret += get_sum(id * 2, l, mid, tl, std::min(tr, mid));
+    if (tr > mid)
+        ret += get_sum(id * 2 + 1, mid + 1, r, std::max(mid + 1, tl), tr);
+    return ret;
+}
+
+void cover(int id, int l, int r, int tl, int tr, int k)
+{
+    if (tl <= l && r <= tr) {
+        all[id] = k;
+        sum[id] = k * (r - l + 1);
+        return;
+    }
+    auto mid = (l + r) / 2;
+    if (all[id]) {
+        all[id * 2] = all[id * 2 + 1] = all[id];
+        all[id] = 0;
+        sum[id * 2] = k * (mid - l + 1);
+        sum[id * 2 + 1] = k * (r - mid);
+    }
+    if (tl <= mid)
+        cover(id * 2, l, mid, tl, tr, k);
+    if (tr > mid)
+        cover(id * 2 + 1, mid + 1, r, tl, tr, k);
+    sum[id] = sum[id * 2] + sum[id * 2 + 1];
+}
+
+void update(int id, int l, int r, int tl, int tr)
+{
+    if (l == r) {
+        sum[id] = right_k[l];
+        return;
+    }
+    auto mid = (l + r) / 2;
+    if (all[id]) {
+        all[id * 2] = all[id * 2 + 1] = all[id];
+        all[id] = 0;
+        sum[id * 2] = k * (mid - l + 1);
+        sum[id * 2 + 1] = k * (r - mid);
+    }
+    if (tl <= mid)
+        update(id * 2, l, mid, tl, tr);
+    if (tr > mid)
+        update(id * 2 + 1, mid + 1, r, tl, tr);
+    sum[id] = sum[id * 2] + sum[id * 2 + 1];
 }
 
 char tmp[400];
 std::vector<int> p(400);
 
-auto manacher(std::string const& s, int l)
+auto manacher(std::string const& s)
 {
     tmp[0] = '$';
     tmp[1] = '#';
@@ -68,7 +167,6 @@ auto manacher(std::string const& s, int l)
     auto mx = 0;
     auto id = 0;
     auto count = 0;
-    l = 2 * (l + 1);
     for (auto i = 1; i < n; i++) {
         p[i] = mx > i
             ? std::min(p[2 * id - i], mx - i)
@@ -79,189 +177,99 @@ auto manacher(std::string const& s, int l)
             mx = i + p[i];
             id = i;
         }
-        if (tmp[i] == '#') {
-            if (i < l)
-                count += std::max(0, i + std::min(p[i], (k - (k&1)) + 1) - l);
-            else
-                count += std::max(0, l - i + std::min(p[i], (k - (k&1)) + 1) - 2);
-        } else {
-            if (i < l)
-                count += std::max(0, i + std::min(p[i], (k - !(k&1)) + 1) - l);
-            else
-                count += std::max(0, l - i + std::min(p[i], (k - !(k&1)) + 1) - 2);
+        count += i == p[i];
+    }
+    return count - 1;
+}
+
+auto query(int l, int r)
+{
+    auto sum = 0;
+    if (l <= r - k + 1)
+        sum = get_sum(1, 1, n, l, r - k + 1);
+    auto tmp = get_string(std::max(l, r - k + 2), r);
+    manacher(tmp);
+    for (auto i = 0; i < (int)tmp.size(); i++) {
+        auto t = 0;
+        for (auto j = i * 2 + 2; j <= 2 * (int)tmp.size(); j++)
+            if (p[j] >= j - (2 * i + 1))
+                t++;
+        sum += t;
+    }
+    return sum;
+}
+
+void update(int l, int r, char ch)
+{
+    cover_string(1, 1, n, l, r, ch);
+    if (l <= r - k + 1)
+        cover(1, 1, n, l, r - k + 1, k);
+    // update interval before [l, r]
+    auto ll = std::max(1, l - k + 1);
+    auto rr = std::min(n, l - 1 + k - 1);
+    auto tmp = get_string(ll, rr);
+    manacher(tmp);
+    rr = -1;
+    for (auto i = 0; i < (int)tmp.size() && ll + i < l; i++) {
+        auto t = 0;
+        for (auto j = i * 2 + 2; j - (2 * i + 1) <= k; j++) {
+            if (p[j] >= j - (2 * i + 1))
+                t++;
         }
+        right_k[ll + i] = t;
+        rr = ll + i;
     }
-    return count / 2;
-}
+    if (ll <= rr)
+        update(1, 1, n, ll, rr);
 
-auto calc(std::string const& a, int la, std::string const& b, int lb)
-{
-    if (la == 0 || lb == 0)
-        return 0;
-    return manacher(a.substr(a.size() - la, la) + b.substr(0, lb), la); // - manacher(sl) - manacher(sr);
-    // auto ts = sl + sr;
-    // auto count = 0;
-    // for (auto i = 0; i < la + lb; i++) {
-    //     auto j = 0;
-    //     for (; i - j >= 0 && i + j < la + lb && ts[i - j] == ts[i + j]; j++)
-    //         ;
-    //     j = std::min(j, (k + 1)/2);
-    //     if (i < la)
-    //         count += std::max(0, i + j - la);
-    //     else
-    //         count += std::max(0, la - (i - j + 1));
-
-    //     j = 0;
-    //     for (; i - j >= 0 && i + j + 1 < la + lb && ts[i - j] == ts[i + j + 1]; j++)
-    //         ;
-    //     j = std::min(j, k/2);
-    //     if (i < la)
-    //         count += std::max(0, (i + j + 1 - 1) - la + 1);
-    //     else
-    //         count += std::max(0, la - (i - j + 1));
-    // }
-    // return count;
-}
-
-void push_up(int id, int l, int r)
-{
-    auto& t = tree[id];
-    auto const& tl = tree[id * 2    ];
-    auto const& tr = tree[id * 2 + 1];
-    t.count = tl.count + tr.count
-        + calc(tl.right, std::min<int>(k-1, tl.right.size()),
-                tr.left, std::min<int>(k-1, tr.left.size()));
-
-    auto mid = (l + r) / 2;
-    auto lenl = mid - l + 1;
-    t.left = tl.left;
-    if ((int)tl.left.size() == lenl)
-        t.left += tr.left.substr(0, std::min(tr.left.size(), k - 1 - t.left.size()));
-
-    auto lenr = r - mid;
-    t.right = tr.right;
-    if ((int)tr.right.size() == lenr) {
-        auto len = std::min(k - 1 - t.right.size(), tl.right.size());
-        t.right = tl.right.substr(tl.right.size() - len, len) + t.right;
+    // update interval at the end of [l, r]
+    ll = std::max(l, r - k + 2);
+    rr = std::min(n, r + k - 1);
+    tmp = get_string(ll, rr);
+    manacher(tmp);
+    rr = -1;
+    for (auto i = 0; i < (int)tmp.size() && ll + i <= r; i++) {
+        auto t = 0;
+        for (auto j = i * 2 + 2; j - (2 * i + 1) <= k; j++) {
+            if (p[j] >= j - (2 * i + 2) + 1)
+                t++;
+        }
+        right_k[ll + i] = t;
+        rr = ll + i;
     }
+    if (ll <= rr)
+        update(1, 1, n, ll, rr);
 }
 
-void build_tree(int id, int l, int r)
+void init()
 {
-    auto& t = tree[id];
-    if (l == r) {
-        t.count = 1;
-        t.ch = 0;
-        t.left = t.right = s[l - 1];
-        return;
+    n = s.size();
+    build_string(1, 1, n);
+    for (auto i = 0; i < n; i++) {
+        auto len = std::min(k, n - i);
+        right_k[i + 1] = manacher(s.substr(i, len));
     }
-    auto mid = (l + r) / 2;
-    build_tree(id * 2,     l,       mid);
-    build_tree(id * 2 + 1, mid + 1, r);
-    push_up(id, l, r);
-}
-
-void print(int id, int l, int r)
-{
-    #if DEBUG
-    auto& t = tree[id];
-    std::cout << "tree[" << id << "] = {"
-        << "l="     << l       << ", "
-        << "r="     << r       << ", "
-        << "count=" << t.count << ", "
-        << "left=\""  << t.left  << "\", "
-        << "right=\"" << t.right << "\", "
-        << "ch=";
-
-    if (t.ch)
-        std::cout << t.ch;
-    else
-        std::cout << ".";
-    std::cout << "}\n";
-
-    if (l == r) {
-        return;
-    }
-    auto mid = (l + r) / 2;
-    print(id * 2,     l,       mid);
-    print(id * 2 + 1, mid + 1, r);
-    #endif
-}
-
-auto query(int id, int l, int r, int tl, int tr)
-{
-    if (tl <= l && r <= tr)
-        return tree[id].count;
-
-    if (tree[id].ch)
-        return all_same(tr - tl + 1);
-
-    auto mid = (l + r) / 2;
-    auto count = 0;
-    auto const& left = tree[id * 2];
-    auto const& right = tree[id * 2 + 1];
-
-    if (tl <= mid)
-        count += query(id * 2, l, mid, tl, std::min(tr, mid));
-    if (tr > mid)
-        count += query(id * 2 + 1, mid + 1, r, std::max(mid + 1, tl), tr);
-    count += calc(
-        left.right, std::min(std::min<int>(k - 1, left.right.size()), std::max(0, mid - tl + 1)),
-        right.left, std::min(std::min<int>(k - 1, left.right.size()), std::max(0, tr - mid))
-    );
-
-    return count;
-}
-
-void cover(int id, int l, int r, int tl, int tr, char ch)
-{
-    auto& t = tree[id];
-    if (tl <= l && r <= tr) {
-        t.ch = ch;
-        auto len = r - l + 1;
-        t.count = all_same(len);
-        t.left = t.right = std::string(std::min(len, k-1), ch);
-        return;
-    }
-
-    push_down(id, l, r);
-
-    auto mid = (l + r) / 2;
-    if (tl <= mid)
-        cover(id * 2, l, mid, tl, tr, ch);
-    if (tr > mid)
-        cover(id * 2 + 1, mid + 1, r, tl, tr, ch);
-
-    push_up(id, l, r);
+    build(1, 1, n);
 }
 
 int main()
 {
     std::ios::sync_with_stdio(false);
     std::cin >> s >> k;
-    n = s.size();
+    init();
 
-    build_tree(1, 1, n);
-
-    std::vector<ll> ans;
     int q;
     std::cin >> q;
     while (q--) {
-        int id, l, r;
-        std::cin >> id >> l >> r;
-        if (id == 2) {
-            ans.emplace_back(query(1, 1, n, l, r));
-            // std::cout << query(1, 1, n, l, r) << "\n";
-        } else {
+        int opt, l, r;
+        std::cin >> opt >> l >> r;
+        if (opt == 1) {
             char ch;
             std::cin >> ch;
-            cover(1, 1, n, l, r, ch);
+            update(l, r, ch);
+        } else {
+            std::cout << query(l, r) << "\n";
         }
-
-        // print(1, 1, n);
     }
-
-    for (auto i : ans)
-        std::cout << i << "\n";
 }
 
