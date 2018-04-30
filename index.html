@@ -472,9 +472,9 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <td class="tableblock halign-center valign-middle"><p class="tableblock">&#10003;</p></td>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">brute-force</p></td>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">给定 <code>N</code> 个矩形边框重叠后的俯视图（只有重叠部分的字符会被覆盖），让还原一组可能的矩形以及顺序。</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">每次枚举左上角和边长，看看有没有对应的矩形，然后把这个矩形删除后用一个万能字
-符替代，只要一个矩形不是全都是万能字符就好。这题比较坑的在于输入输出，用 <code>char</code>
-，按字节理解，如果要可视化的化单独写个程序。</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">每次枚举左上角和边长，看看有没有对应的矩形，然后把这个矩形删除后用一个万能字符替代，
+只要一个矩形不是全都是万能字符就好。这题比较坑的在于输入输出，用 <code>char</code> ，
+按字节理解，如果要可视化的化单独写个程序。</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">ural1030</p></td>
@@ -512,13 +512,13 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <td class="tableblock halign-center valign-middle"><p class="tableblock">ural1065</p></td>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">&#10003;</p></td>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">dp, computational geometry</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">给定一个 n(&le; 50) 个点的凸多边形，顶点是哨塔，按照给定的顺序沿多边形巡逻。现在
-想减少巡逻距离，可以选择不经过若干哨塔。但是给定 m( &le; 1000) 个纪念碑，要求纪念碑
-都在巡逻路线内部，求最短的巡逻路线。</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">为了处理环形关系我们可以将 n 个点复制一遍。然后可以预处理出 i 到 j 这一段左边
-是不是有纪念碑，然后就可以枚举起点来做 dp，其实也可以 floyd，最后要记得枚举三个
-点 i, j, k 来算最短距离，防止算到 i 到 j 然后 j 到 i 这种共线的情况。i, j, k 三
-个点也不能是共线的。</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">给定一个 n(&le; 50) 个点的凸多边形，顶点是哨塔，按照给定的顺序沿多边形巡逻。
+现在想减少巡逻距离，可以选择不经过若干哨塔。但是给定 m( &le; 1000) 个纪念碑，
+要求纪念碑都在巡逻路线内部，求最短的巡逻路线。</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">为了处理环形关系我们可以将 n 个点复制一遍。然后可以预处理出 i 到 j
+这一段左边是不是有纪念碑，然后就可以枚举起点来做 dp，其实也可以 floyd，
+最后要记得枚举三个点 i, j, k 来算最短距离，防止算到 i 到 j 然后 j 到 i
+这种共线的情况。i, j, k 三个点也不能是共线的。</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">ural1097</p></td>
@@ -532,26 +532,24 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <td class="tableblock halign-center valign-middle"><p class="tableblock">ural1043</p></td>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">&#10003;</p></td>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">geometry</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">给定圆弧两段点，以及圆弧上一点（都是整点），问用平行坐标轴且顶点坐标的矩形完
-全覆盖这个圆弧最小面积。</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">给定圆弧两段点，以及圆弧上一点（都是整点），问用平行坐标轴且顶点坐标的矩形完全覆盖这个圆弧最小面积。</p></td>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">点在圆弧上用角度判断就好，都转换到 [0, 2pi)。</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">ural1062</p></td>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">&#10003;</p></td>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">geometry, half-plane intersection</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">给定铁人三项每个人每项的速度, 问是否存在一个三种路线的长度使得第 i 个人总时间
-比所有人都小。</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">给定铁人三项每个人每项的速度, 问是否存在一个三种路线的长度使得第 i 个人总时间比所有人都小。</p></td>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">假设第一项距离为 x，第二项为 y，那么可以假设第三项为 1-x-y，我们可以得道 n-1
-个半平面，然后求交就行。注意还有 x &ge; 0, y &ge; 0, x+y &le; 1。还有要注意的是
-得到的直线可能无解，或者全平面，要特殊处理。TODO 随机增量法。</p></td>
+个半平面，然后求交就行。注意还有 x &ge; 0, y &ge; 0, x+y &le; 1。
+还有要注意的是得到的直线可能无解，或者全平面，要特殊处理。TODO 随机增量法。</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">ural1046</p></td>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">&#10003;</p></td>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">geometry, complex, rotate, equation</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">假设 n 个点的凸多边形，每条边向外有个等腰三角形，顶点为 Mi, 现在已知 Mi 的坐标
-和角度 ai，求出一组凸多边形顶点坐标。保证有解。</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">假设 n 个点的凸多边形，每条边向外有个等腰三角形，顶点为 Mi, 现在已知 Mi
+的坐标和角度 ai，求出一组凸多边形顶点坐标。保证有解。</p></td>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">我们假设凸多边形第一个顶点坐标为 p0，那么可以在复平面上通过向量旋转得到 p1，
 这样绕一圈可以得到一个 p0 关于 p0 的方程。解出 p0 再推出所有点就行。</p></td>
 </tr>
@@ -561,20 +559,18 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <td class="tableblock halign-center valign-middle"><p class="tableblock">matroid, greedy, gaussian-elimination</p></td>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">给定 m(&le; 2000) 个 n(&le; &#8656; 50) 维向量，每个向量有个价格，求找 n 个线性无关向量的最小价值，
 输出字典序最小的一组解。无解输出 0。</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">贪心做，排序后不断取，如果加入当前向量还能线性无关，就加入，顺便把下面的向量当前维度消掉。做当前向量时要把
-非零列交换过来。这题用 double 会跪，需要用模素数的整数运算才能过。支持这套贪心的理论其实就是 matroid。
-做这题发现还有人写过这个，刘雨辰《对拟阵的初步研究》。TODO</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">贪心做，排序后不断取，如果加入当前向量还能线性无关，就加入，顺便把下面的向量当前维度消掉。
+做当前向量时要把非零列交换过来。这题用 double 会跪，需要用模素数的整数运算才能过。
+支持这套贪心的理论其实就是 matroid。做这题发现还有人写过这个，刘雨辰《对拟阵的初步研究》。TODO</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">ural1063</p></td>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">&#10003;</p></td>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">graph, euler paths</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">一个多米若骨牌由两个数字（数字 &le; 6）构成，现在给定 n(&le; 100) 个多米若骨
-牌，想将其排成一排，使得相邻头尾相接的数字相等。问要插入怎样的骨牌使得插入骨牌
-的数字和最小。</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">看着很复杂，其实就是一个顶点数为 6 的图，一个骨牌就是一条边，最后要求的就是一
-个欧拉路。不过虽然抽象出来很简单，但是加边情况很多，似乎也没什么好办法。最后暴
-力连接连通分量，然后贪心连奇数度的边。</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">一个多米若骨牌由两个数字（数字 &le; 6）构成，现在给定 n(&le; 100) 个多米若骨牌，
+想将其排成一排，使得相邻头尾相接的数字相等。问要插入怎样的骨牌使得插入骨牌的数字和最小。</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">看着很复杂，其实就是一个顶点数为 6 的图，一个骨牌就是一条边，最后要求的就是一个欧拉路。
+不过虽然抽象出来很简单，但是加边情况很多，似乎也没什么好办法。最后暴力连接连通分量，然后贪心连奇数度的边。</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">ural1058</p></td>
@@ -588,9 +584,9 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <td class="tableblock halign-center valign-middle"><p class="tableblock">&#10003;</p></td>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">data structures</p></td>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">给定 n(&le; 10^5) 个首尾相接的线段的 x 坐标，表示一个山从下到上的形状。
-每个线段上可能有若干索道，可以直线上升到于下一个线段相交的位置。告诉你每个
-线段上移动一个单位 x 距离所需要的时间以及每个索道所需要的时间，并且你只能
-按 y 递增的方向移动，问到山顶的最短时间。（索道总数不超过 10\^5）。</p></td>
+每个线段上可能有若干索道，可以直线上升到于下一个线段相交的位置。告诉你每个线段上移动一个单位
+x 距离所需要的时间以及每个索道所需要的时间，并且你只能按 y 递增的方向移动，
+问到山顶的最短时间。（索道总数不超过 10^5）。</p></td>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">我们可以按顺序处理每个区间，看这个区间 x 坐标范围内有多少索道上升过来，
 这个可以用 set 的 lower_bound 维护出不小于左边界 l 的位置。也可以用树状数组，
 二分出这个位置。
@@ -604,8 +600,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <td class="tableblock halign-center valign-middle"><p class="tableblock">给定 n 个点(&le; 10^9) 个点，每个点每秒会增加 p 单位能量，你有个 repo 可以存储能量，
 现在有两种操作，可以在 t 时刻把 l 到 r 的能量都存储到 repo 里，或者在 t 时刻，把 repo
 里的能量全部用于增加 i-d+1 到 i+d-1 范围内的点，第 i 个点增加 d*x，与 i 距离为 1 的增加 (d-1)*x，
-一直到增加 x 为止，x 通过用尽全部能量可以解除来。操作个数不不超过 10^5，每次存储操作输出
-repo 的能量值。</p></td>
+一直到增加 x 为止，x 通过用尽全部能量可以解除来。操作个数不不超过 10^5，每次存储操作输出 repo 的能量值。</p></td>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">我们可以用线段树维护一段区间的和以及一段区间增加的等差数列，维护 a0 和 delta, clear 以及 sum。
 然后还有要注意的是题目需要离散化，所以只能离线做了，我离散化的方式是一个节点
 维护的坐标区间 [l, r] 实际包括了 r 右边和 r+1 直接没被离散化到的点。然后为了简化处理，
@@ -614,11 +609,42 @@ repo 的能量值。</p></td>
 划分成 [l, mid] 和 [mid+1, r] 的中间没被维护到的点。这题被卡了一下空间常熟。</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">urla1965</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">ural1965</p></td>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">&#10003;</p></td>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">dynamic programming</p></td>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">给定 n(&le; 10^5) 的一个排列，问能否用两个不相交的单调序列覆盖。</p></td>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">TODO</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">ural2075</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">&#10003;</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">data structures, self-balancing binary search tree, avl</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">TODO</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">TODO</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">ural2096</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">&#10003;</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">data structures, offline</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">TODO</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">如果要强制在线的需要可持久化。不过可以离线做，如果是个链状的结构很简单，一次扫描过去就行，
+但是是个树状的结构，那么我们也可以在 dfs 的过程中，当处理完一个节点恢复就行。
+这里最坑的是 ural 空间卡的比较紧。用了 std::vector 的 reserve 在 g++ 没什么用，
+结果用 clang 就过了 …</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">ural2042</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">&#10003;</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">data structures, segment tree</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">给定一个长度为 n(&le; 10^5) 的字符串，给定一个数 k(&le; 50)，现在有两种操作，
+将一段区间的字符都改成 c，或者询问一段区间长度不超过 k 的回文串的数目。操作数目不超过 (&le; 10^5)。</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">一开始想了一种做法，维护每个区间两端连续不超过 50 的字符串，然后每次合并跑下 manacher，
+就能维护出每个区间回文串个数的信息。但是常数太大了。也可以维护每个点为左端点，长度不超过 k 的回文串个数。
+假如说有一段区间覆盖 [l, r]，为了简化讨论，假设区间足够长，那么 [l, r-k+1] 的上述值都成 k。
+然后还要单独处理 [l-1-k+1, l-1] 以及 [r-k+2, r] 这两段区间。为了降低常数，对这两段区间
+的字符串分别做个 manacher，不要一个一个单点修改，一段区间一段区间修改。
+事实上常数更低的正确做法是使用 non-recursive segment tree。
+参考这个链接 <a href="http://codeforces.com/blog/entry/18051">Efficient and easy segment trees</a> TODO。</p></td>
 </tr>
 </tbody>
 </table>
@@ -649,13 +675,13 @@ repo 的能量值。</p></td>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">cf906c</p></td>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">&#10003;</p></td>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">dp, tree, connectivity</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">主人认识一些朋友，朋友也可能认识一些朋友，以此类推，现在想让所有人都相互认识
-，每一次可以选一个人将他认识的朋友相互介绍认识，问最少进行几次介绍。</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">注意到如果是树的话要介绍的次数是总顶点数减去叶子顶点数。如果是个图，选出来进行介绍
-的顶点要连通，其次加上选出来顶点的邻居顶点要包含所有顶点。我们可以用状态压缩 DP 维护
-， <code>connected[state]=true</code> 。那么有 <code>connected[state | (1&lt;&lt;v)]=true</code>, <code>v</code> 是
-<code>state</code> 表示节点的一个没被包含的邻居。最后答案就是最小连通顶点数的 <code>state</code> 且满足
-<code>state</code> 中所有顶点加上其的邻居包含了全部的顶点。</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">主人认识一些朋友，朋友也可能认识一些朋友，以此类推，现在想让所有人都相互认识，
+每一次可以选一个人将他认识的朋友相互介绍认识，问最少进行几次介绍。</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">注意到如果是树的话要介绍的次数是总顶点数减去叶子顶点数。如果是个图，
+选出来进行介绍的顶点要连通，其次加上选出来顶点的邻居顶点要包含所有顶点。
+我们可以用状态压缩 DP 维护， <code>connected[state]=true</code> 。
+那么有 <code>connected[state | (1&lt;&lt;v)]=true</code>, <code>v</code> 是 <code>state</code> 表示节点的一个没被包含的邻居。
+最后答案就是最小连通顶点数的 <code>state</code> 且满足 <code>state</code> 中所有顶点加上其的邻居包含了全部的顶点。</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">cf906d</p></td>
@@ -675,11 +701,12 @@ repo 的能量值。</p></td>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">cf901b</p></td>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">&#10003;</p></td>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">construction</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">求恰好 <code>n</code> 步的多项式 Euclid&#8217;s algorithm。满足所有系数只能是 <code>-1, 0, 1</code> 且最
-高次不能超过 <code>n</code>, 第一个多项式的次数要比第二个的大。</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">整数的 Euclid&#8217;s algorithm 最坏情况在 Fibonacci 数列上发生。对于多项式，我们可
-以类似构造 \(P_{n+1} = x P_n \pm P_{n-1}\)，要注意多项式系数的约束条件
-。还有一种更好的方式， \(P_{n+1} = x P_n + P_{n-1} \mod 2\)。</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">求恰好 <code>n</code> 步的多项式 Euclid&#8217;s algorithm。满足所有系数只能是 <code>-1, 0, 1</code>
+且最高次不能超过 <code>n</code>, 第一个多项式的次数要比第二个的大。</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">整数的 Euclid&#8217;s algorithm 最坏情况在 Fibonacci 数列上发生。对于多项式，
+我们可以类似构造 \(P_{n+1} = x P_n \pm P_{n-1}\)，
+要注意多项式系数的约束条件。还有一种更好的方式，
+\(P_{n+1} = x P_n + P_{n-1} \mod 2\)。</p></td>
 </tr>
 </tbody>
 </table>
@@ -711,8 +738,7 @@ repo 的能量值。</p></td>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">&#10003;</p></td>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">tree dp, pack</p></td>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">求使一棵树有一个大小为 p 的独立的子树至少需要删除多少边。</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">树形 dp，对每个顶点的子树做背包。按 dfs 序不断把之前的子树所有状态先处理完实
-现比较简单。</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">树形 dp，对每个顶点的子树做背包。按 dfs 序不断把之前的子树所有状态先处理完实现比较简单。</p></td>
 </tr>
 </tbody>
 </table>
@@ -721,7 +747,7 @@ repo 的能量值。</p></td>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-04-30 11:54:44 UTC
+Last updated 2018-04-30 15:48:17 UTC
 </div>
 </div>
 <script type="text/x-mathjax-config">
