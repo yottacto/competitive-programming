@@ -51,22 +51,27 @@ void push_down(int id, int l, int r)
     t.ch = 0;
 }
 
+char tmp[400];
+std::vector<int> p(400);
+
 auto manacher(std::string const& s, int l) -> ll
 {
-    std::string tmp{"$#"};
+    tmp[0] = '$';
+    tmp[1] = '#';
+    int n = 2;
     for (auto ch : s) {
-        tmp += ch;
-        tmp += '#';
+        tmp[n++] = ch;
+        tmp[n++] = '#';
     }
+    tmp[n] = '!';
 
-    std::vector<int> p(tmp.size());
     auto mx = 0;
     auto id = 0;
     auto mlen = 0;
     auto mcenter = 0;
     auto count = 0ll;
-    l++;
-    for (auto i = 1; i < (int)tmp.size(); i++) {
+    l = 2 * (l + 1);
+    for (auto i = 1; i < n; i++) {
         p[i] = mx > i
             ? std::min(p[2 * id - i], mx - i)
             : 1;
@@ -81,15 +86,15 @@ auto manacher(std::string const& s, int l) -> ll
             mcenter = i;
         }
         if (tmp[i] == '#') {
-            if (i < 2 * l)
-                count += std::max(0, i + std::min(p[i], (k - (k&1)) + 1) - 1 - 2*l + 1);
+            if (i < l)
+                count += std::max(0, i + std::min(p[i], (k - (k&1)) + 1) - l);
             else
-                count += std::max(0, 2 * l - (i - std::min(p[i], (k - (k&1)) + 1) + 1) - 1);
+                count += std::max(0, l - i + std::min(p[i], (k - (k&1)) + 1) - 2);
         } else {
-            if (i < 2 * l)
-                count += std::max(0, i + std::min(p[i], (k - !(k&1)) + 1) - 1 - 2*l + 1);
+            if (i < l)
+                count += std::max(0, i + std::min(p[i], (k - !(k&1)) + 1) - l);
             else
-                count += std::max(0, 2 * l - (i - std::min(p[i], (k - !(k&1)) + 1) + 1) - 1);
+                count += std::max(0, l - i + std::min(p[i], (k - !(k&1)) + 1) - 2);
         }
     }
     return count / 2;
@@ -99,11 +104,7 @@ auto calc(std::string const& a, int la, std::string const& b, int lb) -> ll
 {
     if (la == 0 || lb == 0)
         return 0;
-    la = std::min(la, (int)a.size());
-    lb = std::min(lb, (int)b.size());
-    std::string sl(a, a.size() - la, la);
-    std::string sr(b, 0, lb);
-    return manacher(sl + sr, la); // - manacher(sl) - manacher(sr);
+    return manacher(a.substr(a.size() - la, la) + b.substr(0, lb), la); // - manacher(sl) - manacher(sr);
     // auto ts = sl + sr;
     // auto count = 0ll;
     // for (auto i = 0; i < la + lb; i++) {
@@ -131,8 +132,8 @@ auto calc(std::string const& a, int la, std::string const& b, int lb) -> ll
 void push_up(int id, int l, int r)
 {
     auto& t = tree[id];
-    auto& tl = tree[id * 2    ];
-    auto& tr = tree[id * 2 + 1];
+    auto const& tl = tree[id * 2    ];
+    auto const& tr = tree[id * 2 + 1];
     t.count = tl.count + tr.count
         + calc(tl.right, std::min(k-1, (int)tl.right.size()),
                 tr.left, std::min(k-1, (int)tr.left.size()));
@@ -140,18 +141,14 @@ void push_up(int id, int l, int r)
     auto mid = (l + r) / 2;
     auto lenl = mid - l + 1;
     t.left = tl.left;
-    if ((int)tl.left.size() == lenl) {
-        t.left += tr.left;
-        if ((int)t.left.size() > k - 1)
-            t.left.resize(k - 1);
-    }
+    if ((int)tl.left.size() == lenl)
+        t.left += tr.left.substr(0, k - 1 - t.left.size());
 
     auto lenr = r - mid;
     t.right = tr.right;
     if ((int)tr.right.size() == lenr) {
         auto len = std::min(k - 1 - t.right.size(), tl.right.size());
-        std::string tmp(tl.right, tl.right.size() - len, len);
-        t.right = tmp + t.right;
+        t.right = tl.right.substr(tl.right.size() - len, len) + t.right;
     }
 }
 
@@ -207,16 +204,16 @@ auto query(int id, int l, int r, int tl, int tr) -> ll
 
     auto mid = (l + r) / 2;
     auto count = 0ll;
-    auto& left = tree[id * 2];
-    auto& right = tree[id * 2 + 1];
+    auto const& left = tree[id * 2];
+    auto const& right = tree[id * 2 + 1];
 
     if (tl <= mid)
         count += query(id * 2, l, mid, tl, std::min(tr, mid));
     if (tr > mid)
         count += query(id * 2 + 1, mid + 1, r, std::max(mid + 1, tl), tr);
     count += calc(
-        left.right, std::min(k - 1, std::max(0, mid - tl + 1)),
-        right.left, std::min(k - 1, std::max(0, tr - mid))
+        left.right, std::min(std::min<int>(k - 1, left.right.size()), std::max(0, mid - tl + 1)),
+        right.left, std::min(std::min<int>(k - 1, left.right.size()), std::max(0, tr - mid))
     );
 
     return count;
@@ -252,20 +249,25 @@ int main()
 
     build_tree(1, 1, n);
 
+    std::vector<ll> ans;
     int q;
     std::cin >> q;
     while (q--) {
         int id, l, r;
         std::cin >> id >> l >> r;
         if (id == 2) {
-            std::cout << query(1, 1, n, l, r) << "\n";
+            ans.emplace_back(query(1, 1, n, l, r));
+            // std::cout << query(1, 1, n, l, r) << "\n";
         } else {
             char ch;
             std::cin >> ch;
             cover(1, 1, n, l, r, ch);
         }
 
-        print(1, 1, n);
+        // print(1, 1, n);
     }
+
+    for (auto i : ans)
+        std::cout << i << "\n";
 }
 
