@@ -435,11 +435,12 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="sectionbody">
 <table class="tableblock frame-all grid-all spread">
 <colgroup>
-<col style="width: 9.0909%;">
-<col style="width: 9.0909%;">
-<col style="width: 9.0909%;">
-<col style="width: 36.3636%;">
-<col style="width: 36.3637%;">
+<col style="width: 8.3333%;">
+<col style="width: 8.3333%;">
+<col style="width: 8.3333%;">
+<col style="width: 8.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3335%;">
 </colgroup>
 <thead>
 <tr>
@@ -448,17 +449,15 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <th class="tableblock halign-center valign-middle">status</th>
 <th class="tableblock halign-center valign-middle">tags</th>
 <th class="tableblock halign-center valign-middle">description</th>
+<th class="tableblock halign-center valign-middle">solution</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">solution</p></td>
-<td class="tableblock halign-center valign-middle" rowspan="3"><p class="tableblock">r454 (906)</p></td>
+<td class="tableblock halign-center valign-middle" rowspan="3"><p class="tableblock"><a href="http://codeforces.com/contest/906">r454</a></p></td>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">c</p></td>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">&#10003;</p></td>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">dp, tree, connectivity</p></td>
-</tr>
-<tr>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">主人认识一些朋友，朋友也可能认识一些朋友，以此类推，现在想让所有人都相互认识，
 每一次可以选一个人将他认识的朋友相互介绍认识，问最少进行几次介绍。</p></td>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">注意到如果是树的话要介绍的次数是总顶点数减去叶子顶点数。如果是个图，
@@ -466,49 +465,52 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 我们可以用状态压缩 DP 维护， <code>connected[state]=true</code> 。
 那么有 <code>connected[state | (1&lt;&lt;v)]=true</code>, <code>v</code> 是 <code>state</code> 表示节点的一个没被包含的邻居。
 最后答案就是最小连通顶点数的 <code>state</code> 且满足 <code>state</code> 中所有顶点加上其的邻居包含了全部的顶点。</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">d</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">&#10003;</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">d</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">&#10003;</p></td>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">math, number theory, euler theorem</p></td>
 <td class="tableblock halign-center valign-middle"></td>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">if \(n \geq \varphi(p)\), then \(a^n \equiv a^{n \bmod \varphi(p) + \varphi(p)} \pmod{p}\)</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">e</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">e</p></td>
 <td class="tableblock halign-center valign-middle"></td>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">string</p></td>
 <td class="tableblock halign-center valign-middle"></td>
 <td class="tableblock halign-center valign-middle"></td>
-<td class="tableblock halign-center valign-middle" rowspan="4"><p class="tableblock">r453 (901)</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-center valign-middle" rowspan="4"><p class="tableblock"><a href="http://codeforces.com/contest/901">r453</a></p></td>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">b</p></td>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">&#10003;</p></td>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">construction</p></td>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">求恰好 <code>n</code> 步的多项式 Euclid&#8217;s algorithm。满足所有系数只能是 <code>-1, 0, 1</code>
 且最高次不能超过 <code>n</code>, 第一个多项式的次数要比第二个的大。</p></td>
-</tr>
-<tr>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">整数的 Euclid&#8217;s algorithm 最坏情况在 Fibonacci 数列上发生。对于多项式，
 我们可以类似构造 \(P_{n+1} = x P_n \pm P_{n-1}\)，
 要注意多项式系数的约束条件。还有一种更好的方式，
 \(P_{n+1} = x P_n + P_{n-1} \mod 2\)。</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">c</p></td>
 <td class="tableblock halign-center valign-middle"></td>
 <td class="tableblock halign-center valign-middle"></td>
+<td class="tableblock halign-center valign-middle"></td>
+<td class="tableblock halign-center valign-middle"></td>
 </tr>
 <tr>
-<td class="tableblock halign-center valign-middle"></td>
-<td class="tableblock halign-center valign-middle"></td>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">d</p></td>
 <td class="tableblock halign-center valign-middle"></td>
+<td class="tableblock halign-center valign-middle"></td>
+<td class="tableblock halign-center valign-middle"></td>
+<td class="tableblock halign-center valign-middle"></td>
 </tr>
 <tr>
-<td class="tableblock halign-center valign-middle"></td>
-<td class="tableblock halign-center valign-middle"></td>
-<td class="tableblock halign-center valign-middle"></td>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">e</p></td>
+<td class="tableblock halign-center valign-middle"></td>
+<td class="tableblock halign-center valign-middle"></td>
+<td class="tableblock halign-center valign-middle"></td>
 <td class="tableblock halign-center valign-middle"></td>
 </tr>
 </tbody>
@@ -518,7 +520,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-05-02 01:39:01 UTC
+Last updated 2018-05-02 01:45:45 UTC
 </div>
 </div>
 <script type="text/x-mathjax-config">
