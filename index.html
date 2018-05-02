@@ -658,6 +658,20 @@ x 距离所需要的时间以及每个索道所需要的时间，并且你只能
 到目标状态 1023 的期望次数，每次转移只要枚举每条边，然后考虑自环解个方程就行。
 最后 f[0] 就是答案。</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">ural1627</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">&#10003;</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">counting, matrix tree theorem</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">给一个无向图，求生成树个数。</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">matrix tree theorem 模板题，求行列式的值的时候可以利用行列式性质，例如一行乘以 t 加到另一行值不变，
+交换两行值变相反数，行列式某行乘以 k 等于整个行列式值乘 k 等。这个过程类似高斯消元，
+但是因为数很大，所以一般求的是行列式取模。而我们又不想引入除法，在消两行的过程中，
+可以用类似 gcd 的过程，进行 O(log n) 次乘减，直到一个变为零为止。
+当消到上三角或下三角的时候，主对角线的乘积就是行列式的值了。
+matrix tree theorem 这里就不详讲了，很巧妙，参考 <a href="https://en.wikipedia.org/wiki/Kirchhoff%27s_theorem#An_example_using_the_matrix-tree_theorem">wiki</a>。
+首先你需要得到图的 Laplacian matrix，然后随便去掉一行一列就行列式就好。
+wiki 上还有写扩展，比如对于 multigraph 也是适用的，还有就是 graphic matroid 等。TODO。</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -705,7 +719,7 @@ x 距离所需要的时间以及每个索道所需要的时间，并且你只能
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-05-02 14:37:41 UTC
+Last updated 2018-05-02 14:46:18 UTC
 </div>
 </div>
 <script type="text/x-mathjax-config">
