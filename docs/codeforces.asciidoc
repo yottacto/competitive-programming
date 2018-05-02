@@ -7,12 +7,12 @@
 
 == Codeforces
 
-[cols="^.^1, ^.^1, ^.^1, ^.^4, ^.^4", options="header"]
+[cols="^.^1, ^.^1, ^.^1, ^.^1, ^.^4, ^.^4", options="header"]
 |====
 
 | round | problem | status | tags | description | solution
 
-.3+| r454 (906)
+.3+| http://codeforces.com/contest/906[r454]
 
 | c  | {y}
 | dp, tree, connectivity
@@ -34,7 +34,7 @@
 |
 |
 
-.4+| r453 (901)
+.4+| http://codeforces.com/contest/901[r453]
 
 | b | {y}
 | construction
