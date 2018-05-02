@@ -626,10 +626,13 @@ x 距离所需要的时间以及每个索道所需要的时间，并且你只能
 <td class="tableblock halign-center valign-middle"><p class="tableblock">ural2096</p></td>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">&#10003;</p></td>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">data structures, offline</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">TODO</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">初始主人（编号 0）有 n(&le; 10^5) 个计划，然后有 m(&le; 10^5) 个朋友，按顺序编号 1 到 m。
+每个朋友首先会有 q 个询问，询问编号比他小的某人的某项计划是什么。然后询问完后，他只会以编号比他小的某人的计划为基础，
+然后在此基础上进行 c 个修改，每个修改就是以等差数列的位置修改 k 个计划为一个新的计划。所有 c 的和不超过 10^5，
+所有修改计划总数的和不超过 10^5，所有询问不超过 5*10^6。</p></td>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">如果要强制在线的需要可持久化。不过可以离线做，如果是个链状的结构很简单，一次扫描过去就行，
 但是是个树状的结构，那么我们也可以在 dfs 的过程中，当处理完一个节点恢复就行。
-这里最坑的是 ural 空间卡的比较紧。用了 std::vector 的 reserve 在 g++ 没什么用，
+这里最坑的是 ural 空间卡的比较紧。用了 <code>std::vector</code> 的 reserve 在 g++ 没什么用，
 结果用 clang 就过了 …</p></td>
 </tr>
 <tr>
@@ -729,7 +732,7 @@ wiki 上还有写扩展，比如对于 multigraph 也是适用的，还有就是
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-05-02 14:59:15 UTC
+Last updated 2018-05-02 15:09:15 UTC
 </div>
 </div>
 <script type="text/x-mathjax-config">
