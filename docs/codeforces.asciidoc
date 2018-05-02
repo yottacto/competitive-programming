@@ -60,5 +60,28 @@ latexmath:[P_{n+1} = x P_n + P_{n-1} \mod 2]。
 |
 |
 
+.4+| http://codeforces.com/contest/949[r469]
+
+| c | {y}
+| graph, connectivity
+|
+|
+
+| d | {y}
+| greedy, monotonicity, dont't cross
+|
+|
+
+| e |
+| observations, divide and conquer
+|
+| TODO bonus problems
+
+| f |
+|
+|
+|
+
+
 |====
 
