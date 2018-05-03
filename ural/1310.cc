@@ -47,7 +47,7 @@ struct solver
 struct big_integer
 {
     // single digit
-    big_integer(int x = 0) : a{x} {}
+    big_integer(char x = 0) : a{x} {}
 
     big_integer(std::string const& s)
     {
@@ -92,7 +92,7 @@ struct big_integer
         a.resize(len);
     }
 
-    std::vector<int> a;
+    std::vector<char> a;
 };
 
 inline auto operator+(big_integer lhs, big_integer const& rhs)
