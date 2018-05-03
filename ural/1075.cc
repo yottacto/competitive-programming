@@ -35,6 +35,16 @@ double law_of_cosines(double a, double b, double c)
     return (a * a + b * b - c * c) / (2. * a * b);
 }
 
+template <class T>
+T abs(T x) { return x < 0 ? -x : x; }
+
+auto my_acos(double x)
+{
+    if (x > +1) x = +1;
+    if (x < -1) x = -1;
+    return std::acos(x);
+}
+
 double calc(pos const& a, pos const& b, pos const& c)
 {
     auto len_ac = dis(a, c);
@@ -51,11 +61,11 @@ double calc(pos const& a, pos const& b, pos const& c)
         return len_ab;
 
     double d1 = std::sqrt(len_ac * len_ac - r * r);
-    double a1 = std::acos(r / len_ac);
+    double a1 = my_acos(r / len_ac);
     double d2 = std::sqrt(len_bc * len_bc - r * r);
-    double a2 = std::acos(r / len_bc);
+    double a2 = my_acos(r / len_bc);
 
-    double alpha = std::acos(law_of_cosines(len_ac, len_bc, len_ab));
+    double alpha = my_acos(law_of_cosines(len_ac, len_bc, len_ab));
     double a_mid = alpha - a1 - a2;
 
     // std::cerr << d1 << " " << d2 << " " << a_mid * r << "\n";
