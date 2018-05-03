@@ -1,4 +1,4 @@
-// ml:run = $bin < input
+// ml:run = time -p $bin < input
 #include <iostream>
 #include <string>
 #include <vector>
@@ -13,12 +13,16 @@ struct solver
     {
         for (auto now = 1; now <= m; now++)
             f[1][now][now % k] = T{1};
+        for (auto now = 1; now <= m; now++)
+            for (auto r = 0; r < k; r++)
+                f[1][now][r] += f[1][now - 1][r];
+
         for (int i = 2; i <= l; i++)
             for (auto now = 1; now <= m; now++)
-            for (auto prev = 1; prev <= m; prev++)
-                for (auto r = 0; r < k; r++)
-                    f[i][now][(r + now) % k] +=
-                        f[i - 1][prev][r];
+                for (auto r = 0; r < k; r++) {
+                    f[i][now][r] += f[i][now - 1][r];
+                    f[i][now][(r + now) % k] += f[i - 1][m][r];
+                }
     }
 
     void operator()(T n)
@@ -27,7 +31,8 @@ struct solver
         for (auto i = l; i >= 1; i--) {
             auto j = 1;
             for (; !(n < f[i][j][r]); j++)
-                n -= f[i][j][r];
+                ;
+            n -= f[i][j - 1][r];
             std::cout << j << " ";
             r = (r - j) % k;
             if (r < 0) r += k;
