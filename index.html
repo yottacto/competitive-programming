@@ -687,6 +687,19 @@ matrix tree theorem 这里就不详讲了，很巧妙，参考 <a href="https://
 首先你需要得到图的 Laplacian matrix，然后随便去掉一行一列就行列式就好。
 wiki 上还有写扩展，比如对于 multigraph 也是适用的，还有就是 graphic matroid 等。TODO。</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">ural1075</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">&#10003;</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">geometry, float accuracy</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">大致意思，给定空间中三点 A, B, C，其中 C 是一个实心球体的球心，告诉你半径 R，A 和 B
+一定在球外，让球用一根线连接 A, B，最短的线的长度，线不能穿过球。</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">这题不是很难，首先判断球心到 AB 距离是不是大于等于 R，如果是直接返回 AB 距离，
+接下来的思路是判断 AB 是不是和球有交，因为虽然现在 AB 所在的直线一定是穿过球的，
+但是 AB 可能在球的一侧，这个画个界面图，观察下两个角度，用叉积就可以判断出来。
+接下来用一些余弦定理就可以算出圆上那段的圆心角（根据大圆定理，这段圆心角对应弧度是最短距离），
+反正一堆算就可以推出答案。这里比较需要引起注意的是使用 acos，acos 对于绝对值超过 1 的参数都是 nan，
+但是比如 acos(sqrt(3) * sqrt(3) - 4) 因为精度问题也算出 nan，所以应该特殊处理一下。</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -734,7 +747,7 @@ wiki 上还有写扩展，比如对于 multigraph 也是适用的，还有就是
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-05-03 15:00:08 UTC
+Last updated 2018-05-03 15:20:12 UTC
 </div>
 </div>
 <script type="text/x-mathjax-config">
