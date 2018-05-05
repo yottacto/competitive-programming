@@ -700,6 +700,20 @@ wiki 上还有写扩展，比如对于 multigraph 也是适用的，还有就是
 反正一堆算就可以推出答案。这里比较需要引起注意的是使用 acos，acos 对于绝对值超过 1 的参数都是 nan，
 但是比如 acos(sqrt(3) * sqrt(3) - 4) 因为精度问题也算出 nan，所以应该特殊处理一下。</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">ural1171</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">&#10003;</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">dp</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">有 n(&le; 16) 层，每层是 4*4 的房间，每个房间有一些食物，每个房间可以到同层东南西北相邻的房间，
+然后告诉你一些房间可以通往下一层。一开始你在第 n 层某个房间，你不能到同一个房间两次，
+而且不能往上走，问你到第 1 层任意房间，假设路径长度为 l，要使收集到经过房间食物总价值除以 (l+1) 最大。
+然后打印任一方案。</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">一开始漏看了不能经过同一房间两次 … 这个 dp 很简单，f[i][x][y][len]
+表示第 i 层的 (x, y) 位置路径长度为 len 的最大价值和。然后枚举上一层可以下来的位置。
+这里我们要预处理出一个 max[i][p1][p2][l] 表示在同一层 i，从 p1 到 p2 经过 l 长度
+的最大价值，这个可以枚举该层每个位置 p1 作为起点，然后 dfs 更新所有状态。
+因为房间不能经过两次，所以 dfs 很快。</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -747,7 +761,7 @@ wiki 上还有写扩展，比如对于 multigraph 也是适用的，还有就是
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-05-03 15:20:12 UTC
+Last updated 2018-05-05 08:28:23 UTC
 </div>
 </div>
 <script type="text/x-mathjax-config">
