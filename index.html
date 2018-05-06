@@ -727,6 +727,17 @@ f[i][st] 表示还剩下 i 个操作，有 st 这些菜的方案数，那么我�
 f[i][st] = sum(f[i-k][st] * f[k][st | (1<<j)])，j 最后一个括号的种类（这题就是菜的种类），
 这里需要枚举 j，判断加上 j 合不合法。</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">ural1476</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">&#10003;</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">dp</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">一个 m*n(m, n&le;40) 的 0, 1 矩阵，对于 1 到 n-1 的每一列 i 要满足这一列中满足 a[j][i] = 0 &amp;&amp; a[j][i+1] = 1 的行数要 &le; k。
+问满足这个条件的所有矩阵的个数。</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">我们按列转移，很显然一列的状态之和 0 的个数有关，所以 f[i][white] 表示做到第 i 列，0 的个数有 white 个的方案数。
+转移的时候要枚举前一列的 white 个数，然后在枚举符合那个条件的 0, 1 对数，然后可以根据组合数算出来。
+这样直接写出来是 O(n^4)，我们发现一个系数是不变的，可以通过 O(n^3) 预处理出来，
+整个复杂度就能到 O(n^3)。这题需要高精度，直接用 python3 写了。</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -774,7 +785,7 @@ f[i][st] = sum(f[i-k][st] * f[k][st | (1<<j)])，j 最后一个括号的种类�
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-05-06 02:26:46 UTC
+Last updated 2018-05-06 06:21:42 UTC
 </div>
 </div>
 <script type="text/x-mathjax-config">
