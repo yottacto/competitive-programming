@@ -6,7 +6,7 @@
 :ellipsis: …
 :stem:
 
-// TODO please reference to the GitHub Pages.
+Please refer to the https://yottacto.github.io/competitive-programming[Pages].
 
 == Ural
 
