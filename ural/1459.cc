@@ -113,9 +113,9 @@ auto calc()
 
 int main()
 {
-    // std::cin >> m >> n;
-    m = 3;
-    n = 4;
+    std::cin >> m >> n;
+    // m = 5;
+    // n = 32;
     int prev{0};
     int now;
     // for (n = 4; n < 5; n++) {
