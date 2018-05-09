@@ -1,25 +1,78 @@
 // ml:run = $bin < input
 #include <iostream>
-#include <algorithm>
+#include <vector>
 #include <unordered_map>
-#include <set>
 
-auto constexpr mo = 1000000000;
+using ll = long long;
+auto constexpr mo = 1000000000ll;
+
 int n, m;
-int now, prev;
-int ans;
+std::unordered_map<int, int> table;
+std::vector<int> all;
+int tot;
+
+template <class T = ll>
+struct matrix
+{
+    matrix() = default;
+    matrix(int n, int m) : n(n), m(m) {}
+    matrix(int n) : n(n), m(n)
+    {
+        for (auto i = 0; i < n; i++)
+            a[i][i] = 1;
+    }
+
+    void resize(int n, int m)
+    {
+        this->n = n;
+        this->m = m;
+    }
+
+    void print() const
+    {
+        std::cout << "=============\n";
+        for (auto i = 0; i < n; i++) {
+            for (auto j = 0; j < m; j++)
+                std::cout << a[i][j] << " ";
+            std::cout << "\n";
+        }
+    }
+
+    T a[22][22] = {};
+    int n, m;
+};
 
 template <class T>
-void add(T& lhs, T rhs)
+auto operator*(matrix<T> const& lhs, matrix<T> const& rhs)
 {
-    lhs = (lhs + rhs) % mo;
+    matrix<T> ret(lhs.n, rhs.m);
+    for (auto i = 0; i < ret.n; i++)
+    for (auto j = 0; j < ret.m; j++)
+        for (auto k = 0; k < lhs.m; k++) {
+            ret.a[i][j] += (lhs.a[i][k] * rhs.a[k][j]) % mo;
+            ret.a[i][j] %= mo;
+        }
+    return ret;
 }
 
-std::unordered_map<int, int> f[2];
+matrix<> mat;
+
+auto brace(int x)
+{
+    return x == 1
+        ? 1
+        : x == 2 ? -1 : 0;
+}
 
 auto get(int st, int p)
 {
     return (st >> (2*p)) & 3;
+}
+
+auto dir(int st, int p)
+{
+    auto t = get(st, p);
+    return brace(t);
 }
 
 void update(int& st, int p, int v)
@@ -28,101 +81,118 @@ void update(int& st, int p, int v)
     st |= v << (2*p);
 }
 
-auto get_dir(int st, int p)
-{
-    auto t = get(st, p);
-    return t == 1
-        ? 1
-        : t == 2 ? -1 : 0;
-}
-
 auto find(int st, int p)
 {
-    for (auto i = p, d = 0, step = get_dir(st, p); ; i += step) {
-        d += get_dir(st, i);
+    for (auto i = p, d = 0, step = dir(st, p); ; i += step) {
+        d += dir(st, i);
         if (!d) return i;
     }
     return -1;
 }
 
-std::set<int> all;
-
-void dp(int i, int j)
+auto check(int prev, int now, bool last = false)
 {
-    std::swap(now, prev);
-    f[now].clear();
-    // std::cout << "(" << i << "," << j << ") : " << f[prev].size() << ": ";
-    for (auto const& p : f[prev]) {
-        // std::cout << p.first << " ";
-        auto st = p.first;
-        all.insert(st);
-        if (j == 0) st <<= 2;
-        auto v = p.second;
-        auto left = get(st, j);
-        auto up = get(st, j+1);
+    auto left = 0;
+    for (auto i = 0; i < m; i++) {
+        auto s = get(now, i);
+        if (s == 3) return false;
+        auto up = get(prev, i);
+
         if (!left && !up) {
-            if (i != n - 1 && j != m - 1) {
-                update(st, j, 1);
-                update(st, j+1, 2);
-                add(f[now][st], v);
-            }
+            if (last || i == m - 1)
+                return false;
+            update(prev, i, 1);
+            left = 2;
         } else if (left == up) {
-            update(st, find(st, j + 2-left), left);
-            update(st, j, 0);
-            update(st, j+1, 0);
-            add(f[now][st], v);
+            // FIXME
+            if (left == 1) {
+                update(prev, find(prev, i), left);
+                update(prev, i, 0);
+                left = 0;
+            } else {
+                update(prev, i, 2);
+                update(prev, find(prev, i), left);
+                update(prev, i, 0);
+                left = 0;
+            }
         } else if (left == 1 && up == 2) {
-            if (i == n - 1 && j == m - 1)
-                add(ans, v);
+            if (!(last && i == m - 1))
+                return false;
+            update(prev, i, 0);
         } else if (left == 2 && up == 1) {
-            update(st, j, 0);
-            update(st, j+1, 0);
-            add(f[now][st], v);
+            update(prev, i, 0);
+            left = 0;
         } else if (left) {
-            if (i != n - 1) add(f[now][st], v);
-            if (j != m - 1) {
-                update(st, j, 0);
-                update(st, j+1, left);
-                add(f[now][st], v);
+            if (s) {
+                if (last) return false;
+                update(prev, i, left);
+                left = 0;
+            } else {
+                if (i == m - 1) return false;
+                update(prev, i, 0);
             }
         } else if (up) {
-            if (j != m - 1) add(f[now][st], v);
-            if (i != n - 1) {
-                update(st, j, up);
-                update(st, j+1, 0);
-                add(f[now][st], v);
+            if (s) {
+                if (last) return false;
+            } else {
+                if (i == m - 1) return false;
+                left = up;
+                update(prev, i, 0);
             }
         }
     }
-    // std::cout << "\n";
+
+    return now == prev;
 }
 
-auto calc()
+void init()
 {
-    now = 0; prev = 1;
-    ans = 0;
-    f[now].clear();
-    f[0][0] = 1;
-    for (auto i = 0; i < n; i++)
-        for (auto j = 0; j < m; j++)
-            dp(i, j);
-    add(ans, ans);
-    // std::cout << all.size() << "\n";
-    return ans;
+    table[0] = tot++;
+    all.emplace_back(0);
+    for (auto t = 0u; t < all.size(); t++) {
+        auto st = all[t];
+        for (auto i = 0; i < (1<<(2*m)); i++) {
+            auto a = check(st, i);
+            if (!a) continue;
+            if (!table.count(i)) {
+                table[i] = tot++;
+                all.emplace_back(i);
+            }
+            mat.a[table[i]][table[st]] = 1;
+        }
+    }
+    mat.resize(tot, tot);
+}
+
+template <class Matrix>
+auto quick(Matrix a, int b)
+{
+    Matrix ret(a.n);
+    for (; b; b /= 2) {
+        if (b & 1) ret = ret * a;
+        a = a * a;
+    }
+    return ret;
 }
 
 int main()
 {
+    std::ios::sync_with_stdio(false);
     std::cin >> m >> n;
-    // m = 5;
-    // n = 32;
-    int prev{0};
-    int now;
-    // for (n = 4; n < 5; n++) {
-    //     now = calc();
-    //     std::cout << "(" << n << ", " << m << ") : " << now << "\n";
-    //     prev = now;
-    // }
-    std::cout << calc() << "\n";
+
+    init();
+    auto last = mat;
+    for (auto t = 0u; t < all.size(); t++) {
+        auto st = all[t];
+        if (!check(st, 0, true)) continue;
+        last.a[table[0]][table[st]] = 1;
+    }
+
+    matrix<> value(tot, 1);
+    value.a[0][0] = 1;
+
+    value = quick(mat, n - 1) * value;
+    value = last * value;
+    std::cout << (2*value.a[0][0]) % mo << "\n";
 }
 
