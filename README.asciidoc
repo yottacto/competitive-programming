@@ -240,6 +240,12 @@ f[i][st] = sum(f[i-k][st] * f[k][st {vbar} (1{lt}{lt}j)])，j 最后一个括号
 这样直接写出来是 O(n{caret}4)，我们发现一个系数是不变的，可以通过 O(n{caret}3) 预处理出来，
 整个复杂度就能到 O(n{caret}3)。这题需要高精度，直接用 python3 写了。
 
+| ural1459 | {y}
+| dp
+| 给定一个 n*m (2 {le} n {le} 5, 2 {le} m {le} 10{caret}5) 的棋盘，
+问从 (1, 1) 出发，不重复的经过所有格回到起点的方案数（每次向上下左右移动）模除 10{caret}9。
+| TODO
+
 |====
 
 == Codeforces
