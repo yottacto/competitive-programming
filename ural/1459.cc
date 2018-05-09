@@ -51,9 +51,9 @@ void dp(int i, int j)
 {
     std::swap(now, prev);
     f[now].clear();
-    std::cout << "(" << i << "," << j << ") : " << f[prev].size() << ": ";
+    // std::cout << "(" << i << "," << j << ") : " << f[prev].size() << ": ";
     for (auto const& p : f[prev]) {
-        std::cout << p.first << " ";
+        // std::cout << p.first << " ";
         auto st = p.first;
         all.insert(st);
         if (j == 0) st <<= 2;
@@ -94,7 +94,7 @@ void dp(int i, int j)
             }
         }
     }
-    std::cout << "\n";
+    // std::cout << "\n";
 }
 
 auto calc()
@@ -107,21 +107,22 @@ auto calc()
         for (auto j = 0; j < m; j++)
             dp(i, j);
     add(ans, ans);
-    std::cout << all.size() << "\n";
+    // std::cout << all.size() << "\n";
     return ans;
 }
 
 int main()
 {
     // std::cin >> m >> n;
-    m = 5;
+    m = 3;
+    n = 4;
     int prev{0};
     int now;
-    for (n = 13; n < 14; n++) {
-        now = calc();
-        std::cout << "(" << n << ", " << m << ") : " << now << "\n";
-        prev = now;
-    }
-    // std::cout << calc() << "\n";
+    // for (n = 4; n < 5; n++) {
+    //     now = calc();
+    //     std::cout << "(" << n << ", " << m << ") : " << now << "\n";
+    //     prev = now;
+    // }
+    std::cout << calc() << "\n";
 }
 
