@@ -745,6 +745,14 @@ f[i][st] = sum(f[i-k][st] * f[k][st | (1<<j)])，j 最后一个括号的种类�
 这样直接写出来是 O(n^4)，我们发现一个系数是不变的，可以通过 O(n^3) 预处理出来，
 整个复杂度就能到 O(n^3)。这题需要高精度，直接用 python3 写了。</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">ural1459</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">&#10003;</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">dp</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">给定一个 n*m (2 &le; n &le; 5, 2 &le; m &le; 10^5) 的棋盘，
+问从 (1, 1) 出发，不重复的经过所有格回到起点的方案数（每次向上下左右移动）模除 10^9。</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">TODO</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -792,7 +800,7 @@ f[i][st] = sum(f[i-k][st] * f[k][st | (1<<j)])，j 最后一个括号的种类�
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-05-09 14:32:46 UTC
+Last updated 2018-05-09 14:35:24 UTC
 </div>
 </div>
 <script type="text/x-mathjax-config">
