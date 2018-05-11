@@ -1,60 +1,107 @@
 // ml:run = cp $bin std
-// ml:opt = 0
-// ml:ccf += -g
+#include <cassert>
 #include <iostream>
-#include <string>
+#include <cmath>
+#include <cstdio>
+#include <cstring>
+#include <algorithm>
+using namespace std;
 
-using ll = long long;
+const double EPS = 1e-6;
+const double INF = 1e8;
 
-int n, k;
-std::string s;
+double da, w;
+int N;
+bool vis[555][555][2];
+double f[555][555][2];
+int path[555][555][2];
 
-auto check(int l, int r)
-{
-    auto len = r - l + 1;
-    for (auto i = 0; i < len; i++)
-        if (s[l + i] != s[r - i])
-            return false;
-    return true;
+struct snode {
+    int id;
+    double a, t;
+    void read(int i) {
+        id = i;
+        double d, v;
+        cin>>a>>d>>v;
+        a -= da;
+        if (a<-EPS) a += 360;
+        t = (d-1)/v*60;
+    }
+    bool operator<(const snode &rhs) const {
+        return a<rhs.a;
+    }
+}node[555];
+
+inline double cost(int i, int j) {
+    return min(360-fabs(node[i].a-node[j].a),
+            fabs(node[i].a-node[j].a))/w;
 }
 
-auto query(ll l, ll r)
-{
-    auto count = 0ll;
-    for (auto i = l; i <= r; i++)
-        for (auto j = i; j <= r; j++) {
-            if (j - i + 1 > k)
-                continue;
-            count += check(i - 1, j - 1);
+double dfs(int i, int j, int d) {
+    if (vis[i][j][d]) return f[i][j][d];
+    f[i][j][d] = INF;
+    vis[i][j][d] = 1;
+    if (i==0&&d==0 || j==N+1&&d==1) return f[i][j][d];
+    if (d==0) {
+        double t = dfs(i-1, j, 0)+cost(i-1, i);
+        if (t<node[i].t+EPS && t<f[i][j][d]-EPS) {
+            f[i][j][d] = t;
+            path[i][j][d] = 0;
         }
-    return count;
-}
-
-void cover(int l, int r, char ch)
-{
-    for (auto i = l; i <= r; i++)
-        s[i - 1] = ch;
-}
-
-int main()
-{
-    std::ios::sync_with_stdio(false);
-
-    std::cin >> s >> k;
-    n = s.size();
-
-    int q;
-    std::cin >> q;
-    while (q--) {
-        int id, l, r;
-        std::cin >> id >> l >> r;
-        if (id == 2) {
-            std::cout << query(l, r) << "\n";
-        } else {
-            char ch;
-            std::cin >> ch;
-            cover(l, r, ch);
+        t = dfs(i-1, j, 1)+cost(j, i);
+        if (t<node[i].t+EPS && t<f[i][j][d]-EPS) {
+            f[i][j][d] = t;
+            path[i][j][d] = 1;
         }
+    }
+    else {
+        double t = dfs(i, j+1, 1)+cost(j, j+1);
+        if (t<node[j].t+EPS && t<f[i][j][d]-EPS) {
+            f[i][j][d] = t;
+            path[i][j][d] = 1;
+        }
+        t = dfs(i, j+1, 0)+cost(i, j);
+        if (t<node[j].t+EPS && t<f[i][j][d]-EPS) {
+            f[i][j][d] = t;
+            path[i][j][d] = 0;
+        }
+    }
+    return f[i][j][d];
+}
+
+void write(int i, int j, int d, int dep) {
+    if (dep==N) return;
+    if (d) write(i, j+1, path[i][j][d], dep+1);
+    else write(i-1, j, path[i][j][d], dep+1);
+    printf("%d\n", d?node[j].id:node[i].id);
+}
+
+int main() {
+    int i, j, k;
+    while (cin>>da>>w>>N) {
+        w *= 360; //degree per minute
+        for (i = 1; i <= N; ++i)
+            node[i].read(i);
+        sort(node+1, node+N+1);
+        node[0].a = 0, node[N+1].a = 360;
+        memset(vis, 0, sizeof vis);
+        f[0][N+1][0] = f[0][N+1][1] = 0;
+        vis[0][N+1][0] = vis[0][N+1][1] = 1;
+        int ansi, ansd;
+        double ans = INF;
+        for (i = 0; i <= N; ++i)
+            for (k = 0; k < 2; ++k) {
+                if (dfs(i, i+1, k)<ans-EPS) {
+                    ans = dfs(i, i+1, k);
+                    ansi = i;
+                    ansd = k;
+                }
+            }
+        if (ans < 1e6) {
+            printf("%.3f\n", ans);
+            write(ansi, ansi+1, ansd, 0);
+        }
+        else puts("Impossible");
     }
 }
 

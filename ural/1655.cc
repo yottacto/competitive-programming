@@ -1,4 +1,4 @@
-// ml:run = cp $bin bug
+// ml:run = $bin < input
 #include <iostream>
 #include <iomanip>
 #include <iterator>
@@ -148,17 +148,17 @@ int main()
             // f[][][0]
             update(f[i][l][0], from[i][l][0], {
                 {f[next(i)][l-1][0] + calc(next(i), i, -1),                path_type{next(i), 0, i}, f[next(i)][l-1][0] + calc(next(i), i, -1)},
-                {f[next(i)][l-1][1] + calc(r, i, -1),                      path_type{next(i), 0, i}, f[next(i)][l-1][1] + calc(r, i, -1)},
+                {f[next(i)][l-1][1] + calc(r, i, -1),                      path_type{next(i), 1, i}, f[next(i)][l-1][1] + calc(r, i, -1)},
                 {f[i][l-1][0]       + 2 * calc(i, r, 1),                   path_type{i, 0, r},       f[i][l-1][0] + calc(i, r, 1)},
-                {f[i][l-1][1]       + calc(i, r, 1) + calc(prev(r), r, 1), path_type{i, 0, r},       f[i][l-1][1] + calc(prev(r), r, 1)}
+                {f[i][l-1][1]       + calc(i, r, 1) + calc(prev(r), r, 1), path_type{i, 1, r},       f[i][l-1][1] + calc(prev(r), r, 1)}
             });
 
             // f[][][1]
             update(f[i][l][1], from[i][l][1], {
                 {f[next(i)][l-1][0] + calc(i, r, 1) + calc(next(i), i, -1), path_type{next(i), 0, i}, f[next(i)][l-1][0] + calc(next(i), i, -1)},
-                {f[next(i)][l-1][1] + 2 * calc(i, r, 1),                    path_type{next(i), 0, i}, f[next(i)][l-1][1] + calc(i, r, 1)},
+                {f[next(i)][l-1][1] + 2 * calc(i, r, 1),                    path_type{next(i), 1, i}, f[next(i)][l-1][1] + calc(i, r, 1)},
                 {f[i][l-1][0]       + calc(i, r, 1),                        path_type{i, 0, r},       f[i][l-1][0] + calc(i, r, 1)},
-                {f[i][l-1][1]       + calc(prev(r), r, 1),                  path_type{i, 0, r},       f[i][l-1][1] + calc(prev(r), r, 1)}
+                {f[i][l-1][1]       + calc(prev(r), r, 1),                  path_type{i, 1, r},       f[i][l-1][1] + calc(prev(r), r, 1)}
             });
         }
     }
