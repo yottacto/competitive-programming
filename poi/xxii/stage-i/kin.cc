@@ -1,4 +1,5 @@
 // ml:run = $bin < input
+// ml:std = c++11
 #include <iostream>
 
 using ll = long long;
