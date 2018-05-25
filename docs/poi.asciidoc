@@ -1,0 +1,108 @@
+= Competitive Programming
+:y: &#10003;
+:ellipsis: …
+:stem:
+:toc:
+
+// TODO please reference to the GitHub Pages.
+
+== POI XXII
+
+[cols="^.^1, ^.^1, ^.^1, ^.^1, ^.^4, ^.^4", options="header"]
+|====
+
+| stage | problem | status | tags | description | solution
+
+.5+| stage i
+
+| cza | {y}
+|
+|
+|
+
+| kin | {y}
+|
+|
+|
+
+| kwa | {y}
+|
+|
+|
+
+| las | {y}
+|
+|
+|
+
+| pie |
+|
+|
+|
+
+.5+| stage ii
+
+| log |
+|
+|
+|
+
+| pod |
+|
+|
+|
+
+| pus |
+|
+|
+|
+
+| kur |
+|
+|
+|
+
+| trz |
+|
+|
+|
+
+.7+| stage ii
+
+| odw |
+|
+|
+|
+
+| myj |
+|
+|
+|
+
+| tab |
+|
+|
+|
+
+| wil |
+|
+|
+|
+
+| kol |
+|
+|
+|
+
+| mod |
+|
+|
+|
+
+| wyc |
+|
+|
+|
+
+|====
+
