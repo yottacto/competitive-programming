@@ -431,362 +431,26 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="toc" class="toc">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
-<li><a href="#_ural">Ural</a></li>
-<li><a href="#_codeforces">Codeforces</a></li>
-<li><a href="#_poi">POI</a></li>
-<li><a href="#_other">Other</a></li>
+<li><a href="#_poi_xxii">POI XXII</a></li>
 </ul>
 </div>
 </div>
 <div id="content">
-<div id="preamble">
-<div class="sectionbody">
-<div class="paragraph">
-<p>Please refer to the <a href="https://yottacto.github.io/competitive-programming">Pages</a>.</p>
-</div>
-</div>
-</div>
 <div class="sect1">
-<h2 id="_ural">Ural</h2>
+<h2 id="_poi_xxii">POI XXII</h2>
 <div class="sectionbody">
 <table class="tableblock frame-all grid-all spread">
 <colgroup>
-<col style="width: 9.0909%;">
-<col style="width: 9.0909%;">
-<col style="width: 9.0909%;">
-<col style="width: 36.3636%;">
-<col style="width: 36.3637%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-center valign-middle">problem</th>
-<th class="tableblock halign-center valign-middle">status</th>
-<th class="tableblock halign-center valign-middle">tags</th>
-<th class="tableblock halign-center valign-middle">description</th>
-<th class="tableblock halign-center valign-middle">solution</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">ural1040</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">&#10003;</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">gcd, dfs, bazinga</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">给定一个简单图，要用 <code>1-m</code> 给每条边无重复编号，使得最后每个点相邻边的标号的 gcd 值为 <code>1</code> 。</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">主要到一个点相邻的边只要有两条互质那么整体 gcd 肯定为 <code>1</code> ，而且 <code>1-m</code> 相邻两
-数是互质的，所以只需要做一遍 dfs 就好。</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">ural1006</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">&#10003;</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">brute-force</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">给定 <code>N</code> 个矩形边框重叠后的俯视图（只有重叠部分的字符会被覆盖），让还原一组可能的矩形以及顺序。</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">每次枚举左上角和边长，看看有没有对应的矩形，然后把这个矩形删除后用一个万能字符替代，
-只要一个矩形不是全都是万能字符就好。这题比较坑的在于输入输出，用 <code>char</code> ，
-按字节理解，如果要可视化的化单独写个程序。</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">ural1030</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">&#10003;</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">math, formulas</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">给定地球表面两点的经度和纬度，求两点在表面上的最短距离。</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">Great-circle distance。这个最大圆由两点和球心确定。
-设 \(\phi_1, \lambda_1\) 和 \(\phi_2, \lambda_2\) 分别是两点的纬度和经度， \(\Delta \sigma\) 是他们的中心角，则：
-\(\Delta\sigma=\arccos\bigl(\sin\phi_1\cdot\sin\phi_2+\cos\phi_1\cdot\cos\phi_2\cdot\cos(\Delta\lambda)\bigr).\)</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">ural1042</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">&#10003;</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">math, gaussian elimination</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">高斯消元，题目一个隐含条件确保唯一解。</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">只涉及到 <code>0, 1</code>, 可以用 <code>std::bitset&lt;&gt;</code> 。</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">ural1099</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">&#10003;</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">graph, 环套树</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">一般图的最大匹配</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">Blossom algorithm, 参考 <a href="http://www.csie.ntnu.edu.tw/~u91029/Matching.html">这个</a></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">ural1035</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">&#10003;</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">graph, euler paths</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">欧拉路径（环）</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">我们处理每个方格格点，计算正面（背面）线个数，然后将多出来的正面（背面）线个
-数累加到对应连通分量的对应正面（背面）个数，假如说某个连通分量正面多出来的线个
-数和是 <code>a</code>, 背面是 <code>b</code>, 那么这个连通分量需要 \(\min (a, b) + \frac{\mid a-b \mid}{2}\) 针。连通分量用并查集维护。</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">ural1065</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">&#10003;</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">dp, computational geometry</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">给定一个 n(&le; 50) 个点的凸多边形，顶点是哨塔，按照给定的顺序沿多边形巡逻。
-现在想减少巡逻距离，可以选择不经过若干哨塔。但是给定 m( &le; 1000) 个纪念碑，
-要求纪念碑都在巡逻路线内部，求最短的巡逻路线。</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">为了处理环形关系我们可以将 n 个点复制一遍。然后可以预处理出 i 到 j
-这一段左边是不是有纪念碑，然后就可以枚举起点来做 dp，其实也可以 floyd，
-最后要记得枚举三个点 i, j, k 来算最短距离，防止算到 i 到 j 然后 j 到 i
-这种共线的情况。i, j, k 三个点也不能是共线的。</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">ural1097</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">&#10003;</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">discretization</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">给定一个 l*l 的正方形，里面有 m( &le; 100) 个不重叠子正方形，每个正方形都有个权重，
-现在问一个找 a*a 的子正方形，且重叠到上面子正方形的最大权重最小。空白区域默认为 1。</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">离散化 x, y，然后枚举所有可能坐标，二分权重。</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">ural1043</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">&#10003;</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">geometry</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">给定圆弧两段点，以及圆弧上一点（都是整点），问用平行坐标轴且顶点坐标的矩形完全覆盖这个圆弧最小面积。</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">点在圆弧上用角度判断就好，都转换到 [0, 2pi)。</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">ural1062</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">&#10003;</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">geometry, half-plane intersection</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">给定铁人三项每个人每项的速度, 问是否存在一个三种路线的长度使得第 i 个人总时间比所有人都小。</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">假设第一项距离为 x，第二项为 y，那么可以假设第三项为 1-x-y，我们可以得道 n-1
-个半平面，然后求交就行。注意还有 x &ge; 0, y &ge; 0, x+y &le; 1。
-还有要注意的是得到的直线可能无解，或者全平面，要特殊处理。TODO 随机增量法。</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">ural1046</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">&#10003;</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">geometry, complex, rotate, equation</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">假设 n 个点的凸多边形，每条边向外有个等腰三角形，顶点为 Mi, 现在已知 Mi
-的坐标和角度 ai，求出一组凸多边形顶点坐标。保证有解。</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">我们假设凸多边形第一个顶点坐标为 p0，那么可以在复平面上通过向量旋转得到 p1，
-这样绕一圈可以得到一个 p0 关于 p0 的方程。解出 p0 再推出所有点就行。</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">ural1041</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">&#10003;</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">matroid, greedy, gaussian-elimination</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">给定 m(&le; 2000) 个 n(&le; &#8656; 50) 维向量，每个向量有个价格，求找 n 个线性无关向量的最小价值，
-输出字典序最小的一组解。无解输出 0。</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">贪心做，排序后不断取，如果加入当前向量还能线性无关，就加入，顺便把下面的向量当前维度消掉。
-做当前向量时要把非零列交换过来。这题用 double 会跪，需要用模素数的整数运算才能过。
-支持这套贪心的理论其实就是 matroid。做这题发现还有人写过这个，刘雨辰《对拟阵的初步研究》。TODO</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">ural1063</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">&#10003;</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">graph, euler paths</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">一个多米若骨牌由两个数字（数字 &le; 6）构成，现在给定 n(&le; 100) 个多米若骨牌，
-想将其排成一排，使得相邻头尾相接的数字相等。问要插入怎样的骨牌使得插入骨牌的数字和最小。</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">看着很复杂，其实就是一个顶点数为 6 的图，一个骨牌就是一条边，最后要求的就是一个欧拉路。
-不过虽然抽象出来很简单，但是加边情况很多，似乎也没什么好办法。最后暴力连接连通分量，然后贪心连奇数度的边。</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">ural1058</p></td>
-<td class="tableblock halign-center valign-middle"></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">geometry</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">给定 n (&le; 50) 的凸多边形，问将其均分成两个面积相等的两半的最短线段长度是多少。</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">需要证明均分面积的最短线段和其切到的两边夹角相等。</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">ural1841</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">&#10003;</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">data structures</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">给定 n(&le; 10^5) 个首尾相接的线段的 x 坐标，表示一个山从下到上的形状。
-每个线段上可能有若干索道，可以直线上升到于下一个线段相交的位置。告诉你每个线段上移动一个单位
-x 距离所需要的时间以及每个索道所需要的时间，并且你只能按 y 递增的方向移动，
-问到山顶的最短时间。（索道总数不超过 10^5）。</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">我们可以按顺序处理每个区间，看这个区间 x 坐标范围内有多少索道上升过来，
-这个可以用 set 的 lower_bound 维护出不小于左边界 l 的位置。也可以用树状数组，
-二分出这个位置。
-其实我们就是想求 n 个数，每个数右边比如第一个比他大的数，这个其实可以通过单调队列算出来。
-不过这种从前往后推的想法好像比较难写。</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">ural1977</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">&#10003;</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">data structures, segment tree</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">给定 n 个点(&le; 10^9) 个点，每个点每秒会增加 p 单位能量，你有个 repo 可以存储能量，
-现在有两种操作，可以在 t 时刻把 l 到 r 的能量都存储到 repo 里，或者在 t 时刻，把 repo
-里的能量全部用于增加 i-d+1 到 i+d-1 范围内的点，第 i 个点增加 d*x，与 i 距离为 1 的增加 (d-1)*x，
-一直到增加 x 为止，x 通过用尽全部能量可以解除来。操作个数不不超过 10^5，每次存储操作输出 repo 的能量值。</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">我们可以用线段树维护一段区间的和以及一段区间增加的等差数列，维护 a0 和 delta, clear 以及 sum。
-然后还有要注意的是题目需要离散化，所以只能离线做了，我离散化的方式是一个节点
-维护的坐标区间 [l, r] 实际包括了 r 右边和 r+1 直接没被离散化到的点。然后为了简化处理，
-将所有 r 和 r+1 都插入到离散化的点中，这样每次整体区间的 [l, r] r 右边就没有多余的点了，
-但是这样比较浪费空间。还有种思路就是增加一个量，维护 extra，表示一次将 [l, r]
-划分成 [l, mid] 和 [mid+1, r] 的中间没被维护到的点。这题被卡了一下空间常熟。</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">ural1965</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">&#10003;</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">dynamic programming</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">给定 n(&le; 10^5) 的一个排列，问能否用两个不相交的单调序列覆盖。</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">TODO</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">ural2075</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">&#10003;</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">data structures, self-balancing binary search tree, avl</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">有一个无限高的圆柱形杯子，然后按时间顺序发生一些事件，倒入某种酒 h 高度，将吸管放置在 h 高度，拿出吸管。
-酒名的字典序小，密度就大，酒倒入瞬间就会到对应层，两种酒不会混合。如果某时刻吸完了，且紧接着没有酒补充，
-那么吸管也将被拿出。喝酒的速度是每个单位时间喝一个单位高度。要求每个喝酒的时间段，酒名，相邻酒名不相同。</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">这些操作都可以用平衡树简单维护出来，暴写就好，写了个 avl …</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">ural2096</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">&#10003;</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">data structures, offline</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">初始主人（编号 0）有 n(&le; 10^5) 个计划，然后有 m(&le; 10^5) 个朋友，按顺序编号 1 到 m。
-每个朋友首先会有 q 个询问，询问编号比他小的某人的某项计划是什么。然后询问完后，他只会以编号比他小的某人的计划为基础，
-然后在此基础上进行 c 个修改，每个修改就是以等差数列的位置修改 k 个计划为一个新的计划。所有 c 的和不超过 10^5，
-所有修改计划总数的和不超过 10^5，所有询问不超过 5*10^6。</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">如果要强制在线的需要可持久化。不过可以离线做，如果是个链状的结构很简单，一次扫描过去就行，
-但是是个树状的结构，那么我们也可以在 dfs 的过程中，当处理完一个节点恢复就行。
-这里最坑的是 ural 空间卡的比较紧。用了 <code>std::vector</code> 的 reserve 在 g++ 没什么用，
-结果用 clang 就过了 …</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">ural1717</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">&#10003;</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">data structures</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">抽象下题意，二维空间中 n(&le; 1500) 个点，每个点有可正可负的权值，求一个平行坐标轴的子矩形，
-使得矩形内点权值和最大。</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">先离散化，就成了 N * N 的矩阵。然后我们扫描子矩形的左边界，然后从这个位置依次像右扫描右边界。
-每次扫过一个 x 就累加到对应位置。这样我们要求的最大子矩形其实就是一维的最大字段和。
-线段树可以维护出来。</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">ural2042</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">&#10003;</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">data structures, segment tree</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">给定一个长度为 n(&le; 10^5) 的字符串，给定一个数 k(&le; 50)，现在有两种操作，
-将一段区间的字符都改成 c，或者询问一段区间长度不超过 k 的回文串的数目。操作数目不超过 (&le; 10^5)。</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">一开始想了一种做法，维护每个区间两端连续不超过 50 的字符串，然后每次合并跑下 manacher，
-就能维护出每个区间回文串个数的信息。但是常数太大了。也可以维护每个点为左端点，
-长度不超过 k 的回文串个数。假如说有一段区间覆盖 [l, r]，为了简化讨论，假设区间足够长，
-那么 [l, r-k+1] 的上述值都成 k。然后还要单独处理 [l-1-k+1, l-1] 以及 [r-k+2, r] 这两段区间。
-为了降低常数，对这两段区间的字符串分别做个 manacher，不要一个一个单点修改，一段区间一段区间修改。
-事实上常数更低的正确做法是使用 non-recursive segment tree。
-参考这个链接 <a href="http://codeforces.com/blog/entry/18051">Efficient and easy segment trees</a> TODO。</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">ural1887</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">&#10003;</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">probability, dp</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">抽象下题意，现在有一个数字生成器，每次可以生成数字 0-9 中的一个，告诉你一次生成中生成每个数字的概率，
-问要使生成的数字中 0-9 都出现过的期望生成次数是多少。</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">一个可行的做法是用二进制状态表示每次生成数字的状态，那么我们可以构建一个图，
-图中的有向边表示一次生成可以发生的状态变化。该图有自环，除了自环是个 dag，
-可以进行递推，自环的情况可以用方程解出来。我们可以用 f[state] 表示从 state
-到目标状态 1023 的期望次数，每次转移只要枚举每条边，然后考虑自环解个方程就行。
-最后 f[0] 就是答案。</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">ural1627</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">&#10003;</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">counting, matrix tree theorem</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">给一个无向图，求生成树个数。</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">matrix tree theorem 模板题，求行列式的值的时候可以利用行列式性质，例如一行乘以 t 加到另一行值不变，
-交换两行值变相反数，行列式某行乘以 k 等于整个行列式值乘 k 等。这个过程类似高斯消元，
-但是因为数很大，所以一般求的是行列式取模。而我们又不想引入除法，在消两行的过程中，
-可以用类似 gcd 的过程，进行 O(log n) 次乘减，直到一个变为零为止。
-当消到上三角或下三角的时候，主对角线的乘积就是行列式的值了。
-matrix tree theorem 这里就不详讲了，很巧妙，参考 <a href="https://en.wikipedia.org/wiki/Kirchhoff%27s_theorem#An_example_using_the_matrix-tree_theorem">wiki</a>。
-首先你需要得到图的 Laplacian matrix，然后随便去掉一行一列就行列式就好。
-wiki 上还有写扩展，比如对于 multigraph 也是适用的，还有就是 graphic matroid 等。TODO。</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">ural1075</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">&#10003;</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">geometry, float accuracy</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">大致意思，给定空间中三点 A, B, C，其中 C 是一个实心球体的球心，告诉你半径 R，A 和 B
-一定在球外，让球用一根线连接 A, B，最短的线的长度，线不能穿过球。</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">这题不是很难，首先判断球心到 AB 距离是不是大于等于 R，如果是直接返回 AB 距离，
-接下来的思路是判断 AB 是不是和球有交，因为虽然现在 AB 所在的直线一定是穿过球的，
-但是 AB 可能在球的一侧，这个画个界面图，观察下两个角度，用叉积就可以判断出来。
-接下来用一些余弦定理就可以算出圆上那段的圆心角（根据大圆定理，这段圆心角对应弧度是最短距离），
-反正一堆算就可以推出答案。这里比较需要引起注意的是使用 acos，acos 对于绝对值超过 1 的参数都是 nan，
-但是比如 acos(sqrt(3) * sqrt(3) - 4) 因为精度问题也算出 nan，所以应该特殊处理一下。</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">ural1171</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">&#10003;</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">dp</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">有 n(&le; 16) 层，每层是 4*4 的房间，每个房间有一些食物，每个房间可以到同层东南西北相邻的房间，
-然后告诉你一些房间可以通往下一层。一开始你在第 n 层某个房间，你不能到同一个房间两次，
-而且不能往上走，问你到第 1 层任意房间，假设路径长度为 l，要使收集到经过房间食物总价值除以 (l+1) 最大。
-然后打印任一方案。</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">一开始漏看了不能经过同一房间两次 … 这个 dp 很简单，f[i][x][y][len]
-表示第 i 层的 (x, y) 位置路径长度为 len 的最大价值和。然后枚举上一层可以下来的位置。
-这里我们要预处理出一个 max[i][p1][p2][l] 表示在同一层 i，从 p1 到 p2 经过 l 长度
-的最大价值，这个可以枚举该层每个位置 p1 作为起点，然后 dfs 更新所有状态。
-因为房间不能经过两次，所以 dfs 很快。</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">ural1526</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">&#10003;</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">dp</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">有 n(&le; 10) 种菜，然后你要点 l(&le; 100) 盘菜（之前那些菜可以重复点，也可以不点某些菜）,
-然后服务员有两种操作，上一盘菜，或者收走一个空盘，但是空盘因为是叠起来的，所以必需按栈的方式收空盘。
-然后有 m(&le; 100) 种关系 (i, j)，表示如果 i 这道菜的盘子在桌子上就不能上 j 这道菜。
-问服务员一共进行了 2l 次操作，共有多少不同方案数。</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">这是一个括号匹配，可以用区间 dp。考虑一个长度为 l 的括号序列，那么最后一个位置的括号匹配的括号位置就可以进行转移。
-f[i][st] 表示还剩下 i 个操作，有 st 这些菜的方案数，那么我们枚举最后一段括号序列的长度 k，
-f[i][st] = sum(f[i-k][st] * f[k][st | (1<<j)])，j 最后一个括号的种类（这题就是菜的种类），
-这里需要枚举 j，判断加上 j 合不合法。</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">ural1476</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">&#10003;</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">dp</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">一个 m*n(m, n&le;40) 的 0, 1 矩阵，对于 1 到 n-1 的每一列 i 要满足这一列中满足 a[j][i] = 0 &amp;&amp; a[j][i+1] = 1 的行数要 &le; k。
-问满足这个条件的所有矩阵的个数。</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">我们按列转移，很显然一列的状态之和 0 的个数有关，所以 f[i][white] 表示做到第 i 列，0 的个数有 white 个的方案数。
-转移的时候要枚举前一列的 white 个数，然后在枚举符合那个条件的 0, 1 对数，然后可以根据组合数算出来。
-这样直接写出来是 O(n^4)，我们发现一个系数是不变的，可以通过 O(n^3) 预处理出来，
-整个复杂度就能到 O(n^3)。这题需要高精度，直接用 python3 写了。</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">ural1459</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">&#10003;</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">dp</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">给定一个 n*m (2 &le; n &le; 5, 2 &le; m &le; 10^5) 的棋盘，
-问从 (1, 1) 出发，不重复的经过所有格回到起点的方案数（每次向上下左右移动）模除 10^9。</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">TODO</p></td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_codeforces">Codeforces</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>contests please refer to <a href="https://yottacto.github.io/competitive-programming/codeforces.html">this</a>.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_poi">POI</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>please refer to <a href="https://yottacto.github.io/competitive-programming/poi.html">this</a>.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_other">Other</h2>
-<div class="sectionbody">
-<table class="tableblock frame-all grid-all spread">
-<colgroup>
-<col style="width: 11.1111%;">
-<col style="width: 11.1111%;">
-<col style="width: 11.1111%;">
+<col style="width: 8.3333%;">
+<col style="width: 8.3333%;">
+<col style="width: 8.3333%;">
+<col style="width: 8.3333%;">
 <col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
+<col style="width: 33.3335%;">
 </colgroup>
 <thead>
 <tr>
+<th class="tableblock halign-center valign-middle">stage</th>
 <th class="tableblock halign-center valign-middle">problem</th>
 <th class="tableblock halign-center valign-middle">status</th>
 <th class="tableblock halign-center valign-middle">tags</th>
@@ -796,11 +460,126 @@ f[i][st] = sum(f[i-k][st] * f[k][st | (1<<j)])，j 最后一个括号的种类�
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">poj1947</p></td>
+<td class="tableblock halign-center valign-middle" rowspan="5"><p class="tableblock">stage i</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">cza</p></td>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">&#10003;</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">tree dp, pack</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">求使一棵树有一个大小为 p 的独立的子树至少需要删除多少边。</p></td>
-<td class="tableblock halign-center valign-middle"><p class="tableblock">树形 dp，对每个顶点的子树做背包。按 dfs 序不断把之前的子树所有状态先处理完实现比较简单。</p></td>
+<td class="tableblock halign-center valign-middle"></td>
+<td class="tableblock halign-center valign-middle"></td>
+<td class="tableblock halign-center valign-middle"></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">kin</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">&#10003;</p></td>
+<td class="tableblock halign-center valign-middle"></td>
+<td class="tableblock halign-center valign-middle"></td>
+<td class="tableblock halign-center valign-middle"></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">kwa</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">&#10003;</p></td>
+<td class="tableblock halign-center valign-middle"></td>
+<td class="tableblock halign-center valign-middle"></td>
+<td class="tableblock halign-center valign-middle"></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">las</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">&#10003;</p></td>
+<td class="tableblock halign-center valign-middle"></td>
+<td class="tableblock halign-center valign-middle"></td>
+<td class="tableblock halign-center valign-middle"></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">pie</p></td>
+<td class="tableblock halign-center valign-middle"></td>
+<td class="tableblock halign-center valign-middle"></td>
+<td class="tableblock halign-center valign-middle"></td>
+<td class="tableblock halign-center valign-middle"></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle" rowspan="5"><p class="tableblock">stage ii</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">log</p></td>
+<td class="tableblock halign-center valign-middle"></td>
+<td class="tableblock halign-center valign-middle"></td>
+<td class="tableblock halign-center valign-middle"></td>
+<td class="tableblock halign-center valign-middle"></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">pod</p></td>
+<td class="tableblock halign-center valign-middle"></td>
+<td class="tableblock halign-center valign-middle"></td>
+<td class="tableblock halign-center valign-middle"></td>
+<td class="tableblock halign-center valign-middle"></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">pus</p></td>
+<td class="tableblock halign-center valign-middle"></td>
+<td class="tableblock halign-center valign-middle"></td>
+<td class="tableblock halign-center valign-middle"></td>
+<td class="tableblock halign-center valign-middle"></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">kur</p></td>
+<td class="tableblock halign-center valign-middle"></td>
+<td class="tableblock halign-center valign-middle"></td>
+<td class="tableblock halign-center valign-middle"></td>
+<td class="tableblock halign-center valign-middle"></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">trz</p></td>
+<td class="tableblock halign-center valign-middle"></td>
+<td class="tableblock halign-center valign-middle"></td>
+<td class="tableblock halign-center valign-middle"></td>
+<td class="tableblock halign-center valign-middle"></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle" rowspan="7"><p class="tableblock">stage ii</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">odw</p></td>
+<td class="tableblock halign-center valign-middle"></td>
+<td class="tableblock halign-center valign-middle"></td>
+<td class="tableblock halign-center valign-middle"></td>
+<td class="tableblock halign-center valign-middle"></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">myj</p></td>
+<td class="tableblock halign-center valign-middle"></td>
+<td class="tableblock halign-center valign-middle"></td>
+<td class="tableblock halign-center valign-middle"></td>
+<td class="tableblock halign-center valign-middle"></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">tab</p></td>
+<td class="tableblock halign-center valign-middle"></td>
+<td class="tableblock halign-center valign-middle"></td>
+<td class="tableblock halign-center valign-middle"></td>
+<td class="tableblock halign-center valign-middle"></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">wil</p></td>
+<td class="tableblock halign-center valign-middle"></td>
+<td class="tableblock halign-center valign-middle"></td>
+<td class="tableblock halign-center valign-middle"></td>
+<td class="tableblock halign-center valign-middle"></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">kol</p></td>
+<td class="tableblock halign-center valign-middle"></td>
+<td class="tableblock halign-center valign-middle"></td>
+<td class="tableblock halign-center valign-middle"></td>
+<td class="tableblock halign-center valign-middle"></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">mod</p></td>
+<td class="tableblock halign-center valign-middle"></td>
+<td class="tableblock halign-center valign-middle"></td>
+<td class="tableblock halign-center valign-middle"></td>
+<td class="tableblock halign-center valign-middle"></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">wyc</p></td>
+<td class="tableblock halign-center valign-middle"></td>
+<td class="tableblock halign-center valign-middle"></td>
+<td class="tableblock halign-center valign-middle"></td>
+<td class="tableblock halign-center valign-middle"></td>
 </tr>
 </tbody>
 </table>
