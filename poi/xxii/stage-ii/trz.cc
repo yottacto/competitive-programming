@@ -121,44 +121,34 @@ int main()
     }
     std::vector<data> da;
 
-    da.reserve(n);
-    for (auto i = 1; i <= n; i++)
+    da.reserve(n + 1);
+    for (auto i = 0; i <= n; i++)
         da.emplace_back(sum[0][i], sum[1][i], sum[2][i], i);
 
     std::sort(da.begin(), da.end(), [](data const& lhs, data const& rhs) {
         return lhs.u < rhs.u;
     });
 
-    // for (auto i : da)
-    //     std::cerr << "(" << i.u << ", " << i.v << ", "
-    //         << i.w << ", " << i.id << ")\n";
-
     len = 2 * n + 2;
-    tree[0].resize(len);
-    tree[1].resize(len);
-    for (auto i = 0; i < n; i++) {
+    tree[0].resize(len + 1);
+    tree[1].resize(len + 1);
+    for (auto i = 0; i <= n; i++) {
         auto p = query(da[i]);
         // std::cerr << "i=" << i << " " << p << "\n";
         ans = std::max(ans, p - da[i].id);
-        if (i == n - 1 || da[i].u != da[i + 1].u) {
+        if (i == n || da[i].u != da[i + 1].u) {
             auto j = i;
             do {
                 update(da[j--]);
             } while (j >= 0 && da[j].u == da[j + 1].u);
         }
-
-        // for (auto i = 1; i <= len; i++)
-        //     std::cerr << "(" << tree[0][i].w << ", " << tree[0][i].value << ", "
-        //         << tree[0][i].w2 << ", " << tree[0][i].second_value << ")  ";
-        // std::cerr << "\n";
-
     }
 
     for (auto i = 0; i < 2; i++) {
         tree[i].clear();
-        tree[i].resize(len);
+        tree[i].resize(len + 1);
     }
-    for (auto i = n - 1; i >= 0; i--) {
+    for (auto i = n; i >= 0; i--) {
         auto p = query(da[i]);
         ans = std::max(ans, p - da[i].id);
         if (i == 0 || da[i].u != da[i - 1].u) {
