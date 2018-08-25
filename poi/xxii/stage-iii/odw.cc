@@ -1,4 +1,6 @@
 // ml:run = $bin < input
+// ml:opt = 0
+// ml:ccf += -g
 #include <iostream>
 #include <iterator>
 #include <algorithm>
@@ -88,8 +90,8 @@ void dfs_ans(int u, int p, int d)
         auto const& path = path_to_root;
         if (k > block) {
             auto tu = u;
-            auto j = path.size() - 1;
-            for (; !ancestor(tu, v);) {
+            int j = path.size() - 1;
+            for (; !ancestor(tu, v); ) {
                 sum += a[tu];
                 j -= k;
                 if (j < 0) break;
