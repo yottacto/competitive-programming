@@ -468,16 +468,31 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <td class="tableblock halign-center valign-middle" rowspan="5"><p class="tableblock">stage i</p></td>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">cza</p></td>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">&#10003;</p></td>
-<td class="tableblock halign-center valign-middle"></td>
-<td class="tableblock halign-center valign-middle"></td>
-<td class="tableblock halign-center valign-middle"></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">dp</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">n (&le; 1000000) 个人（编号为 1 \~ n） 围着圆桌坐成一圈。座位相邻的两个人，其
+编号之差的绝对值不可以超过 p (&le; 3)。他们之中有些人不喜欢别人。如果 a 不喜欢
+b，那么 b 不能坐在a右边的那一个位置上。现在，假设第 n 个人的座位已经固定，要给
+剩下的人安排座位，共有几种合法方案？</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">p &le; 2 是简单的情况。考虑 p = 3 的时候。我们设，f[i] 表示以 i 开头，i\+1 结
+尾，i \~ n 这些数的方案数。g[i] 表示以 i\+1 开头，i 结尾，i \~ n 这些数的方案数
+。通过画一个树来枚举可能的情况，我们可以得到递推关系 f[i] = g[i+1] + g[i+2]<br>
+g[i+3] + g[i+5], 类似的可以得到关于 g 的递推关系。当然，边界情况可能会有点问题
+，所以当 n-7 &le; i 的时候，我们直接暴力算出答案，否则通过递推得到。当然，题目
+还有不喜欢的关系，在递推的时候检查不喜欢的关系即可。最后的答案也可以通过类似递
+推的方法算出来。</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">kin</p></td>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">&#10003;</p></td>
 <td class="tableblock halign-center valign-middle"></td>
-<td class="tableblock halign-center valign-middle"></td>
-<td class="tableblock halign-center valign-middle"></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">共有 m 部电影，编号为 1 \~ m，第 i 部电影的好看值为 w[i]。在 n 天之中（从
+1\~n 编号）每天会放映一部电影，第 i 天放映的是第 f[i] 部。你可以选择 l, r (1
+&le; l &le; r &le; n)，并观看第 l, l+1, …, r 天内所有的电影。如果同一
+部电影你观看多于一次，你会感到无聊，于是无法获得这部电影的好看值。所以你希望最
+大化观看且仅观看过一次的电影的好看值的总和。</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">枚举 i 从 1 到 n，用线段树维护到当前位置的前缀和。对于相同的电影，假设其好看
+值是 x，从 i 开始第一次出现是 +x，第二次出现是 -x，后面都是 0。然后从 i 转移到
+i\+1 的时候，更新相同电影前一次和前前次对应区间的值即可。</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">kwa</p></td>
@@ -495,7 +510,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </tr>
 <tr>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">pie</p></td>
-<td class="tableblock halign-center valign-middle"></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">&#10003;</p></td>
 <td class="tableblock halign-center valign-middle"></td>
 <td class="tableblock halign-center valign-middle"></td>
 <td class="tableblock halign-center valign-middle"></td>
@@ -503,35 +518,35 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <tr>
 <td class="tableblock halign-center valign-middle" rowspan="5"><p class="tableblock">stage ii</p></td>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">log</p></td>
-<td class="tableblock halign-center valign-middle"></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">&#10003;</p></td>
 <td class="tableblock halign-center valign-middle"></td>
 <td class="tableblock halign-center valign-middle"></td>
 <td class="tableblock halign-center valign-middle"></td>
 </tr>
 <tr>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">pod</p></td>
-<td class="tableblock halign-center valign-middle"></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">&#10003;</p></td>
 <td class="tableblock halign-center valign-middle"></td>
 <td class="tableblock halign-center valign-middle"></td>
 <td class="tableblock halign-center valign-middle"></td>
 </tr>
 <tr>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">pus</p></td>
-<td class="tableblock halign-center valign-middle"></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">&#10003;</p></td>
 <td class="tableblock halign-center valign-middle"></td>
 <td class="tableblock halign-center valign-middle"></td>
 <td class="tableblock halign-center valign-middle"></td>
 </tr>
 <tr>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">kur</p></td>
-<td class="tableblock halign-center valign-middle"></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">&#10003;</p></td>
 <td class="tableblock halign-center valign-middle"></td>
 <td class="tableblock halign-center valign-middle"></td>
 <td class="tableblock halign-center valign-middle"></td>
 </tr>
 <tr>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">trz</p></td>
-<td class="tableblock halign-center valign-middle"></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">&#10003;</p></td>
 <td class="tableblock halign-center valign-middle"></td>
 <td class="tableblock halign-center valign-middle"></td>
 <td class="tableblock halign-center valign-middle"></td>
@@ -539,14 +554,14 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <tr>
 <td class="tableblock halign-center valign-middle" rowspan="7"><p class="tableblock">stage iii</p></td>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">odw</p></td>
-<td class="tableblock halign-center valign-middle"></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">&#10003;</p></td>
 <td class="tableblock halign-center valign-middle"></td>
 <td class="tableblock halign-center valign-middle"></td>
 <td class="tableblock halign-center valign-middle"></td>
 </tr>
 <tr>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">myj</p></td>
-<td class="tableblock halign-center valign-middle"></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">&#10003;</p></td>
 <td class="tableblock halign-center valign-middle"></td>
 <td class="tableblock halign-center valign-middle"></td>
 <td class="tableblock halign-center valign-middle"></td>
@@ -560,7 +575,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </tr>
 <tr>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">wil</p></td>
-<td class="tableblock halign-center valign-middle"></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">&#10003;</p></td>
 <td class="tableblock halign-center valign-middle"></td>
 <td class="tableblock halign-center valign-middle"></td>
 <td class="tableblock halign-center valign-middle"></td>
@@ -574,14 +589,14 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </tr>
 <tr>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">mod</p></td>
-<td class="tableblock halign-center valign-middle"></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">&#10003;</p></td>
 <td class="tableblock halign-center valign-middle"></td>
 <td class="tableblock halign-center valign-middle"></td>
 <td class="tableblock halign-center valign-middle"></td>
 </tr>
 <tr>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">wyc</p></td>
-<td class="tableblock halign-center valign-middle"></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">&#10003;</p></td>
 <td class="tableblock halign-center valign-middle"></td>
 <td class="tableblock halign-center valign-middle"></td>
 <td class="tableblock halign-center valign-middle"></td>
@@ -593,7 +608,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-09-19 01:22:35 UTC
+Last updated 2018-09-22 03:26:12 UTC
 </div>
 </div>
 <script type="text/x-mathjax-config">
