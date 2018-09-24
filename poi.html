@@ -484,7 +484,7 @@ g[i+3] + g[i+5], 类似的可以得到关于 g 的递推关系。当然，边界
 <tr>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">kin</p></td>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">&#10003;</p></td>
-<td class="tableblock halign-center valign-middle"></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">data structure, segment tree</p></td>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">共有 m 部电影，编号为 1 \~ m，第 i 部电影的好看值为 w[i]。在 n 天之中（从
 1\~n 编号）每天会放映一部电影，第 i 天放映的是第 f[i] 部。你可以选择 l, r (1
 &le; l &le; r &le; n)，并观看第 l, l+1, …, r 天内所有的电影。如果同一
@@ -497,59 +497,106 @@ i\+1 的时候，更新相同电影前一次和前前次对应区间的值即可
 <tr>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">kwa</p></td>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">&#10003;</p></td>
-<td class="tableblock halign-center valign-middle"></td>
-<td class="tableblock halign-center valign-middle"></td>
-<td class="tableblock halign-center valign-middle"></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">find the pattern</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">考虑将正整数 n (&le; 10^18) 拆分成几个不同的平方数之和，比如
+30=1^2 + 2^2 + 5^2=1^2 \+ 2^2 \+ 3^2<br>
+4^2，而 8 不存在这样的拆分。 用 k(n) 表示 n 的拆分中，最大的底数最小可能
+是多少。如果 n 不存在这样的拆分，则令 k(n)=∞ 。例如，k(1)=1, k(8)=∞ ,
+k(378)=12, k(380)=10。定义一个数 x 被称为“超重”的，当且仅当存在 y&gt;x，使得
+k(y)&lt;k(x)。从上面的例子可知， 378 是一个“超重”的数。 给定 n，你需要：(1) 求出
+k(n) (2) 求出 1\~n 中有几个“超重”的数。</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">一个比较牛逼的找规律题。仅 2, 3, 6, 7, 8, 11, 12, 15, 18, 19, …,
+108, 112, 128 这 31 个数的 k 值是无穷大的。然后我们设 f(m) = 1^2<br>
+2^2 + … + m^2，当 n 足够大是，我们设 ind(n) 为第一个满足
+f(m) &gt;= n 的 m。现在若 k(f(ind(n)) - n) 是无穷，则 k(n)=ind(n)+1, 否则
+k(n)=ind(n)，详细的证明可以参考
+<a href="https://www.oi.edu.pl/static/attachment/20160714/oi22.pdf">官方题解</a>。</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">las</p></td>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">&#10003;</p></td>
-<td class="tableblock halign-center valign-middle"></td>
-<td class="tableblock halign-center valign-middle"></td>
-<td class="tableblock halign-center valign-middle"></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">dp</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">圆桌上摆放着 n (&le; 1000000) 份食物，围成一圈，第i份食物所含热量为 c[i]。 相
+邻两份食物之间坐着一个人，共有 n 个人。每个人有两种选择，吃自己左边或者右边的食
+物。如果两个人选择了同一份食物，这两个人会平分这份食物，每人获得一半的热量。 假
+如某个人改变自己的选择后（其他 n-1 个人的选择不变），可以使自己获得比原先更多的
+热量，那么这个人会不满意。 请你给每个人指定应该吃哪一份食物，使得所有人都能够满
+意。</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">设 f[i][st] 表示第 i 份食物，左右两边的人的状态是 st 能否可行。然后按顺序转移
+即可。</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">pie</p></td>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">&#10003;</p></td>
-<td class="tableblock halign-center valign-middle"></td>
-<td class="tableblock halign-center valign-middle"></td>
-<td class="tableblock halign-center valign-middle"></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">simulation</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">一张 n*m 的方格纸，有些格子需要印成黑色，剩下的格子需要保留白色。你有一个 a*b
+的印章，有些格子是凸起（会沾上墨水）的。你需要判断能否用这个印章印出纸上的图案
+。印的过程中需要满足以下要求：(1) 印章不可以旋转。(2) 不能把墨水印到纸外面。
+(3) 纸上的同一个格子不可以印多次。</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">模拟，每次挑左上就行。</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-center valign-middle" rowspan="5"><p class="tableblock">stage ii</p></td>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">log</p></td>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">&#10003;</p></td>
-<td class="tableblock halign-center valign-middle"></td>
-<td class="tableblock halign-center valign-middle"></td>
-<td class="tableblock halign-center valign-middle"></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">data structure</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">维护一个长度为 n (&le; 1000000)的序列，一开始都是 0，支持以下两种操作：1. U k
+a 将序列中第 k 个数修改为 a。2. Z c s 在这个序列上，每次选出 c 个正数，并将它们
+都减去 1，询问能否进行 s 次操作。每次询问独立，即每次询问不会对序列进行修改。一
+共 m (&le; 1000000) 次操作。</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">如果对于大于等于 s 的数，每次操作肯定都可以选出来减掉，设这些数个数为 x，如果
+c &le; x，那么肯定可行，否则我们看剩下数的和，如果大于等于 (c - x)*s，那么也肯
+定可行。如果观察出这个性质，那么题目就可以用离线离散的树状数组维护出需要的信息
+。这个性质可以用反证法证明。</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">pod</p></td>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">&#10003;</p></td>
-<td class="tableblock halign-center valign-middle"></td>
-<td class="tableblock halign-center valign-middle"></td>
-<td class="tableblock halign-center valign-middle"></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">hash, data structure</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">长度为 n (&le; 1000000) 的一串项链，每颗珠子是 k (&le; n) 种颜色之一。第 i 颗
+与第 i-1, i+1 颗珠子相邻，第 n 颗与第 1 颗也相邻。切两刀，把项链断成两条链。要
+求每种颜色的珠子只能出现在其中一条链中。求方案数量（保证至少存在一种），以及切
+成的两段长度之差绝对值的最小值。</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">可以用各种数据结构的方法。但是有一种更简单神奇的 hash 做法，对于每个颜色，我
+们可以对每个点做个标号，没经过这个颜色，就给标号 +1，这样在每个点我们可以得到关
+于 k 个颜色的标号序列。我们发现，如果两个点的标号序列是相同的，那么就可以被割掉。
+有了这个 hash 值，我们排序之后，可以算出方案数，然后也能用双指针算出最小差值。</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">pus</p></td>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">&#10003;</p></td>
-<td class="tableblock halign-center valign-middle"></td>
-<td class="tableblock halign-center valign-middle"></td>
-<td class="tableblock halign-center valign-middle"></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">topo, segment tree</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">给定一个长度为 n (&le; 100000) 的正整数序列 a，每个数都在 1 到 10^9 范
+围内，告诉你其中 s (&le; n) 个数，并给出 m (&le; 200000) 条信息，每条信息包含三
+个数 l, r, k 以及接下来 k 个正整数，表示 a[l], a[l+1], …, a[r-1], a[r]
+里这 k 个数中的任意一个都比任意一个剩下的 r-l+1-k 个数大（严格大于，即没有等号）。
+请任意构造出一组满足条件的方案，或者判断无解。(sum k &le; 300000)</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">最直接的做法就是连边建图，跑拓扑。但是这样肯定不行，注意到所有的 k 一共只有
+300000 个，我们可以借助线段树，对一段一段区间进行连边。这样连的边包括线段树上所
+有的边以及每段区间对应小区间连的边，图的规模可以接受。</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">kur</p></td>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">&#10003;</p></td>
-<td class="tableblock halign-center valign-middle"></td>
-<td class="tableblock halign-center valign-middle"></td>
-<td class="tableblock halign-center valign-middle"></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">inequality, complement</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">给定 n (&le; 10^9), a, b, p，其中 n, a 互质。定义一个长度为 n 的 01 串
+c[0 … n-1]，其中 c[i]==0 当且仅当 (a*i+b) mod n &lt; p。给定一个长为 m
+(&le; 10^6) 的小 01 串，求出小串在大串中出现了几次。</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">因为 (n, a)=1，所以 (a*i+b) % n 是 [1, n] 不同的数。我们可以根据 m 串以及
+c[i] == 0 的条件得到 m 个不等关系，不过直接求交集比较麻烦，我们可以求补集的并集，
+再求整体的补集即可。</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">trz</p></td>
 <td class="tableblock halign-center valign-middle"><p class="tableblock">&#10003;</p></td>
-<td class="tableblock halign-center valign-middle"></td>
-<td class="tableblock halign-center valign-middle"></td>
-<td class="tableblock halign-center valign-middle"></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">data structure</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">给定一个长度为 n (&le; 1000000) 的仅包含 B、C、S 三种字符的字符串，请找到最长
+的一段连续子串，使得这一段要么只有一种字符，要么有多种字符，但是没有任意两种字
+符出现次数相同。</p></td>
+<td class="tableblock halign-center valign-middle"><p class="tableblock">对于只有单个字母的扫一遍单独处理，我们设 B、C、S 字母前缀和分别为 x[i], y[i], z[i]，
+那么对于某一段 i\~j，不符合题目条件为 x[j]-x[i] == y[j] - y[i] or x[j]-x[i] == z[j] - z[i] or y[j] - y[i] == z[j] - z[i]，我们可以把关于 i 的移到一边，得到一个三元组，
+(x[j] - x[i], y[j] - y[i], z[j] - z[i])，那么符合题目条件的 i\~j 即三元组对应维度都不相等。我们可以按第一维排序，用第二维作为树状数组的坐标，维护
+两个树状数组，分别关于第三维的最大值(或最小值)。</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-center valign-middle" rowspan="7"><p class="tableblock">stage iii</p></td>
@@ -608,7 +655,7 @@ i\+1 的时候，更新相同电影前一次和前前次对应区间的值即可
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-09-22 03:26:12 UTC
+Last updated 2018-09-24 08:24:46 UTC
 </div>
 </div>
 <script type="text/x-mathjax-config">
