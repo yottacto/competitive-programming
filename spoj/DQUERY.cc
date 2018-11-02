@@ -1,5 +1,5 @@
 // ml:run = $bin < input
-#include <iostream>
+#include <cstdio>
 
 auto constexpr maxn = 30007;
 auto constexpr maxa = 1000007;
@@ -45,22 +45,26 @@ auto query(int now, int tl, int tr, int l = 1, int r = n) -> int
     return sum;
 }
 
+void read(int& n)
+{
+    std::scanf("%d", &n);
+}
+
 int main()
 {
-    std::ios::sync_with_stdio(false);
-    std::cin >> n;
+    read(n);
     for (auto i = 1; i <= n; i++) {
-        std::cin >> a[i];
+        read(a[i]);
         update(root[i], root[i-1], i, 1);
         if (pre[a[i]])
             update(root[i], root[i], pre[a[i]], -1);
         pre[a[i]] = i;
     }
 
-    std::cin >> q;
+    read(q);
     for (int l, r; q--; ) {
-        std::cin >> l >> r;
-        std::cout << query(root[r], l, n) << "\n";
+        read(l); read(r);
+        std::printf("%d\n", query(root[r], l, n));
     }
 }
 
