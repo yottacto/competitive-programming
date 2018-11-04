@@ -1,13 +1,11 @@
 // ml:run = $bin < input
-// ml:opt = 0
-// ml:ccf += -g
 #include <iostream>
 #include <algorithm>
 
 using ll = long long;
 auto constexpr maxn = 100007;
-auto constexpr base = 100001ll;
-auto constexpr mo = 2038072819ll;
+auto constexpr base = 19873213ll;
+auto constexpr mo = 179'426'083ll;
 int root[maxn];
 int n, u;
 
@@ -22,17 +20,7 @@ struct node
     ll hash;
 };
 
-auto& operator<<(std::ostream& os, node const& n)
-{
-    os << "{ "
-        << "l=" << n.l << ", "
-        << "r=" << n.r << ", "
-        << "tag=" << n.tag << ", "
-        << "hash=" << n.hash;
-    return os;
-}
-
-node tree[maxn * 40];
+node tree[maxn * 100];
 int alloc;
 
 auto mul(ll x, ll y) { return (x * y) % mo; }
@@ -47,12 +35,8 @@ void reverse_hash(ll& v, int len)
 void alloc_lazy_child(int& now, int pre, int len)
 {
     tree[now = ++alloc] = tree[pre];
-    if (tree[now].tag) {
-        tree[now].tag = false;
-    } else {
-        tree[now].tag = true;
-        reverse_hash(tree[now].hash, len);
-    }
+    tree[now].tag ^= true;
+    reverse_hash(tree[now].hash, len);
 }
 
 void propagate(int now, int l, int r, int mid)
@@ -75,7 +59,7 @@ void merge(int now, int rlen)
 
 void inverse(int& now, int pre, int tl, int tr, int l = 1, int r = n)
 {
-    if (!now) tree[now = ++alloc] = tree[pre];
+    tree[now = ++alloc] = tree[pre];
     if (tl <= l && r <= tr) {
         auto& t = tree[now];
         t.tag ^= 1;
@@ -83,7 +67,10 @@ void inverse(int& now, int pre, int tl, int tr, int l = 1, int r = n)
         return;
     }
     auto mid = (l + r) / 2;
-    propagate(now, l, r, mid);
+
+    propagate(pre, l, r, mid);
+    tree[now] = tree[pre];
+
     if (tl <= mid)
         inverse(tree[now].l, tree[pre].l, tl, tr, l, mid);
     if (tr > mid)
@@ -118,8 +105,6 @@ auto cmp(int pre, int now)
 
 void print(int now, int l = 1, int r = n)
 {
-    // std::cerr << "[" << l << ", " << r << "] " << tree[now] << "\n";
-
     if (l == r) {
         std::cout << (
             tree[now].tag
@@ -166,25 +151,5 @@ int main()
     }
     auto id = std::max_element(root + 1, root + u + 1, cmp) - root;
     print(root[id]); std::cout << "\n";
-
-    std::cerr << "===========================================\n";
-    std::cerr << "id=" << id << "\n";
-    // std::cerr << cmp(root[2], root[3]) << "\n";
-    print(root[1]); std::cerr << "\n";
-    print(root[2]); std::cerr << "\n";
-    print(root[3]); std::cerr << "\n";
-    print(root[4]); std::cerr << "\n";
-    print(root[5]); std::cerr << "\n";
-    print(root[6]); std::cerr << "\n";
-    print(root[7]); std::cerr << "\n";
-    print(root[8]); std::cerr << "\n";
-    print(root[9]); std::cerr << "\n";
-    print(root[10]); std::cerr << "\n";
-
-    // std::cerr << tree[root[2]].left_continuous[0] << "\n";
-    // std::cerr << tree[root[2]].left_continuous[1] << "\n";
-    // std::cerr << tree[tree[root[2]].r].left_continuous[0] << "\n";
-    // std::cerr << tree[tree[root[2]].r].left_continuous[1] << "\n";
-
 }
 
