@@ -1,7 +1,7 @@
 // ml:run = $bin < input
 // ml:opt = 0
 // ml:ccf += -g
-#include <iostream>
+#include <cstdio>
 #include <utility>
 
 auto constexpr maxn = 100007;
@@ -57,19 +57,21 @@ auto forbidden_sum(int l, int r) -> int
     return sum + 1;
 }
 
+void read(int& x) { std::scanf("%d", &x); }
+void write(int x) { std::printf("%d\n", x); }
+
 int main()
 {
-    std::ios::sync_with_stdio(false);
-    std::cin >> n;
+    read(n);
     for (int i = 1, a; i <= n; i++) {
-        std::cin >> a;
+        read(a);
         update(root[i], root[i-1], a);
     }
 
-    std::cin >> m;
+    read(m);
     for (int l, r; m--; ) {
-        std::cin >> l >> r;
-        std::cout << forbidden_sum(l, r) << "\n";
+        read(l); read(r);
+        write(forbidden_sum(l, r));
     }
 }
 
