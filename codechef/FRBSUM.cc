@@ -13,7 +13,7 @@ struct node
 {
     int l;
     int r;
-    int count;
+    int sum;
 };
 
 node tree[40 * maxn];
@@ -22,7 +22,7 @@ int alloc;
 void update(int& now, int pre, int pos, int l = 1, int r = maxr)
 {
     tree[now = ++alloc] = tree[pre];
-    tree[now].count++;
+    tree[now].sum += pos;
 
     if (l == r) return;
     auto mid = (l + r) / 2;
@@ -32,27 +32,26 @@ void update(int& now, int pre, int pos, int l = 1, int r = maxr)
         update(tree[now].r, tree[pre].r, pos, mid + 1, r);
 }
 
-auto get_kth(int now, int pre, int k, int l = 1, int r = maxr) -> std::pair<int, int>
+auto get_sum(int now, int pre, int tl, int tr, int l = 1, int r = maxr) -> int
 {
-    if (l == r)
-        return {l, tree[now].count - tree[pre].count};
+    if (tl <= l && r <= tr)
+        return tree[now].sum - tree[pre].sum;
     auto mid = (l + r) / 2;
-    auto left = tree[tree[now].l].count - tree[tree[pre].l].count;
-    if (k <= left)
-        return get_kth(tree[now].l, tree[pre].l, k, l, mid);
-    else
-        return get_kth(tree[now].r, tree[pre].r, k - left, mid + 1, r);
+    auto sum = 0;
+    if (tl <= mid)
+        sum += get_sum(tree[now].l, tree[pre].l, tl, tr, l, mid);
+    if (mid < tr)
+        sum += get_sum(tree[now].r, tree[pre].r, tl, tr, mid + 1, r);
+    return sum;
 }
 
 auto forbidden_sum(int l, int r) -> int
 {
     auto sum = 0;
-    for (auto i = 1; i <= r - l + 1; ) {
-        auto kth = get_kth(root[r], root[l - 1], i);
-        if (sum + 1 < kth.first)
-            return sum + 1;
-        sum += kth.first * kth.second;
-        i += kth.second;
+    for (int tsum; ; sum = tsum) {
+        tsum = get_sum(root[r], root[l - 1], 1, sum + 1);
+        if (tsum == sum)
+            break;
     }
     return sum + 1;
 }
