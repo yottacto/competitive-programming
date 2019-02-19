@@ -1,4 +1,6 @@
 // ml:run = $bin < input
+// O(n^2) solution
+// TODO better O(n) solution use heavy path decomposition
 #include <iostream>
 #include <vector>
 
