@@ -7,6 +7,109 @@
 
 // TODO please reference to the GitHub Pages.
 
+== POI XXI
+
+[cols="^.^1, ^.^1, ^.^1, ^.^1, ^.^4, ^.^4", options="header"]
+|====
+
+| stage | problem | status | tags | description | solution
+
+.5+| stage i
+
+| bar | {y}
+| math
+|
+|
+
+| hot | {y}
+| tree
+|
+|
+
+| klo |
+|
+|
+|
+
+| kur |
+|
+|
+|
+
+| waz |
+|
+|
+|
+
+.5+| stage ii
+
+| kar |
+|
+|
+|
+
+| prz |
+|
+|
+|
+
+| sup |
+|
+|
+|
+
+
+| pta |
+|
+|
+|
+
+| raj |
+|
+|
+|
+
+.7+| stage iii
+
+| far |
+|
+|
+|
+
+| doo |
+|
+|
+|
+
+| mro |
+|
+|
+|
+
+| tur |
+|
+|
+|
+
+| lam |
+|
+|
+|
+
+| pan |
+|
+|
+|
+
+| zal |
+|
+|
+|
+
+
+|====
+
+
 == POI XXII
 
 [cols="^.^1, ^.^1, ^.^1, ^.^1, ^.^4, ^.^4", options="header"]
