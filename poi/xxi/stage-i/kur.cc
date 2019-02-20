@@ -1,4 +1,11 @@
 // ml:run = $bin < input
+// This problem can also use normal segment tree by maintain a (num, count)
+// pair of an interval. If you do a linear scan, keep tracking the pair, if you
+// encounter a number same as num, you increase the count by 1, else you
+// decrease the count by 1, e.g. 2, 4, 2, 2, 2, the pair of thie sequence is
+// (2, 3), and then we can maintain a pair by combining the interval's
+// left/right half's pair. And we need do a final check to see if the num
+// occurate more than half times.
 #include <cstdio>
 #include <algorithm>
 
