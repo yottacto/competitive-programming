@@ -59,19 +59,19 @@
 |
 
 
-| pta |
+| pta | {y}
 |
 |
 |
 
-| raj |
+| raj | {y}
 |
 |
 |
 
 .7+| stage iii
 
-| far |
+| far | {y}
 |
 |
 |
