@@ -1,3 +1,6 @@
+// another idea, floor(floor(n/a)/b) = floor(n/(a*b)), with this we can start
+// iteration from leaf
+
 // ml:run = $bin < input
 #include <iostream>
 #include <algorithm>
