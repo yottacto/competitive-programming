@@ -2,40 +2,33 @@
 #include <bits/stdc++.h>
 
 std::vector<int> a;
+std::vector<int> ua;
 int n;
 
-std::vector<std::vector<int>> b;
 int p, q;
 int max;
 
-bool fill(int r, int c, bool fillin = false)
+std::unordered_map<int, int> count;
+
+void fill(int r, int c)
 {
-    std::unordered_map<int, int> count;
-    for (auto i : a)
-        count[i]++;
-    auto sum = 0;
-    for (auto& p : count) {
+    for (auto& p : count)
         p.second = std::min(r, p.second);
-        sum += p.second;
-    }
-    if (!fillin)
-        return sum >= r * c;
-    std::vector<int> num;
-    for (auto const& p : count)
-        for (auto j = 0; j < p.second; j++)
-            num.emplace_back(p.first);
-    std::sort(num.begin(), num.end(), [&](auto const& a, auto const& b) {
-        return count[a] > count[b];
-    });
-    b.clear();
-    b.resize(r, std::vector<int>(c));
-    auto k = 0;
-    for (auto i = 0; i < c; i++) {
+    std::vector<int> b;
+    b.resize(r * c);
+    int t = ua.size() - 1;
+    for (auto i = 0; i < c; i++)
         for (auto j = 0; j < r; j++) {
-            b[j][(i + j) % c] = num[k++];
+            if (!count[ua[t]])
+                t--;
+            b[j * c + ((i + j) % c)] = ua[t];
+            count[ua[t]]--;
         }
+    for (auto i = 0; i < p; i++) {
+        for (auto j = 0; j < q; j++)
+            std::cout << b[i * c + j] << " ";
+        std::cout << "\n";
     }
-    return true;
 }
 
 int main()
@@ -48,32 +41,33 @@ int main()
     for (auto i = 0; i < n; i++)
         std::cin >> a[i];
 
-    // i for rows
-    for (auto i = 1; i * i <= n; i++) {
-        auto l = i;
-        auto r = n / i;
-        while (l + 1 < r) {
-            auto mid = (l + r) / 2;
-            if (fill(i, mid))
-                l = mid;
-            else
-                r = mid;
-        }
-        if (fill(i, r))
-            l = r;
-        if (fill(i, l) && l * i >= max) {
-            max = l * i;
-            p = i;
-            q = l;
+    for (auto i : a)
+        count[i]++;
+
+    // r for rows
+    ua = a;
+    std::sort(ua.begin(), ua.end(), [&](auto const& a, auto const& b) {
+        return count[a] < count[b]
+            || (count[a] == count[b] && a > b);
+    });
+    ua.erase(std::unique(ua.begin(), ua.end()), ua.end());
+
+    auto j = 0;
+    auto sum = 0;
+    int tn = ua.size();
+    for (auto r = 1; r * r <= n; r++) {
+        while (j < tn && count[ua[j]] < r)
+            j++;
+        sum += tn - j;
+        auto c = std::max(r, sum / r);
+        if (sum >= r * c && r * c >= max) {
+            max = r * c;
+            p = r;
+            q = c;
         }
     }
     std::cout << max << "\n";
     std::cout << p << " " << q << "\n";
-    fill(p, q, true);
-    for (auto i = 0; i < p; i++) {
-        for (auto j = 0; j < q; j++)
-            std::cout << b[i][j] << " ";
-        std::cout << "\n";
-    }
+    fill(p, q);
 }
 
